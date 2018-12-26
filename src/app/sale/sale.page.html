@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>sale</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-item  *ngFor = "let data of sale_datas">
+	<ion-list>
+		<ion-label>
+			<h4> name :{{ data.name }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4> code : {{ data.code }}</h4>
+		</ion-label>
+		<ion-list *ngFor = "let sale of data.sales_info">
+		<ion-label>
+			<h4> bill_date : {{ sale.bill_date }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>delivery_date : {{ sale.delivary_date }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>payment_status :{{ sale.payment_status }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>order_status : {{ sale.order_status }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>original_cost : {{ sale.original_cost }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>round_off_cost : {{ sale.round_off_cost }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>rounded_cost : {{ sale.rounded_cost }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>paid_amount : {{ sale.paid_amount }}</h4>
+		</ion-label>
+		<ion-list *ngFor = "let product of sale.sales">
+		<ion-label>
+			<h4>product_name : {{ product.product_name }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>quantity : {{ product.quantity }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>unit : {{ product.unit }}</h4>
+		</ion-label>
+		<ion-label>
+			<h4>product_cost : {{ product.product_cost }}</h4>
+		</ion-label>
+		</ion-list>
+	</ion-list>
+	</ion-list>
+</ion-item>
+</ion-content>

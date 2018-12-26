@@ -5,20 +5,55 @@
 </ion-header>
 
 <ion-content padding>
-	<form [formGroup]="loginForm">
-		<ion-item>
-			<ion-input formControlName="email" type="text" placeholder="email" minlength="6" maxlength="15"></ion-input>
-		</ion-item>
-		<div class="error-messages">
-			<ng-container *ngFor="let error of error_messages.email">
-				<div class="error-message" *ngIf="loginForm.get('email').hasError(error.type) && (loginForm.get('email').dirty  || loginForm.get('email').touched)">
-					{{ error.message }}
-				</div>
-			</ng-container>
-		</div>
-		<ion-item>
-			<ion-input formControlName="password" type="password" placeholder="enter your password"></ion-input>
-		</ion-item>
-		<ion-button [disabled]="!loginForm.valid" shape="round" color="primary" (click)="second()">Login</ion-button>
-	</form>
+	<ion-item *ngFor = "let customer of customer_datas">
+		<ion-list>
+			<ion-label>
+				<h2>name : {{ customer.name }}</h2>	
+			</ion-label>
+<!-- 
+			<ion-label>
+				<h2>phone_number : {{ customer.phone_number }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>email : {{ customer.email }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>door_number : {{ customer.door_number }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>community : {{ customer.community }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>landmark : {{ customer.landmark }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>street : {{ customer.street }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>postal_code : {{ customer.postal_code }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>latitude : {{ customer.latitude }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>longitude : {{ customer.longitude }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>balance_amount : {{ customer.balance_amount }}</h2>	
+			</ion-label>
+
+			<ion-label>
+				<h2>vessel_count : {{ customer.vessel_count }}</h2>	
+			</ion-label> -->
+			</ion-list>
+	</ion-item>
 </ion-content>

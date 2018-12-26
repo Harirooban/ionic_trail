@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-item *ngFor = "let data of order_datas">
+		<ion-list>
+			<ion-label>
+				<h2>name : {{ data.name }} </h2>	
+			</ion-label>
+		
+			<ion-label> 
+				<h2>Phone Number :  {{ data.phone_number }} </h2>	
+			</ion-label>
+
+			<ion-label> 
+				<h2>email : {{ data.email }} </h2>			
+			</ion-label>
+			
+			<ion-label> 
+				<h2>postal_code : {{ data.postal_code }} </h2>			
+			</ion-label>
+
+			<ion-list *ngFor = "let prod of data.product">
+				<ion-label>
+				<h2>Product_Name : {{ prod.product_name }} </h2>
+				</ion-label>
+
+				<ion-label>
+				<h2>Order_status : {{ prod.order_status }} </h2>
+				</ion-label>
+
+				<ion-label>
+				<h2>Delivery_date : {{ prod.delivery_date }} </h2>
+				</ion-label>
+				
+				<ion-list *ngFor = "let specs of prod.Spec">
+					<ion-label>
+						<h2>Question : {{ specs.question }} </h2>
+					</ion-label>
+					<ion-label>
+						<h2>Answer : {{ specs.answer }} </h2>
+					</ion-label>
+				</ion-list>
+			</ion-list>
+		</ion-list>
+	</ion-item>
+</ion-content>

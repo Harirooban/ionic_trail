@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>product</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-item *ngFor = "let data of product_datas">
+		<ion-list>
+			<ion-label>
+				<h2>product name : {{ data.name }} </h2>	
+			</ion-label>
+		
+			<ion-label> 
+				<h2>code :  {{ data.code }} </h2>	
+			</ion-label>
+
+			<ion-label> 
+				<h2>unit : {{ data.unit }} </h2>			
+			</ion-label>
+			
+			<ion-label> 
+				<h2>quote : {{ data.quote }} </h2>			
+			</ion-label>
+
+			<ion-list *ngFor = "let spec of data.Specs">
+				<ion-label>
+				<h2>question : {{ spec.question }} </h2>
+				</ion-label>
+
+				<ion-label>
+				<h2>answer : {{ spec.answer }} </h2>
+				</ion-label>
+			</ion-list>
+		</ion-list>
+	</ion-item>
+</ion-content>

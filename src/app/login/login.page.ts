@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router'; 
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  customer_datas : any ;
 
 	loginForm: FormGroup;
 
@@ -21,7 +23,7 @@ export class LoginPage implements OnInit {
 		
 	}
 
-  constructor(public formBuilder: FormBuilder, private router: Router ) 
+  constructor(public formBuilder: FormBuilder, private router: Router,private httpService : HttpService ) 
           { 
   	        this.loginForm = this.formBuilder.group
                 ({
@@ -35,6 +37,10 @@ export class LoginPage implements OnInit {
   			              ]
                   ) )
   	            });
+      this.httpService.testfun().subscribe((data)=> {
+      this.customer_datas = data;
+      console.log(data)
+        });
           }
  
   second()

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>New Payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-grid>
+		<form>
+			<ion-row >
+				<ion-col padding>
+				Date :
+				</ion-col>
+				<ion-col>
+					<ion-datetime display-format="DD MMM YYYY" placeholder="select date"></ion-datetime>
+				</ion-col>
+			</ion-row>
+			<ion-row >
+				<ion-col size="5" padding>
+					<ion-label position="floating">Amount :</ion-label>
+				</ion-col>
+				<ion-col >
+					<ion-input type="number" value=""></ion-input>
+				</ion-col>
+			</ion-row>
+			<ion-row >
+				<ion-col padding>
+					<ion-label>Payment method</ion-label>
+				</ion-col>
+				<ion-col>
+					<ion-select placeholder="select method" interface="popover">
+						<ion-select-option value="" *ngFor="let method of paymentmethod_datas">{{ method.name }}</ion-select-option>
+						
+					</ion-select>
+				</ion-col>
+			</ion-row>
+			<ion-row text-center>
+				<ion-button type="submit">add payment</ion-button>
+			</ion-row>
+		</form>
+	</ion-grid>
+</ion-content>
