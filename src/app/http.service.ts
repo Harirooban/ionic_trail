@@ -27,8 +27,8 @@ export class HttpService {
 		return this.httpClient.post(this.globalService.base_url + 'main/order/', customer_dict)
 	}
 
-	sales() {
-		return this.httpClient.get(this.globalService.base_url + 'main/sale/')
+	salesPost(customer_dict) {
+		return this.httpClient.post(this.globalService.base_url + 'main/sale/', customer_dict)
 	} 
 	payment() {
 		return this.httpClient.get(this.globalService.base_url + 'main/payment/')

@@ -39,12 +39,12 @@
 						</ion-row>
 						<ion-row>
 							<ion-col text-left>
-								<ion-button size="small" [disabled]="order_product.order_status_id == 2 || order_product.order_status_id == 6 "
+								<ion-button size="small" [disabled]="order_product.order_status_id == 2 || order_product.order_status_id == 3 "
 								 (click)="orderToSale(2,order_product.order_id)">Accept</ion-button>
 							</ion-col>
 							<ion-col text-right>
-								<ion-button size="small" [disabled]="order_product.order_status_id == 6"
-								(click)="orderToSale(6,order_product.order_id)">Decline</ion-button>
+								<ion-button size="small" [disabled]="order_product.order_status_id == 3"
+								(click)="orderToSale(3,order_product.order_id)">Decline</ion-button>
 							</ion-col>
 						</ion-row>
 					</ion-card>

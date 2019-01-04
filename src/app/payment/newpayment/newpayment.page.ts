@@ -20,7 +20,8 @@ export class NewpaymentPage implements OnInit {
       date: ['', Validators.required],
       amount: ['', Validators.required],
       payment_method: ['', Validators.required],
-      customer_id: [this.customer_id]
+      customer_id: [this.customer_id],
+      reference_id:['',Validators.required]
     });
   	
   	// dropdown data for payment method

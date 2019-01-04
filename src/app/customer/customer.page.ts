@@ -4,6 +4,7 @@ import { HttpService } from '../http.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ProdprefPage } from '../prodpref/prodpref.page';
 import { OrderPage } from '../order/order.page';
+import { SalePage } from '../sale/sale.page'
 
  
 @Component ( {
@@ -11,6 +12,7 @@ import { OrderPage } from '../order/order.page';
   templateUrl: './customer.page.html',
   styleUrls: ['./customer.page.scss'],
 })
+
 export class CustomerPage implements OnInit {
 
 	 customer_datas : any ;
@@ -20,6 +22,7 @@ export class CustomerPage implements OnInit {
       this.customer_datas = cust_data;    
       console.log(this.customer_datas)
     })}
+
     // product preferene modal
 async openModal(customer){
   const modal = await this.modalController.create({
@@ -30,8 +33,10 @@ async openModal(customer){
     },
     cssClass :'inset-modal'
   });
+
   modal.present();
   }
+
   // order modal
   async openOrderModal(customer){
   const modal = await this.modalController.create({
@@ -44,13 +49,29 @@ async openModal(customer){
   });
   modal.present();
   }
+
+    // delivery modal
+  async openDeliveryModal(customer){
+  const modal = await this.modalController.create({
+
+    component : SalePage,
+    componentProps : {
+      customer_value :customer
+    },
+    cssClass :'inset-modal'
+  });
+  modal.present();
+  }
+
   //  maping to payment page with customer Id
   paymentPage(customer) {
     this.nav.navigateForward('/payment/' + customer.id )
   }
+
   newCustomer() {
     this.router.navigate(['newcustomer'])
   }
+
   checkVesselCount(vessel_count: number){
     if (vessel_count == 0 ) return 'green';
 
@@ -61,6 +82,7 @@ async openModal(customer){
     if (amount >= 0) return 'green';
     else return 'red';
   }
+  
   ngOnInit() {
   }
 

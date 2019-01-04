@@ -1,58 +1,64 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>sale</ion-title>
+    <ion-buttons slot="end">
+		<ion-button color="danger" expand="full" shape="round" (click)="closeModal()">
+			close
+		</ion-button>
+	</ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-<ion-item  *ngFor = "let data of sale_datas">
-	<ion-list>
-		<ion-label>
-			<h4> name :{{ data.name }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4> code : {{ data.code }}</h4>
-		</ion-label>
-		<ion-list *ngFor = "let sale of data.sales_info">
-		<ion-label>
-			<h4> bill_date : {{ sale.bill_date }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>delivery_date : {{ sale.delivary_date }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>payment_status :{{ sale.payment_status }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>order_status : {{ sale.order_status }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>original_cost : {{ sale.original_cost }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>round_off_cost : {{ sale.round_off_cost }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>rounded_cost : {{ sale.rounded_cost }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>paid_amount : {{ sale.paid_amount }}</h4>
-		</ion-label>
-		<ion-list *ngFor = "let product of sale.sales">
-		<ion-label>
-			<h4>product_name : {{ product.product_name }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>quantity : {{ product.quantity }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>unit : {{ product.unit }}</h4>
-		</ion-label>
-		<ion-label>
-			<h4>product_cost : {{ product.product_cost }}</h4>
-		</ion-label>
-		</ion-list>
-	</ion-list>
-	</ion-list>
-</ion-item>
+	<ion-card *ngFor ="let data of sale_datas">
+		<ion-grid>
+			<ion-row>
+				<ion-col size="4">
+					<ion-button color="white" fill="clear" (click)="paymentPage(customer)">payment </ion-button>
+				</ion-col>
+				<ion-col></ion-col>
+				<ion-col size="1"></ion-col>
+				<ion-col size="7">
+					vessel : 
+					<ion-button color="white" fill="clear">
+						<ion-icon src="add" slot="icon-only" ></ion-icon>
+					</ion-button>
+					{{ customer.vessel_count }}
+					<ion-button color="white" fill="clear">
+						<ion-icon src="remove" slot="icon-only" ></ion-icon>
+					</ion-button>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col size="12" text-center  wrap-text>
+				 	<span style="text-transform: capitalize;"> {{ data.name }}</span> - {{ data.code }}
+				</ion-col>
+			</ion-row>
+			<ion-row>balance : {{ customer.balance_amount }}</ion-row>
+		</ion-grid>
+	</ion-card>
+	<ion-card>
+		<ion-row style="font-weight: bold;">
+			<ion-col size="3">Date</ion-col>
+			<ion-col size="4">Description</ion-col>
+			<ion-col size="3">cost</ion-col>
+			<ion-col size="2">action</ion-col>
+		</ion-row>
+		<ion-row *ngFor = "let sale of data.sales">
+			<ion-col size="3">
+				{{ sale.delivary_date }}
+			</ion-col>
+			<ion-col size="4" *ngFor = "let product of sale.product">
+				{{ product.product_name }} {{ product.quantity }}
+			</ion-col>
+			<ion-col size="3">
+				{{ product.product_cost }}
+			</ion-col>
+			<ion-col size="2">
+				<ion-button>
+					delivered
+				</ion-button>
+			</ion-col>
+		</ion-row>
+	</ion-card>
 </ion-content>

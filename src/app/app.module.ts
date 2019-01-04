@@ -12,12 +12,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import {ProdprefPageModule} from './prodpref/prodpref.module';
 import {OrderPageModule} from './order/order.module'
+import {SalePageModule} from './sale/sale.module'
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,ProdprefPageModule,OrderPageModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,ProdprefPageModule,OrderPageModule,SalePageModule],
   providers: [
     StatusBar,
     SplashScreen,
