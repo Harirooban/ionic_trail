@@ -9,30 +9,30 @@ import { ModalController } from '@ionic/angular';
 })
 export class ProdprefPage implements OnInit {
 
-	product_preference : any[];
+  product_preference: any[];
 
-  shownGroup = null; 
+  shownGroup = null;
 
-  constructor(private navParams:NavParams,  private modalController: ModalController) { }
+  constructor(private navParams: NavParams, private modalController: ModalController) { }
 
-  closeModal(){
-  	this.modalController.dismiss();
+  closeModal() {
+    this.modalController.dismiss();
   }
-  openList(group){
+  openList(group) {
     if (this.isGroupShown(group)) {
       this.shownGroup = null;
-    } else{
+    } else {
       this.shownGroup = group;
     }
   };
-  isGroupShown(group){
-      return this.shownGroup == group;
+  isGroupShown(group) {
+    return this.shownGroup == group;
   };
 
 
   ngOnInit() {
-  	this.product_preference = this.navParams.get('customer_value');
-  	console.log(this.product_preference)
+    this.product_preference = this.navParams.get('customer_value');
+    console.log(this.product_preference)
   }
 
 }

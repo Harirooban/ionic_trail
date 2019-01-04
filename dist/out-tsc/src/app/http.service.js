@@ -20,7 +20,28 @@ var HttpService = /** @class */ (function () {
         return this.httpClient.get(this.globalService.base_url + 'main/customer/');
     };
     HttpService.prototype.orders = function () {
-        return this.httpClient.get(this.globalService.base_url + 'main/order');
+        return this.httpClient.get(this.globalService.base_url + 'main/order/');
+    };
+    HttpService.prototype.ordersPost = function (customer_dict) {
+        return this.httpClient.post(this.globalService.base_url + 'main/order/', customer_dict);
+    };
+    HttpService.prototype.sales = function () {
+        return this.httpClient.get(this.globalService.base_url + 'main/sale/');
+    };
+    HttpService.prototype.payment = function () {
+        return this.httpClient.get(this.globalService.base_url + 'main/payment/');
+    };
+    HttpService.prototype.paymentPost = function (customer_dict) {
+        return this.httpClient.post(this.globalService.base_url + 'main/payment/', customer_dict);
+    };
+    HttpService.prototype.product = function () {
+        return this.httpClient.get(this.globalService.base_url + 'main/product/');
+    };
+    HttpService.prototype.paymentmethod = function () {
+        return this.httpClient.get(this.globalService.base_url + 'main/paymentmethod/');
+    };
+    HttpService.prototype.newPaymentPost = function (newpayment_dict) {
+        return this.httpClient.post(this.globalService.base_url + 'main/newpayment/', newpayment_dict);
     };
     HttpService = __decorate([
         Injectable({

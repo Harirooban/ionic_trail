@@ -1,50 +1,139 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>order</ion-title>
+    	<ion-buttons slot="end">
+			<ion-button color="danger" expand="full" shape="round" (click)="closeModal()">
+				close
+			</ion-button>
+		</ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-	<ion-item *ngFor = "let data of order_datas">
-		<ion-list>
-			<ion-label>
-				<h2>name : {{ data.name }} </h2>	
-			</ion-label>
-		
-			<ion-label> 
-				<h2>Phone Number :  {{ data.phone_number }} </h2>	
-			</ion-label>
-
-			<ion-label> 
-				<h2>email : {{ data.email }} </h2>			
-			</ion-label>
-			
-			<ion-label> 
-				<h2>postal_code : {{ data.postal_code }} </h2>			
-			</ion-label>
-
-			<ion-list *ngFor = "let prod of data.product">
-				<ion-label>
-				<h2>Product_Name : {{ prod.product_name }} </h2>
-				</ion-label>
-
-				<ion-label>
-				<h2>Order_status : {{ prod.order_status }} </h2>
-				</ion-label>
-
-				<ion-label>
-				<h2>Delivery_date : {{ prod.delivery_date }} </h2>
-				</ion-label>
-				
-				<ion-list *ngFor = "let specs of prod.Spec">
-					<ion-label>
-						<h2>Question : {{ specs.question }} </h2>
-					</ion-label>
-					<ion-label>
-						<h2>Answer : {{ specs.answer }} </h2>
-					</ion-label>
-				</ion-list>
-			</ion-list>
-		</ion-list>
-	</ion-item>
+<ion-content>
+	<ion-grid>
+		<ion-slides #common_slide [options]=slideOpts>
+			<ion-slide>
+				<span *ngFor="let data of order_datas">
+					<ion-card>
+						<ion-row>
+							<ion-col text-center>
+								{{ data.name }} - {{ data.code }}			
+							</ion-col>
+						</ion-row>
+						<ion-row style="font-weight: bold;">
+							<ion-col size="3">Date</ion-col>
+							<ion-col size="6" >Product Name</ion-col>
+							<ion-col size="3">Qnty</ion-col>
+						</ion-row>
+					</ion-card>
+					<ion-card *ngFor="let order_product of data.product" style="font-size: 12px;">
+						<ion-row >
+								<ion-col size="3">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
+								<ion-col size="6" text-wrap>{{ order_product.product_name }}</ion-col>
+								<ion-col size="3" >{{ order_product.quantity }}{{ order_product.unit }}</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col>
+								Order Status : {{ order_product.order_status }}
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col text-left>
+								<ion-button size="small" [disabled]="order_product.order_status_id == 2 || order_product.order_status_id == 6 "
+								 (click)="orderToSale(2,order_product.order_id)">Accept</ion-button>
+							</ion-col>
+							<ion-col text-right>
+								<ion-button size="small" [disabled]="order_product.order_status_id == 6"
+								(click)="orderToSale(6,order_product.order_id)">Decline</ion-button>
+							</ion-col>
+						</ion-row>
+					</ion-card>
+				</span>
+				<ion-card>
+					<ion-row>
+						<ion-col text-center>
+							All Products
+						</ion-col>
+					</ion-row>
+					<ion-row *ngFor="let product of products">
+						<ion-col  (click)="selectProduct(product)"> 
+							<ion-item class="item-borderless" style="font-size: 13px">
+								{{ product.name }} <ion-icon name="arrow-forward"  ></ion-icon>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+				</ion-card>
+			</ion-slide>
+			<ion-slide>
+				<ion-row>
+					<ion-col size="2" (click)=slideForward(0)>
+						<ion-button fill="clear"  >
+							<ion-icon name="arrow-back"></ion-icon>
+						</ion-button>
+					</ion-col>
+					<ion-col text-wrap padding>
+						{{ product_details }}
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col size="10">
+						<ion-item class="item-borderless">
+							<ion-label position="floating" text-center style="font-weight: bold;">quantity</ion-label>
+							<ion-input type="number" [(ngModel)]="quantity"></ion-input>
+						</ion-item>
+					</ion-col>
+					<ion-col>
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col>
+						Date :
+					</ion-col>
+					<ion-col>
+						<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" [(ngModel)]="delivery_date">
+						</ion-datetime>
+					</ion-col>
+				</ion-row>
+				<span *ngIf="product_details != null">
+					<span *ngFor="let item of product_data[product_details]; let product_index=index;">
+						<ion-row>
+							<ion-col>
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless">
+									<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
+									<ion-checkbox slot="end" [(ngModel)]="product_answer[product_index]['answer_data']"
+									[checked]="false" >
+									</ion-checkbox>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>	
+							<ion-col>							
+								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless">
+									<ion-radio-group [(ngModel)]="product_answer[product_index]['answer_data']">
+										<span>
+											<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
+										</span>
+										<span *ngFor="let single_answer of item.default_answer"> 
+											<ion-item class="item-borderless">
+												<ion-label>{{ single_answer }}</ion-label>
+												<ion-radio slot="end" [value]="single_answer"></ion-radio>
+											</ion-item>
+										</span>
+									</ion-radio-group>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+					</span>
+				</span>
+				<ion-row>
+					<ion-col></ion-col>
+					<ion-col>
+						<ion-button (click)=storeAnswerData()>Save</ion-button>
+					</ion-col>
+					<ion-col></ion-col>
+				</ion-row>
+			</ion-slide>
+		</ion-slides>
+	</ion-grid>
 </ion-content>
+ 

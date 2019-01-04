@@ -9,37 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpService } from '../http.service';
 var WelcomePage = /** @class */ (function () {
-    // question : any ;
-    function WelcomePage(router, httpService) {
-        var _this = this;
+    function WelcomePage(router) {
         this.router = router;
-        this.httpService = httpService;
-        this.product_preferences = [[], []];
-        this.httpService.testfun().subscribe(function (data) {
-            _this.customer_datas = data;
-            console.log(Object.keys(data));
-            for (var customer in _this.customer_datas) {
-                for (var single_data in _this.customer_datas[customer]['product_preferences']) {
-                    console.log(single_data);
-                }
-                // for (let customer in this.customer_datas) {
-                //   console.log(this.customer_datas[customer]['product_preferences']);
-                //   for (let product in this.customer_datas[customer]['product_preferences']) {
-                //     console.log(this.customer_datas[customer]['product_preferences'][product]);
-                //   }
-                // }
-            }
-        }, function (error) {
-            console.error(error);
-        });
-        this.httpService.orders().subscribe(function (order_data) {
-            _this.order_datas = order_data;
-            console.log(order_data);
-        });
     }
-    WelcomePage.prototype.go = function () {
+    WelcomePage.prototype.order_page = function () {
+        this.router.navigate(['order']);
+    };
+    WelcomePage.prototype.customer_page = function () {
+        this.router.navigate(['customer']);
+    };
+    WelcomePage.prototype.sale_page = function () {
+        this.router.navigate(['sale']);
+    };
+    WelcomePage.prototype.payment_page = function () {
+        this.router.navigate(['payment']);
+    };
+    WelcomePage.prototype.product_page = function () {
+        this.router.navigate(['product']);
+    };
+    WelcomePage.prototype.tabs_page = function () {
         this.router.navigateByUrl('/tabs/tabs/(tab1:tab1)');
     };
     WelcomePage.prototype.ngOnInit = function () {
@@ -50,7 +39,7 @@ var WelcomePage = /** @class */ (function () {
             templateUrl: './welcome.page.html',
             styleUrls: ['./welcome.page.scss'],
         }),
-        __metadata("design:paramtypes", [Router, HttpService])
+        __metadata("design:paramtypes", [Router])
     ], WelcomePage);
     return WelcomePage;
 }());

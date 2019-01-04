@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ProdprefPage } from '../prodpref/prodpref.page';
+import { OrderPage } from '../order/order.page';
+
  
-@Component({
+@Component ( {
   selector: 'app-customer',
   templateUrl: './customer.page.html',
   styleUrls: ['./customer.page.scss'],
@@ -14,10 +16,11 @@ export class CustomerPage implements OnInit {
 	 customer_datas : any ;
 //  feching data from  customer table to csutomer_datas 
   constructor(private router: Router ,private httpService : HttpService ,private nav: NavController, private modalController: ModalController) {
-    this.httpService.testfun().subscribe((cust_data)=> {
+    this.httpService.customers().subscribe((cust_data)=> {
       this.customer_datas = cust_data;    
       console.log(this.customer_datas)
     })}
+    // product preferene modal
 async openModal(customer){
   const modal = await this.modalController.create({
 
@@ -29,13 +32,34 @@ async openModal(customer){
   });
   modal.present();
   }
-  //  maping to order page with customer Id
-  orderPage(customer){
-    this.nav.navigateForward('/order/' + customer.id)
+  // order modal
+  async openOrderModal(customer){
+  const modal = await this.modalController.create({
+
+    component : OrderPage,
+    componentProps : {
+      customer_value :customer
+    },
+    cssClass :'inset-modal'
+  });
+  modal.present();
   }
   //  maping to payment page with customer Id
-  paymentPage(customer){
+  paymentPage(customer) {
     this.nav.navigateForward('/payment/' + customer.id )
+  }
+  newCustomer() {
+    this.router.navigate(['newcustomer'])
+  }
+  checkVesselCount(vessel_count: number){
+    if (vessel_count == 0 ) return 'green';
+
+    else return 'red';
+  }
+
+  balcheckout(amount: number) {
+    if (amount >= 0) return 'green';
+    else return 'red';
   }
   ngOnInit() {
   }

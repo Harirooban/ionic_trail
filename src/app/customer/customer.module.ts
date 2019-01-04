@@ -15,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
+  imports: [  
     CommonModule,
     FormsModule,
     IonicModule,

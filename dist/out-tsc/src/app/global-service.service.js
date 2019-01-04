@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 var GlobalServiceService = /** @class */ (function () {
     function GlobalServiceService() {
-        this.server_url = 'http://192.168.0.9:8000/';
+        this.server_url = 'http://192.168.0.7:8000/';
     }
     Object.defineProperty(GlobalServiceService.prototype, "base_url", {
         get: function () {

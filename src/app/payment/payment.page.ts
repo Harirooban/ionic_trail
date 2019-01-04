@@ -58,8 +58,9 @@ export class PaymentPage implements OnInit {
 
     else if(payment_status == 'Disapproved') return 'red';
   }
-  newPayment() {
-    this.router.navigate(['newpayment'])
+
+   newPayment() {
+    this.nav.navigateForward('/newpayment/' + this.customer_id)
   }
   ngOnInit() {
 

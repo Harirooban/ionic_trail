@@ -10,10 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpService } from '../http.service';
 var LoginPage = /** @class */ (function () {
-    function LoginPage(formBuilder, router) {
+    function LoginPage(formBuilder, router, httpService) {
+        var _this = this;
         this.formBuilder = formBuilder;
         this.router = router;
+        this.httpService = httpService;
         this.error_messages = {
             'email': [
                 { type: 'required', message: 'Email is required.' },
@@ -31,6 +34,10 @@ var LoginPage = /** @class */ (function () {
                 Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
             ]))
         });
+        this.httpService.testfun().subscribe(function (data) {
+            _this.customer_datas = data;
+            console.log(data);
+        });
     }
     LoginPage.prototype.second = function () {
         this.router.navigate(['welcome']);
@@ -47,7 +54,7 @@ var LoginPage = /** @class */ (function () {
             templateUrl: './login.page.html',
             styleUrls: ['./login.page.scss'],
         }),
-        __metadata("design:paramtypes", [FormBuilder, Router])
+        __metadata("design:paramtypes", [FormBuilder, Router, HttpService])
     ], LoginPage);
     return LoginPage;
 }());

@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
   			              ]
                   ) )
   	            });
-      this.httpService.testfun().subscribe((data)=> {
+      this.httpService.customers().subscribe((data)=> {
       this.customer_datas = data;
       console.log(data)
         });

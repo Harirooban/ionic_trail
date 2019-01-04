@@ -6,21 +6,21 @@
 
 <ion-content>
 	<ion-grid>
-		<form>
+		<form [formGroup]="paymentForm">
 			<ion-row >
 				<ion-col padding>
 				Date :
 				</ion-col>
 				<ion-col>
-					<ion-datetime display-format="DD MMM YYYY" placeholder="select date"></ion-datetime>
+					<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" formControlName="date"></ion-datetime>
 				</ion-col>
 			</ion-row>
 			<ion-row >
-				<ion-col size="5" padding>
+				<ion-col padding>
 					<ion-label position="floating">Amount :</ion-label>
 				</ion-col>
-				<ion-col >
-					<ion-input type="number" value=""></ion-input>
+				<ion-col>
+					<ion-input type="number"placeholder="Enter the amount" formControlName="amount"></ion-input>
 				</ion-col>
 			</ion-row>
 			<ion-row >
@@ -28,14 +28,17 @@
 					<ion-label>Payment method</ion-label>
 				</ion-col>
 				<ion-col>
-					<ion-select placeholder="select method" interface="popover">
-						<ion-select-option value="" *ngFor="let method of paymentmethod_datas">{{ method.name }}</ion-select-option>
-						
+					<ion-select placeholder="Select method" interface="popover" formControlName="payment_method">
+						<ion-select-option  *ngFor="let method of paymentmethod_datas" value="{{ method.id }}" >
+							{{ method.name }}
+						</ion-select-option>
 					</ion-select>
 				</ion-col>
 			</ion-row>
-			<ion-row text-center>
-				<ion-button type="submit">add payment</ion-button>
+			<ion-row >
+				<ion-col text-center>
+					<ion-button type="submit" (click)="addPayment()">add payment</ion-button>
+				</ion-col>
 			</ion-row>
 		</form>
 	</ion-grid>
