@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'product', loadChildren: './product/product.module#ProductPageModule' },
   { path: 'prodpref', loadChildren: './prodpref/prodpref.module#ProdprefPageModule' },
   { path: 'newpayment/:customer_id', loadChildren: './payment/newpayment/newpayment.module#NewpaymentPageModule' },
-  { path: 'newcustomer', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
+  { path: 'newcustomer/:customer_id', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
 	];
 
 @NgModule({
@@ -22,4 +23,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule	{ }
-																		
+																	

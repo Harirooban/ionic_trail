@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { Router, NavigationExtras } from '@angular/router'; 
 import { HttpService } from '../http.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ProdprefPage } from '../prodpref/prodpref.page';
@@ -64,8 +64,11 @@ async openModal(customer){
   }
 
   //  maping to payment page with customer Id
-  paymentPage(customer) {
-    this.nav.navigateForward('/payment/' + customer.id )
+  profilePage(customer) {
+    let navigationExtras : NavigationExtras = {
+      queryParams:customer
+    }
+    this.router.navigate(['/profile'],navigationExtras);
   }
 
   newCustomer() {

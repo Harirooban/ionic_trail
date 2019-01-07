@@ -1,92 +1,97 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>New Customer</ion-title>
+    <ion-title>Create/Update Customer</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
 	<ion-grid>
 		<ion-slides #common_slide [options]=slideOpts>
 			<ion-slide>
-				<form [formGroup]="customerForm">
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Name</ion-label>
-								<ion-input type="text" formControlName="name"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">code</ion-label>
-								<ion-input type="text" formControlName="code"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Phone Number </ion-label>
-								<ion-input type="number" formControlName="phone_number"></ion-input>
-							</ion-item>
-						</ion-col>
-						<ion-col padding>
-							<ion-item>
-								<ion-label>Is whatsapp</ion-label>
-								<ion-checkbox checked="false" formControlName="whatsapp"></ion-checkbox>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">email</ion-label>
-								<ion-input type="email" formControlName="email"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Door number</ion-label>
-								<ion-input type="text" formControlName="door_number"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Community</ion-label>
-								<ion-input type="text" formControlName="community" ></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Landmark</ion-label>
-								<ion-input type="text" formControlName="landmark" ></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Street Name</ion-label>
-								<ion-input type="text" formControlName="street_name"></ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-					<ion-row >
-						<ion-col>
-							<ion-item>
-								<ion-label position="floating">Postal Code</ion-label>
-								<ion-input type="number" formControlName="postal_code" maxlength="6" minlength="6">
-								</ion-input>
-							</ion-item>
-						</ion-col>
-					</ion-row>
+				<form [formGroup]="customerForm" >
+					<span *ngFor="let data of customer_datas">
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Name</ion-label>
+									<ion-input type="text" formControlName="name" value="{{ data.name }}"></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">code</ion-label>
+									<ion-input type="text" formControlName="code" value="{{ data.code }}"></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Phone Number </ion-label>
+									<ion-input type="number" formControlName="phone_number" value="{{ data.phone_number }}">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+							<ion-col padding>
+								<ion-item>
+									<ion-label>Is whatsapp</ion-label>
+									<ion-checkbox checked="false" formControlName="whatsapp" value="{{ data.is_whatsapp }}">
+									</ion-checkbox>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">email</ion-label>
+									<ion-input type="email" formControlName="email" value="{{ data.email }}"></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Door number</ion-label>
+									<ion-input type="text" formControlName="door_number" value="{{ data.door_number }}"></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Community</ion-label>
+									<ion-input type="text" formControlName="community" value="{{ data.community }}" ></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Landmark</ion-label>
+									<ion-input type="text" formControlName="landmark" value="{{ data.landmark }}" ></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Street Name</ion-label>
+									<ion-input type="text" formControlName="street_name" value="{{ data.street }}"></ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row >
+							<ion-col>
+								<ion-item>
+									<ion-label position="floating">Postal Code</ion-label>
+									<ion-input type="number" formControlName="postal_code" maxlength="6" minlength="6" 
+									value="{{ data.postal_code }}">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+					</span>
 					<ion-row>
 						<ion-col ></ion-col>
 						<ion-col>

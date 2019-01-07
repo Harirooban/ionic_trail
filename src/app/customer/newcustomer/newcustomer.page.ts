@@ -23,9 +23,17 @@ export class NewcustomerPage implements OnInit {
 	single_customer_pref = [];
 	customer_data_with_pref = {};
 	shownGroup = null;
-
+	customer_id : any;
+	customer_datas:any;
 	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, public formBuilder: FormBuilder) {
-		
+		this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
+		if (this.customer_id != null){
+
+			this.getCustomerDetails();
+		}else{
+			this.customer_id=null
+		}
+
 		this.customerForm = this.formBuilder.group({
 			name: ['', Validators.required],
 			code: ['', Validators.required],
@@ -81,6 +89,7 @@ export class NewcustomerPage implements OnInit {
 	}
 
 	addCustomer() {
+		if (this.customer_id == null){
 		this.customer_data_with_pref['customer_details'] = this.customerForm.value
 		this.customer_data_with_pref['product_specs'] = this.single_customer_pref
 		console.log(this.customer_data_with_pref)
@@ -88,13 +97,29 @@ export class NewcustomerPage implements OnInit {
 		}, (error) => {
 			console.error(error);
 		});	
+	} else{
+		console.log(this.customerForm)
+	}
 	}
 
 	slideForward(slide_index: number) {
 		this.slides.slideTo(slide_index)
 		this.selected_product = null;
 	}
+
+	getCustomerDetails(){
+		let customer_dict ={
+			'customer_id':this.customer_id
+		}
+		this.httpService.customerPost(customer_dict).subscribe((data)=>{
+			this.customer_datas=data;
+			console.log(this.customer_datas)
+		})
+
+	}
+
 	ngOnInit() {
+		
 		this.httpService.newCustomerpref().subscribe((pref_data) => {
 			this.new_customer_pref = pref_data;
 			this.product_names = Object.keys(this.new_customer_pref)

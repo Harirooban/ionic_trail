@@ -9,15 +9,17 @@ export class HttpService {
 
   constructor(private httpClient : HttpClient, private globalService: GlobalServiceService ) { }
 
-  customers() {
-    // return this.httpClient.get(this.globalService.base_url + 'main/customer/' );
-    return this.httpClient.get(this.globalService.base_url + 'main/customer/');
-  }
-
-  products() {
-    // return this.httpClient.get(this.globalService.base_url + 'main/customer/' );
-    return this.httpClient.get(this.globalService.base_url + 'main/product/');
-  }
+	customers() {
+	// return this.httpClient.get(this.globalService.base_url + 'main/customer/' );
+		return this.httpClient.get(this.globalService.base_url + 'main/customer/');
+	}
+	customerPost(customer_dict) {
+		return this.httpClient.post(this.globalService.base_url + 'main/customer/', customer_dict);
+	}
+	products() {
+	// return this.httpClient.get(this.globalService.base_url + 'main/customer/' );
+		return this.httpClient.get(this.globalService.base_url + 'main/product/');
+	}
 
 	orders() {
 		return this.httpClient.get(this.globalService.base_url + 'main/order/')
@@ -60,6 +62,9 @@ export class HttpService {
 	}
 	orderTosalePost(order_to_sale_dict){
 		return this.httpClient.post(this.globalService.base_url + 'main/order/to/sale/', order_to_sale_dict)
+	}
+	profilePost(customer_dict){
+		return this.httpClient.post(this.globalService.base_url + 'main/sale/history/', customer_dict)
 	}
 }
 

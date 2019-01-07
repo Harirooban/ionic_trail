@@ -17,7 +17,7 @@ export class SalePage implements OnInit {
   // // an dict to post to django server
     let customer_dict=
     {
-      "customer_id":this.customer.id,
+      "customer_id":this.customer.id
     }
     this.httpService.salesPost(customer_dict).subscribe((sale_data)=> {
       this.sale_datas = sale_data;
@@ -29,5 +29,6 @@ export class SalePage implements OnInit {
   }
   ngOnInit() {
   }
-
+  
 }
+
