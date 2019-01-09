@@ -4,7 +4,9 @@ import { HttpService } from '../http.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ProdprefPage } from '../prodpref/prodpref.page';
 import { OrderPage } from '../order/order.page';
-import { SalePage } from '../sale/sale.page'
+import { SalePage } from '../sale/sale.page';
+import { DataServiceService } from '../data-service.service';
+
 
 @Component({
   selector: 'app-profile',
@@ -15,24 +17,21 @@ export class ProfilePage implements OnInit {
   customer_id: any ;
   customer_info:any =[];
   sale_datas: any = null;
-  date_values: any = null;
+  date_values: any = null;                                                                    
 
   constructor(private activaterouter : ActivatedRoute, private nav: NavController,
-   private router: Router,private httpService : HttpService, private modalController: ModalController, private ref: ChangeDetectorRef) { 
+   private router: Router,private httpService : HttpService, private modalController: ModalController,
+   private ref: ChangeDetectorRef, private dataService:DataServiceService) { 
     
   }
 
   ionViewWillEnter() {
-    this.activaterouter.queryParams.subscribe((data) => {
-      this.customer_info = data;
-      console.log(this.customer_info)
-    },(error) =>{
-      console.log(error);
-    });
+    this.customer_info=this.dataService.customer_datas    
 
     let customer_dict = {
       'customer_id':this.customer_info['id']
     }
+    console.log(this.customer_info)
     this.httpService.profilePost(customer_dict).subscribe((data)=> {
       this.sale_datas = data;
       this.date_values = Object.keys(data)
@@ -94,6 +93,11 @@ export class ProfilePage implements OnInit {
   });
   modal.present();
   }
+
+  paymentPage(customer_info){
+    this.nav.navigateForward('/payment/' + this.customer_info.id)
+  }
+
   ngOnInit() {
   }
 

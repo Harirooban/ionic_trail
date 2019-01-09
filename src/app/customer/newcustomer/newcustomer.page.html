@@ -1,4 +1,4 @@
-<ion-header>
+	<ion-header>
   <ion-toolbar>
     <ion-title>Create/Update Customer</ion-title>
   </ion-toolbar>
@@ -8,12 +8,11 @@
 		<ion-slides #common_slide [options]=slideOpts>
 			<ion-slide>
 				<form [formGroup]="customerForm" >
-					<span *ngFor="let data of customer_datas">
 						<ion-row >
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Name</ion-label>
-									<ion-input type="text" formControlName="name" value="{{ data.name }}"></ion-input>
+									<ion-input type="text" formControlName="name" ></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -21,7 +20,7 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">code</ion-label>
-									<ion-input type="text" formControlName="code" value="{{ data.code }}"></ion-input>
+									<ion-input type="text" formControlName="code" ></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -29,14 +28,14 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Phone Number </ion-label>
-									<ion-input type="number" formControlName="phone_number" value="{{ data.phone_number }}">
+									<ion-input type="number" formControlName="phone_number" >
 									</ion-input>
 								</ion-item>
 							</ion-col>
 							<ion-col padding>
 								<ion-item>
 									<ion-label>Is whatsapp</ion-label>
-									<ion-checkbox checked="false" formControlName="whatsapp" value="{{ data.is_whatsapp }}">
+									<ion-checkbox checked="false" formControlName="whatsapp" >
 									</ion-checkbox>
 								</ion-item>
 							</ion-col>
@@ -45,7 +44,7 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">email</ion-label>
-									<ion-input type="email" formControlName="email" value="{{ data.email }}"></ion-input>
+									<ion-input type="email" formControlName="email" ></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -53,7 +52,7 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Door number</ion-label>
-									<ion-input type="text" formControlName="door_number" value="{{ data.door_number }}"></ion-input>
+									<ion-input type="text" formControlName="door_number" ></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -61,7 +60,7 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Community</ion-label>
-									<ion-input type="text" formControlName="community" value="{{ data.community }}" ></ion-input>
+									<ion-input type="text" formControlName="community" ></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -69,7 +68,7 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Landmark</ion-label>
-									<ion-input type="text" formControlName="landmark" value="{{ data.landmark }}" ></ion-input>
+									<ion-input type="text" formControlName="landmark"  ></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -77,7 +76,7 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Street Name</ion-label>
-									<ion-input type="text" formControlName="street_name" value="{{ data.street }}"></ion-input>
+									<ion-input type="text" formControlName="street_name"></ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
@@ -85,21 +84,21 @@
 							<ion-col>
 								<ion-item>
 									<ion-label position="floating">Postal Code</ion-label>
-									<ion-input type="number" formControlName="postal_code" maxlength="6" minlength="6" 
-									value="{{ data.postal_code }}">
+									<ion-input type="number" formControlName="postal_code" maxlength="6" minlength="6" >
+									
 									</ion-input>
 								</ion-item>
 							</ion-col>
 						</ion-row>
-					</span>
+					
 					<ion-row>
 						<ion-col ></ion-col>
 						<ion-col>
-							<ion-button (click)=slideForward(1)>product spec</ion-button>
+							<ion-button (click)=slideForward()>product spec</ion-button>
 						</ion-col>
 						<ion-col></ion-col>
 					</ion-row>
-					<h4>Product Preference List</h4>
+					<h4 *ngIf="customer_id == 0">Product Preference List</h4>
 					<ion-list *ngFor = "let preference of single_customer_pref; let i=index" (click)="openList(i)" 
 					[ngClass]="{active:isGroupShown(i)}">
 						<ion-list-header >
@@ -118,13 +117,13 @@
 							</ion-list>
 						</ion-item>
 					</ion-list>
-					<ion-button type="submit" (click)="addCustomer()" expand="block">add Customer </ion-button>
+					<ion-button type="submit" (click)="addCustomer()"  expand="block">add / update Customer </ion-button>
 				</form>
 			</ion-slide> 
 			<ion-slide>
 				<ion-row>
 					<ion-col size="1">
-						<ion-button fill="clear" (click)=slideForward(0) >
+						<ion-button fill="clear" (click)=slideBackword(0) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
@@ -178,7 +177,92 @@
 				<ion-row>
 					<ion-col></ion-col>
 					<ion-col>
-						<ion-button (click)=storeAnswerData(0) [disabled]=" selected_product != Null ? 'false' : 'true'">Save</ion-button>
+						<ion-button (click)=storeAnswerData() [disabled]=" selected_product != Null ? 'false' : 'true'">Save</ion-button>
+					</ion-col>
+					<ion-col></ion-col>
+				</ion-row>
+			</ion-slide>
+			<ion-slide>
+				<ion-row>
+					<ion-col size="1">
+						<ion-button fill="clear" (click)=slideBackword(0) >
+							<ion-icon name="arrow-back"></ion-icon>
+						</ion-button>
+					</ion-col>
+				</ion-row>
+				<span *ngFor="let item of customer_datas">
+					<ion-row *ngFor="let product of item.product">
+						<ion-col  (click)="productSpecSlide(product)"> 
+							<ion-item class="item-borderless" style="font-size: 13px">
+								{{ product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col text-center>Add Preference to extra products</ion-col>
+					</ion-row>
+					<ion-row *ngFor="let product of item.extra_product">
+						<ion-col  (click)="productSpecSlide(product)"> 
+							<ion-item class="item-borderless" style="font-size: 13px">
+								{{ product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+				</span>
+
+			</ion-slide>
+			<ion-slide>
+				<ion-row>
+					<ion-col size="1">
+						<ion-button fill="clear" (click)=slideBackword(2) >
+							<ion-icon name="arrow-back"></ion-icon>
+						</ion-button>
+					</ion-col>
+				</ion-row>
+				<span *ngIf="specs != null">
+					<span *ngFor="let item of specs; let product_index=index;">
+						<ion-row>
+							<ion-col>
+								<ion-item *ngIf="item.question_type == 'number'" class="item-borderless">
+									<ion-label position="floating">{{ item.question }}</ion-label>
+									<ion-input [(ngModel)]="product_name_data[product_index]['answer_data']">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col>
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless">
+									<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
+									<ion-checkbox slot="end" [(ngModel)]="product_name_data[product_index]['answer_data']"
+									[checked]="false" >
+									</ion-checkbox>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>	
+							<ion-col>							
+								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless">
+									<ion-radio-group [(ngModel)]="product_name_data[product_index]['answer_data']">
+										<span>
+											<ion-label style="font-weight: bold;">{{ item.question }} </ion-label>
+										</span>
+										<span *ngFor="let single_answer of item.default_answer"> 
+											<ion-item class="item-borderless">
+												<ion-label>{{ single_answer }} </ion-label>
+												<ion-radio slot="end" [value]="single_answer"></ion-radio>
+											</ion-item>
+										</span>
+									</ion-radio-group>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+					</span>
+				</span>
+				<ion-row>
+					<ion-col></ion-col>
+					<ion-col>
+						<ion-button (click)=UpdateSpec()>Save</ion-button>
 					</ion-col>
 					<ion-col></ion-col>
 				</ion-row>

@@ -8,57 +8,48 @@
 	</ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content padding>
-	<ion-card *ngFor ="let data of sale_datas">
-		<ion-grid>
+<ion-content >
+	<span *ngIf="sale_datas != null">
+		<ion-card>
 			<ion-row>
-				<ion-col size="4">
-					<ion-button color="white" fill="clear" (click)="paymentPage(customer)">payment </ion-button>
+				<ion-col size="5">
+					{{ customer.name }} - {{ customer.code }}
 				</ion-col>
-				<ion-col></ion-col>
-				<ion-col size="1"></ion-col>
-				<ion-col size="7">
-					vessel : 
-					<ion-button color="white" fill="clear">
-						<ion-icon src="add" slot="icon-only" ></ion-icon>
-					</ion-button>
-					{{ customer.vessel_count }}
-					<ion-button color="white" fill="clear">
-						<ion-icon src="remove" slot="icon-only" ></ion-icon>
-					</ion-button>
+				<ion-col size="3" [style.color]="checkVesselCount(customer.vessel_count)">
+					VC:{{ vessel }}
+				</ion-col>
+				<ion-col size="2" style="font-size: 25px" (click)=vesselUpdate(1)>
+					<ion-icon name="add-circle"></ion-icon>
+				</ion-col>
+				<ion-col size="2" style="font-size: 25px" (click)=vesselUpdate(-1)>
+					<ion-icon name="remove-circle"></ion-icon>
 				</ion-col>
 			</ion-row>
-			<ion-row>
-				<ion-col size="12" text-center  wrap-text>
-				 	<span style="text-transform: capitalize;"> {{ data.name }}</span> - {{ data.code }}
+			<ion-row >
+				<ion-col size="6" text-center>
+					<span [style.color]="balcheckout(customer.balance_amount)">
+						Balance : {{ customer.balance_amount | number: '.2' }}
+					</span>
+					<span *ngIf="sale_datas.rounded_cost != null || sale_datas.rounded_cost != 0">
+						Total : {{ sale_datas.rounded_cost | number:'.2' }}
+					</span>
+				</ion-col>
+				<ion-col size="6">
+					<ion-button (click)="paymentPage()"><ion-icon name="add"></ion-icon>payment</ion-button>
 				</ion-col>
 			</ion-row>
-			<ion-row>balance : {{ customer.balance_amount }}</ion-row>
-		</ion-grid>
-	</ion-card>
-	<ion-card>
-		<ion-row style="font-weight: bold;">
-			<ion-col size="3">Date</ion-col>
-			<ion-col size="4">Description</ion-col>
-			<ion-col size="3">cost</ion-col>
-			<ion-col size="2">action</ion-col>
-		</ion-row>
-		<ion-row *ngFor = "let sale of data.sales">
-			<ion-col size="3">
-				{{ sale.delivary_date }}
-			</ion-col>
-			<ion-col size="4" *ngFor = "let product of sale.product">
-				{{ product.product_name }} {{ product.quantity }}
-			</ion-col>
-			<ion-col size="3">
-				{{ product.product_cost }}
-			</ion-col>
-			<ion-col size="2">
-				<ion-button>
-					delivered
-				</ion-button>
-			</ion-col>
-		</ion-row>
-	</ion-card>
+		</ion-card>
+		<ion-card *ngIf="sale_datas.rounded_cost != null || sale_datas.rounded_cost != 0">
+			<ion-row *ngFor="let item of sale_datas['sales']">
+				<ion-col size="4">{{ item.product_code }}</ion-col>
+				<ion-col size="2">{{ item.quantity }}{{ item.unit }}</ion-col>
+				<ion-col size="3">{{ item.product_cost | number: '.2' }}</ion-col>
+				<ion-col size="1" style="font-size: 21px;color:green;"><ion-icon name="checkmark-circle"></ion-icon></ion-col>
+				<ion-col size="2" style="font-size: 21px;color:red;"><ion-icon name="close-circle"></ion-icon></ion-col>
+			</ion-row>
+		</ion-card>
+		<span *ngIf="sale_datas.rounded_cost == null || sale_datas.rounded_cost == 0">
+				No sale for today !
+			</span>
+	</span>
 </ion-content>

@@ -22,7 +22,7 @@
 				{{ customer_info.door_number }} - {{ customer_info.community }}
 			</ion-col>
 			<ion-col size="2">
-				<ion-button color="white" fill="clear" style="height: 26px;margin-top: -8px;">
+				<ion-button color="white" fill="clear" style="height: 26px;margin-top: -13px;">
 					<ion-icon src="assets/svg/gps.svg" slot="icon-only"  style="font-size=22"></ion-icon>
 				</ion-button>
 			</ion-col>
@@ -31,56 +31,55 @@
 		<ion-row>
 			<ion-col size="1"></ion-col>
 			<ion-col size="6" [style.color]="balcheckout(customer_info.balance_amount)"> 	
-				<span style="font-weight: bold;">Balance : </span>{{ customer_info['balance_amount'] }}
+				<span style="font-weight: bold;">Balance : </span>{{ customer_info['balance_amount']  | number: '.2'}}
 			</ion-col>
 			<ion-col size="5" [style.color]="checkVesselCount(customer_info.vessel_count)">
 				<span style="font-weight: bold;" >Vessel: </span>{{ customer_info['vessel_count'] }}
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col size="4">
+			<ion-col size="3" text-center>
 				<ion-button color="white" fill="clear" (click)="openModal(customer_info)">
 					<ion-icon src="assets/svg/prodPref.svg" slot="icon-only"></ion-icon>
 				</ion-button>
 			</ion-col>
-			<ion-col size="4">
+			<ion-col size="3" text-center>
 				<ion-button color="white" fill="clear"  (click)="openOrderModal(customer_info)">
 					<ion-icon src="assets/svg/order.svg" slot="icon-only"></ion-icon>
 				</ion-button>
 			</ion-col>
-			<ion-col size="4">
+			<ion-col size="3" text-center>
 				<ion-button color="white" fill="clear" (click)="openDeliveryModal(customer_info)">
 					<ion-icon src="assets/svg/history.svg" slot="icon-only"></ion-icon>
+				</ion-button>
+			</ion-col>
+			<ion-col size="3" text-center>
+				<ion-button color="white" fill="clear" (click)="paymentPage(customer_info)">
+					<ion-icon src="assets/svg/transaction.svg" slot="icon-only"></ion-icon>
 				</ion-button>
 			</ion-col>
 		</ion-row>
 		
 	</ion-card>
-	<!-- <span *ngFor="let date of date_values">
-		{{ date }}
-		<ion-row *ngFor="let transaction of sale_datas[date];let transaction_index = index">
-			{{ transaction_index }}
-		</ion-row>
-	</span> -->
 	<ion-card >
-		<ion-row style="font-weight: bold;font-size=10px">
+		<ion-row style="font-weight: bold;font-size:10px; text-align: center;">
 			<ion-col size="3">Date</ion-col>
 			<ion-col size="5" >Description</ion-col>
 			<ion-col size="2">Cr</ion-col>
-			<ion-col size="2">dr</ion-col>
+			<ion-col size="2">Dr</ion-col>
 		</ion-row>
 		<span *ngFor="let date of date_values">
-			<ion-row *ngFor="let transaction of sale_datas[date];let transaction_index = index" style="font-size=10px">
+			<ion-row *ngFor="let transaction of sale_datas[date]" style="font-size:10px;">
 				<ion-col size="3">{{ transaction.date | date:'dd-MMM'}}</ion-col>
 				<ion-col size="5" text-wrap>{{ transaction.description }}</ion-col>
-				<span  *ngIf="transaction.type == 'payment'" style="font-weight: bold">
-					<ion-col size="2">{{ transaction.type }}</ion-col>
-					<ion-col size="2">-</ion-col>
-				</span>
-				<span  *ngIf="transaction.type == 'sale'">
-					<!-- <ion-col size="2">-</ion-col> -->
-					<ion-col offset="2" size="2" >{{ transaction.type }}</ion-col>
-				</span>
+				<ion-col size="2">
+					<span  *ngIf="transaction.type == 'payment'">
+						{{ transaction.amount | number: '.2' }}
+					</span>
+				</ion-col>
+				<ion-col size="2">
+					<span  *ngIf="transaction.type == 'sale'">{{ transaction.amount | number: '.2' }}</span>
+				</ion-col>
 			</ion-row>
 		</span>
 	</ion-card>

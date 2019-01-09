@@ -66,5 +66,11 @@ export class HttpService {
 	profilePost(customer_dict){
 		return this.httpClient.post(this.globalService.base_url + 'main/sale/history/', customer_dict)
 	}
+	updateSpec(product_name_data){
+		return this.httpClient.post(this.globalService.base_url + 'main/update/customer/preference/', product_name_data)
+	}
+	VesselPost(vessel_dict){
+		return this.httpClient.post(this.globalService.base_url + 'main/update/vessel/', vessel_dict)
+		}
 }
 

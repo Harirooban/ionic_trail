@@ -28,8 +28,10 @@ export class OrderPage implements OnInit {
   quantity:any;
   delivery_date:any;
   order_to_sale_datas: any;
+  today:any;
   constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,
               private modalController: ModalController,private navParams: NavParams) {
+  this.today = new Date()
   this.customer = this.navParams.get('customer_value');
   // // an dict to post to django server
   let customer_dict=

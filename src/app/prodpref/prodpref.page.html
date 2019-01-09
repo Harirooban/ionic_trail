@@ -1,4 +1,4 @@
-<ion-header>
+                                  <ion-header>
   <ion-toolbar>
     <ion-title>Product Preference</ion-title>
     <ion-buttons slot="end">
@@ -22,8 +22,12 @@
 				<ion-list >
 					<ion-row *ngFor="let preference of item.specs">
 						<ion-col style="white-space: normal;">
-							{{ preference.question }} - {{ preference.answer }}
-							<br>
+							<span *ngIf="preference.question_id != 5 && preference.question_id != 6 && preference.question_id != 12 && preference.question_id != 13">
+								{{ preference.question }} - {{ preference.answer }}
+							</span>	
+							<span *ngIf="preference.question_id == 5 || preference.question_id == 6 || preference.question_id == 12 || preference.question_id == 13">
+								{{ preference.question }} - <span *ngIf="preference.answer == 'True'">yes</span><span *ngIf="preference.answer == 'False'">No</span>
+							</span>
 						</ion-col>
 					</ion-row>
 				</ion-list>

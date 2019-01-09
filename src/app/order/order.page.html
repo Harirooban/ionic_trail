@@ -14,30 +14,47 @@
 		<ion-slides #common_slide [options]=slideOpts>
 			<ion-slide>
 				<span *ngFor="let data of order_datas">
+					<ion-row>
+						<ion-col text-center>
+							{{ data.name }} - {{ data.code }}			
+						</ion-col>
+					</ion-row>
+				</span>
+				<ion-card>
+					<ion-row>
+						<ion-col text-center style="font-weight: bold;">
+							All Products
+						</ion-col>
+					</ion-row>
+					<ion-row *ngFor="let product of products">
+						<ion-col  (click)="selectProduct(product)" size="8" style="text-align: left"> 
+							{{ product.code }} &nbsp; <ion-icon name="arrow-forward"  style="text-align: right"></ion-icon>
+						</ion-col>
+						<ion-col></ion-col>
+					</ion-row>
+				</ion-card>
+				<ion-card>
+					<ion-row style="font-weight: bold;font-size: 10px">
+						<ion-col size="3">Date</ion-col>
+						<ion-col size="4">Product</ion-col>
+						<ion-col size="3">Qnty</ion-col>
+						<ion-col size="2">Action</ion-col>
+					</ion-row>
+				</ion-card>
+				<span *ngFor="let data of order_datas">
 					<ion-card>
-						<ion-row>
-							<ion-col text-center>
-								{{ data.name }} - {{ data.code }}			
-							</ion-col>
-						</ion-row>
-						<ion-row style="font-weight: bold;">
-							<ion-col size="3">Date</ion-col>
-							<ion-col size="6" >Product Name</ion-col>
-							<ion-col size="3">Qnty</ion-col>
-						</ion-row>
-					</ion-card>
-					<ion-card *ngFor="let order_product of data.product" style="font-size: 12px;">
-						<ion-row >
+						<ion-row *ngFor="let order_product of data.product" style="font-size: 12px;">
 								<ion-col size="3">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
-								<ion-col size="6" text-wrap>{{ order_product.product_name }}</ion-col>
-								<ion-col size="3" >{{ order_product.quantity }}{{ order_product.unit }}</ion-col>
+								<ion-col size="4">{{ order_product.product_code }}</ion-col>
+								<ion-col size="3">{{ order_product.quantity }}{{ order_product.unit }}</ion-col>
+								<ion-col size="2"></ion-col>
 						</ion-row>
-						<ion-row>
+						<!-- <ion-row>
 							<ion-col>
 								Order Status : {{ order_product.order_status }}
 							</ion-col>
-						</ion-row>
-						<ion-row>
+						</ion-row> -->
+						<!-- <ion-row>
 							<ion-col text-left>
 								<ion-button size="small" [disabled]="order_product.order_status_id == 2 || order_product.order_status_id == 3 "
 								 (click)="orderToSale(2,order_product.order_id)">Accept</ion-button>
@@ -46,23 +63,10 @@
 								<ion-button size="small" [disabled]="order_product.order_status_id == 3"
 								(click)="orderToSale(3,order_product.order_id)">Decline</ion-button>
 							</ion-col>
-						</ion-row>
+						</ion-row> -->
 					</ion-card>
 				</span>
-				<ion-card>
-					<ion-row>
-						<ion-col text-center>
-							All Products
-						</ion-col>
-					</ion-row>
-					<ion-row *ngFor="let product of products">
-						<ion-col  (click)="selectProduct(product)"> 
-							<ion-item class="item-borderless" style="font-size: 13px">
-								{{ product.name }} <ion-icon name="arrow-forward"  ></ion-icon>
-							</ion-item>
-						</ion-col>
-					</ion-row>
-				</ion-card>
+				
 			</ion-slide>
 			<ion-slide>
 				<ion-row>
@@ -76,23 +80,23 @@
 					</ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col size="10">
-						<ion-item class="item-borderless">
-							<ion-label position="floating" text-center style="font-weight: bold;">quantity</ion-label>
-							<ion-input type="number" [(ngModel)]="quantity"></ion-input>
-						</ion-item>
+					<ion-col size="4">
+						Quantity :
 					</ion-col>
 					<ion-col>
+						<ion-input type="number" [(ngModel)]="quantity"></ion-input>
 					</ion-col>
+					<ion-col></ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col>
+					<ion-col size="4">
 						Date :
 					</ion-col>
 					<ion-col>
-						<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" [(ngModel)]="delivery_date">
+						<ion-datetime display-format="DD MMM YYYY" min="{{ today | date : 'yyyy/MM/dd' }}" placeholder="Select date" [(ngModel)]="delivery_date">
 						</ion-datetime>
 					</ion-col>
+					<ion-col></ion-col>
 				</ion-row>
 				<span *ngIf="product_details != null">
 					<span *ngFor="let item of product_data[product_details]; let product_index=index;">
