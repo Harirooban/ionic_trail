@@ -89,6 +89,15 @@ async openModal(customer){
     else return 'red';
   }
   
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.httpService.customers().subscribe((cust_data)=> {
+      this.customer_datas = cust_data;
+      event.target.complete();    
+      console.log(this.customer_datas)
+    })
+  }
+
   ngOnInit() {
   }
 

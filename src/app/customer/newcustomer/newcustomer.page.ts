@@ -110,19 +110,19 @@ export class NewcustomerPage implements OnInit {
 	}
 	}
 	slideBackword(index:number){
-		this.slides.slideTo(index)
+		this.slides.slideTo(index, 300)
 	}
 	slideForward() {
 		if (this.customer_id == '0' ){
-			this.slides.slideTo(1)
+			this.slides.slideTo(1, 300)
 		}
 		if(this.customer_id != 0){
-			this.slides.slideTo(2)
+			this.slides.slideTo(2, 300)
 		}
 
 	}
 	productSpecSlide(product){
-		this.slides.slideTo(3)
+		this.slides.slideTo(3, 300)
 		this.product_name_data = []; 
 		this.specs=product['specs']
 		product['specs'].forEach((element) => {

@@ -62,6 +62,13 @@ export class PaymentPage implements OnInit {
    newPayment() {
     this.nav.navigateForward('/newpayment/' + this.customer_id)
   }
+
+ doRefresh(event) {
+  console.log('Begin async operation');
+  this.dataBasedOnDate();
+  event.target.complete();    
+  }
+
   ngOnInit() {
 
   }

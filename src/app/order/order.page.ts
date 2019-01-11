@@ -29,9 +29,12 @@ export class OrderPage implements OnInit {
   delivery_date:any;
   order_to_sale_datas: any;
   today:any;
+  actual_quantity:any;
+  vessel_count:any;
+  order_id:any;
   constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,
               private modalController: ModalController,private navParams: NavParams) {
-  this.today = new Date()
+  this.today = new Date().toJSON().split('T')[0]
   this.customer = this.navParams.get('customer_value');
   // // an dict to post to django server
   let customer_dict=
@@ -49,6 +52,10 @@ export class OrderPage implements OnInit {
 
   closeModal() {
     this.modalController.dismiss();
+  }
+  acceptOrder(order_product_order_id){
+    this.order_id=order_product_order_id
+    this.slides.slideTo(2)
   }
   selectProduct(product) {
     this.product_details = product.name
@@ -79,6 +86,10 @@ export class OrderPage implements OnInit {
   slideForward(slide_index: number) {
 
     this.slides.slideTo(slide_index)
+    if (slide_index == 0){
+      this.actual_quantity=null;
+      this.vessel_count=null;
+    }
     
   }
 
@@ -97,12 +108,15 @@ export class OrderPage implements OnInit {
     console.log(this.order_with_pref)
   }
 
-  orderToSale(status_id: number, order_product_order_id){
+  orderToSale(status_id: number){
     let order_to_sale_dict = {
       "customer_id":this.customer.id,
       "status_id":status_id,
-      "order_id":order_product_order_id
+      "order_id":this.order_id,
+      "quantity":this.actual_quantity,
+      "vessel_count":this.vessel_count
     }
+    this.slides.slideTo(0)
     console.log(order_to_sale_dict)
     this.httpService.orderTosalePost(order_to_sale_dict).subscribe((data)=> {
     }, (error) => {
@@ -110,6 +124,11 @@ export class OrderPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.customer = this.navParams.get('customer_value');
+    event.target.complete();  
+  }
   ngOnInit() {
     this.httpService.product().subscribe((pref_data) => {
       this.products = pref_data;

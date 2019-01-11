@@ -26,7 +26,7 @@
 								{{ preference.question }} - {{ preference.answer }}
 							</span>	
 							<span *ngIf="preference.question_id == 5 || preference.question_id == 6 || preference.question_id == 12 || preference.question_id == 13">
-								{{ preference.question }} - <span *ngIf="preference.answer == 'True'">yes</span><span *ngIf="preference.answer == 'False'">No</span>
+								{{ preference.question }} - <span *ngIf="preference.answer == 'true'">yes</span><span *ngIf="preference.answer == 'false'">No</span>
 							</span>
 						</ion-col>
 					</ion-row>

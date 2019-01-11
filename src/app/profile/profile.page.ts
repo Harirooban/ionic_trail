@@ -97,7 +97,11 @@ export class ProfilePage implements OnInit {
   paymentPage(customer_info){
     this.nav.navigateForward('/payment/' + this.customer_info.id)
   }
-
+   doRefresh(event) {
+  console.log('Begin async operation');
+  this.ionViewWillEnter();
+  event.target.complete();    
+  }
   ngOnInit() {
   }
 

@@ -9,11 +9,19 @@
   </ion-toolbar>
 </ion-header>
 <ion-content >
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content
+	      pullingIcon="arrow-dropdown"
+	      pullingText="Pull to refresh"
+	      refreshingSpinner="circles"
+	      refreshingText="Refreshing...">
+	    </ion-refresher-content>
+	</ion-refresher>
 	<span *ngIf="sale_datas != null">
 		<ion-card>
 			<ion-row>
-				<ion-col size="5">
-					{{ customer.name }} - {{ customer.code }}
+				<ion-col size="5" style="text-align: center;">
+					{{ customer.name }}  {{ customer.code }}
 				</ion-col>
 				<ion-col size="3" [style.color]="checkVesselCount(customer.vessel_count)">
 					VC:{{ vessel }}
@@ -27,9 +35,9 @@
 			</ion-row>
 			<ion-row >
 				<ion-col size="6" text-center>
-					<span [style.color]="balcheckout(customer.balance_amount)">
+					<span [style.color]="balcheckout(customer.balance_amount)" style="font-size: 13px">
 						Balance : {{ customer.balance_amount | number: '.2' }}
-					</span>
+					</span><br>
 					<span *ngIf="sale_datas.rounded_cost != null || sale_datas.rounded_cost != 0">
 						Total : {{ sale_datas.rounded_cost | number:'.2' }}
 					</span>
@@ -40,16 +48,30 @@
 			</ion-row>
 		</ion-card>
 		<ion-card *ngIf="sale_datas.rounded_cost != null || sale_datas.rounded_cost != 0">
-			<ion-row *ngFor="let item of sale_datas['sales']">
-				<ion-col size="4">{{ item.product_code }}</ion-col>
-				<ion-col size="2">{{ item.quantity }}{{ item.unit }}</ion-col>
-				<ion-col size="3">{{ item.product_cost | number: '.2' }}</ion-col>
-				<ion-col size="1" style="font-size: 21px;color:green;"><ion-icon name="checkmark-circle"></ion-icon></ion-col>
-				<ion-col size="2" style="font-size: 21px;color:red;"><ion-icon name="close-circle"></ion-icon></ion-col>
+			<ion-row *ngFor="let item of sale_datas['sales']" >
+				<ion-col size="4" style="font-size:small">{{ item.product_code }}</ion-col>
+				<ion-col size="2" style="font-size:small">{{ item.quantity }}<span style="font-size: 8px">{{ item.unit | slice:0:3 }}</span></ion-col>
+				<ion-col size="3" style="font-size:small">{{ item.product_cost | number: '.2' }}</ion-col>
+				<span *ngIf="item.sale_status == 4">
+					<ion-col size="1" style="font-size: 21px;color:green;" (click)=orderAccept(item)>
+							<ion-icon name="checkmark-circle"></ion-icon>
+					</ion-col>
+					<ion-col size="2" style="font-size: 21px;color:red;" (click)=alertmessage(item)>
+							<ion-icon name="close-circle"></ion-icon>
+					</ion-col>
+				</span>
+				<ion-col size="3">
+					<span *ngIf="item.sale_status == 1" style="color:green;font-size: 12px;">
+						Delivered
+					</span>
+					<span *ngIf="item.sale_status == 3"  style="color:red;font-size: 8px;">
+						{{ item.reason_name }}
+					</span>
+				</ion-col>
 			</ion-row>
-		</ion-card>
-		<span *ngIf="sale_datas.rounded_cost == null || sale_datas.rounded_cost == 0">
+			<span *ngIf="sale_datas.rounded_cost == null || sale_datas.rounded_cost == 0" style="text-align: center;font-weight: bold">
 				No sale for today !
 			</span>
+		</ion-card>
 	</span>
 </ion-content>
