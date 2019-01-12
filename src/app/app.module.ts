@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import {ProdprefPageModule} from './prodpref/prodpref.module';
 import {OrderPageModule} from './order/order.module'
-import {SalePageModule} from './sale/sale.module'
+import {SalePageModule} from './sale/sale.module';
 
 
 @NgModule({

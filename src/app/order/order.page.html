@@ -50,21 +50,32 @@
 				</ion-card>
 				<span *ngFor="let data of order_datas">
 					<ion-card>
-						<ion-row *ngFor="let order_product of data.product" style="font-size: 12px;" (click)=acceptOrder(order_product.order_id)>
-						<!-- 	<ion-item-sliding>
-								<ion-item> -->
-									<ion-col size="3" style="font-size:small">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
-									<ion-col size="4" style="font-size:small">{{ order_product.product_code }}</ion-col>
-									<ion-col size="2" style="font-size:small">{{ order_product.quantity }}<span style="font-size: 8px">{{ order_product.unit | slice:0:3 }}</span></ion-col>
-									<ion-col size="3" (click)=acceptOrder(order_product.order_id)>
-										<ion-icon name="exit"></ion-icon>
-									</ion-col>
-								<!-- </ion-item>
+						<ion-list inset="false" lines="none">
+							<ion-item-sliding *ngFor="let order_product of data.product">
+								<ion-item  style="font-size: 12px;" (click)=acceptOrder(order_product.order_id)>
+									<ion-row style="width: 100%">
+											<ion-col size="3" style="font-size:small">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
+											<ion-col size="4" style="font-size:12px ;">{{ order_product.product_code }}</ion-col>
+											<ion-col size="2" style="font-size:small; text-align:right;">{{ order_product.quantity }}
+												<span style="font-size: 8px">{{ order_product.unit | slice:0:3 }}</span>
+											</ion-col>
+											<ion-col size="3"  (click)=acceptOrder(order_product.order_id)>
+												<ion-icon style="font-size:20px;float: right;" name="exit"></ion-icon>
+											</ion-col>
+									</ion-row>
+										 </ion-item>
 								<ion-item-options side="start">
-									<ion-button>cancel</ion-button>
+									<ion-button color="danger">	
+										<ion-icon name="trash"></ion-icon>
+									</ion-button>
 								</ion-item-options>
-							</ion-item-sliding> -->
-						</ion-row>
+								<ion-item-options side="end">
+									<ion-button color="danger">
+										<ion-icon name="trash"></ion-icon>
+									</ion-button>
+								</ion-item-options>
+							</ion-item-sliding>
+						</ion-list>
 					</ion-card>
 				</span>																								
 			</ion-slide>

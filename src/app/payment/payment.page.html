@@ -1,8 +1,12 @@
 
 <ion-header>
-  <ion-toolbar>
-    <ion-title>payment</ion-title>
-  </ion-toolbar>
+
+	<ion-buttons slot="start">
+		<ion-back-button></ion-back-button>
+	</ion-buttons>
+	<ion-toolbar>
+	<ion-title>payment</ion-title>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -27,11 +31,11 @@
 				</ion-col>
 			</ion-row>
 			<ion-row>
-				<ion-col size="7" [style.color]="balcheckout(data.balance_amount)"> 	
-					<span style="font-weight: bold;">Balance Amount : </span>{{ data.balance_amount }}
+				<ion-col size="7"  text-center [style.color]="balcheckout(data.balance_amount)"> 	
+					<span style="font-weight: bold;">Balance : </span>{{ data.balance_amount }}
 				</ion-col>
-				<ion-col size="5" [style.color]="checkVesselCount(data.vessel_count)">
-					<span style="font-weight: bold;" >Vessel Count : </span>{{ data.vessel_count }}
+				<ion-col size="5" text-center [style.color]="checkVesselCount(data.vessel_count)">
+					<span style="font-weight: bold;" >Vessel : </span>{{ data.vessel_count }}
 				</ion-col>
 			</ion-row>
 			<ion-row>
@@ -57,7 +61,7 @@
 					<ion-col size="3">Payment Status</ion-col>
 					<ion-col size="3">Amount</ion-col>
 				</ion-row>
-				<ion-row *ngFor="let payment_data of data.payment_history">
+				<ion-row *ngFor="let payment_data of data.payment_history" style="font-size: small;">
 					<ion-col size="3">{{ payment_data.date | date:'dd-MMM' }}</ion-col>
 					<ion-col size="3">{{ payment_data.payment_method }}</ion-col>
 					<ion-col size="3" text-wrap [style.color]="statusCheckout(payment_data.payment_status)">{{ payment_data.payment_status }}</ion-col>

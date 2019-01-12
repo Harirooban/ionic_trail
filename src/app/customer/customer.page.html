@@ -20,10 +20,10 @@
 	</ion-refresher>
 	<ion-row>
 		<ion-col text-center>
-			<ion-searchbar placeholder="name/area/door.no"></ion-searchbar>
+			<ion-searchbar #search_term placeholder="name/area/door.no"></ion-searchbar>
 		</ion-col>
 	</ion-row>
-	<ion-card *ngFor ="let customer of customer_datas">
+	<ion-card *ngFor ="let customer of customer_datas | customerFilter:search_term.value">
 		<ion-row style="height: 42px;">
 			<ion-col size="9" text-center padding style="font-weight: bold;" (click)="profilePage(customer)">
 				 <span style="text-transform: capitalize;"> {{ customer.name }} </span> - {{ customer.code }}
