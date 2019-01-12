@@ -131,7 +131,7 @@ export class SalePage implements OnInit {
     this.getSaleData();
     event.target.complete();    
   }
-  async alertmessage(item){
+  async reasonForRejection(item){
     const alert = await this.alertcontroller.create({
       header :'Reasons',
       inputs:[{

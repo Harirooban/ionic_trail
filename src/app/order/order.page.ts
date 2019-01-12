@@ -32,6 +32,7 @@ export class OrderPage implements OnInit {
   actual_quantity:any;
   vessel_count:any;
   order_id:any;
+  final_delivery_date:any;
   constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,
               private modalController: ModalController,private navParams: NavParams) {
   this.today = new Date().toJSON().split('T')[0]
@@ -57,6 +58,10 @@ export class OrderPage implements OnInit {
     this.order_id=order_product_order_id
     this.slides.slideTo(2)
   }
+  cancelOrder(order_product_order_id){
+    this.order_id=order_product_order_id,
+    this.orderToSale(3);
+  }
   selectProduct(product) {
     this.product_details = product.name
     this.product_id = product.id
@@ -72,11 +77,18 @@ export class OrderPage implements OnInit {
     this.product_answer = [];
       if (this.product_details != null) {
         this.product_data[this.product_details].forEach((element) => {
-          this.product_answer.push({
-            question_id: element.question_id,
-            answer_data: element.customer_answer,
-            question_name: element.question
-          })
+          let temp_dict = {}
+          temp_dict['question_id'] = element.question_id
+          temp_dict['answer_data'] = element.customer_answer
+          temp_dict['question_name'] = element.question
+          if (!element.hasOwnProperty('customer_answer')) {
+            if (element.question_type == 'boolean-checkbox') {
+              temp_dict['answer_data'] = false
+            } else {
+              temp_dict['answer_data'] = ''
+            }
+          }
+          this.product_answer.push(temp_dict)
         });
       }
       console.log(this.product_answer)
@@ -114,7 +126,8 @@ export class OrderPage implements OnInit {
       "status_id":status_id,
       "order_id":this.order_id,
       "quantity":this.actual_quantity,
-      "vessel_count":this.vessel_count
+      "vessel_count":this.vessel_count,
+      "delivery_date":this.final_delivery_date
     }
     this.slides.slideTo(0)
     console.log(order_to_sale_dict)
