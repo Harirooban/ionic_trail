@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { Router,ActivatedRoute } from '@angular/router'; 
+import { NavController } from '@ionic/angular';
 import { FormGroup,FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -13,7 +14,7 @@ export class NewpaymentPage implements OnInit {
   customer_id : any
   paymentForm: FormGroup;
 
-  constructor(private httpService : HttpService,private activaterouter : ActivatedRoute ,public formBuilder: FormBuilder ) {
+  constructor(private httpService : HttpService,private activaterouter : ActivatedRoute ,public formBuilder: FormBuilder , private nav: NavController ) {
   	this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
 
     this.paymentForm = this.formBuilder.group({
@@ -44,6 +45,7 @@ export class NewpaymentPage implements OnInit {
     }, (error) => {
       console.error(error);
     		});
+    this.nav.navigateForward('/payment/' + this.customer_id)
      }
   ngOnInit() {
   }

@@ -34,8 +34,8 @@
 				</ion-col>
 			</ion-row>
 			<ion-row >
-				<ion-col size="6" text-center>
-					<span [style.color]="balcheckout(customer.balance_amount)" style="font-size: 13px">
+				<ion-col size="6" style="text-align: center;">
+					<span [style.color]="balcheckout(customer.balance_amount)" style="font-size: 12px">
 						Balance : {{ customer.balance_amount | number: '.2' }}
 					</span><br>
 					<span *ngIf="sale_datas.rounded_cost != null || sale_datas.rounded_cost != 0">
@@ -61,7 +61,7 @@
 					</ion-col>
 				</span>
 				<ion-col size="3">
-					<span *ngIf="item.sale_status == 1" style="color:green;font-size: 12px;">
+					<span *ngIf="item.sale_status == 1" style="color:green;font-size: 11px;">
 						Delivered
 					</span>
 					<span *ngIf="item.sale_status == 3"  style="color:red;font-size: 8px;">
@@ -69,9 +69,13 @@
 					</span>
 				</ion-col>
 			</ion-row>
-			<span *ngIf="sale_datas.rounded_cost == null || sale_datas.rounded_cost == 0" style="text-align: center;font-weight: bold">
-				No sale for today !
-			</span>
+		</ion-card>
+		<ion-card *ngIf="sale_datas.rounded_cost == null || sale_datas.rounded_cost == 0" >
+			<ion-row >
+				<ion-col style="text-align: center;font-weight: bold">
+						No sale for today !
+				</ion-col>
+			</ion-row>
 		</ion-card>
 	</span>
 </ion-content>

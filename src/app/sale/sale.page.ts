@@ -43,10 +43,6 @@ export class SalePage implements OnInit {
       this.sale_datas = sale_data;
      console.log(this.sale_datas)
     })
-    this.httpService.reasonList().subscribe((data)=> {
-    this.reason_list = data;
-    console.log(this.reason_list)
-    })
   }
   // slideForward(slide_index: number) {
 

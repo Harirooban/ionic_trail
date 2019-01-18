@@ -9,6 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
 	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
 	    <ion-refresher-content
@@ -23,14 +24,14 @@
 			<ion-slide>
 				<span *ngFor="let data of order_datas">
 					<ion-row>
-						<ion-col text-center>
+						<ion-color style="text-align: center;">
 							{{ data.name }} - {{ data.code }}			
 						</ion-col>
 					</ion-row>
 				</span>
 				<ion-card>
 					<ion-row>
-						<ion-col text-center style="font-weight: bold;">
+						<ion-col  style="font-weight: bold;text-align: center;">
 							All Products
 						</ion-col>
 					</ion-row>
@@ -40,52 +41,54 @@
 						</ion-col>
 					</ion-row>
 				</ion-card>
-				<ion-card>
-					<ion-row style="font-weight: bold;font-size: 10px">
-						<ion-col size="3">Date</ion-col>
-						<ion-col size="4">Product</ion-col>
-						<ion-col size="2">Qnty</ion-col>
-						<ion-col size="3">Action</ion-col>
-					</ion-row>
-				</ion-card>
-				<span *ngFor="let data of order_datas">
+				<span *ngIf="order_datas != null">
 					<ion-card>
-						<ion-list inset="false" lines="none">
-							<ion-item-sliding *ngFor="let order_product of data.product">
-								<ion-item  style="font-size: 12px;" (click)=acceptOrder(order_product.order_id)>
-									<ion-row style="width: 100%">
-											<ion-col size="3" style="font-size:small">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
-											<ion-col size="4" style="font-size:12px ;">{{ order_product.product_code }}</ion-col>
-											<ion-col size="2" style="font-size:small; text-align:right;">{{ order_product.quantity }}
-												<span style="font-size: 8px">{{ order_product.unit | slice:0:3 }}</span>
-											</ion-col>
-											<ion-col size="3">
-												<span *ngIf="order_product.order_status_id == 5"  (click)=acceptOrder(order_product.order_id)>
-														<ion-icon style="font-size:20px;float: right;" name="exit"></ion-icon>
-												</span>
-												<span style="font-size: x-small;" *ngIf="order_product.order_status_id == 4">
-													Confirmed
-												</span>
-												<span style="font-size: x-small;" *ngIf="order_product.order_status_id == 3">
-													Cancelled
-												</span>
-											</ion-col>
-									</ion-row>
-								</ion-item>
-								<ion-item-options side="start">
-									<ion-button color="danger" (click)=cancelOrder(order_product.order_id)>	
-										<ion-icon name="trash"></ion-icon>
-									</ion-button>
-								</ion-item-options>
-								<ion-item-options side="end">
-									<ion-button color="danger" (click)=cancelOrder(order_product.order_id)>
-										<ion-icon name="trash"></ion-icon>
-									</ion-button>
-								</ion-item-options>
-							</ion-item-sliding>
-						</ion-list>
+						<ion-row style="font-weight: bold;font-size: 10px;text-align: start">
+							<ion-col size="3">Date</ion-col>
+							<ion-col size="3">Product</ion-col>
+							<ion-col size="3">Qnty</ion-col>
+							<ion-col size="3">Action</ion-col>
+						</ion-row>
 					</ion-card>
-				</span>																								
+					<span *ngFor="let data of order_datas">
+						<ion-card>
+							<ion-list inset="false" lines="none">
+								<ion-item-sliding *ngFor="let order_product of data.product">
+									<ion-item  >
+										<ion-row style="width: 100%">
+												<ion-col size="3" style="font-size:small">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
+												<ion-col size="3" style="font-size:12px ;">{{ order_product.product_code }}</ion-col>
+												<ion-col size="3" style="font-size:small; ">{{ order_product.quantity }}
+													<span style="font-size: 8px">{{ order_product.unit | slice:0:3 }}</span>
+												</ion-col>
+												<ion-col size="3" >
+													<span *ngIf="order_product.order_status_id == 5" (click)=acceptOrder(order_product.order_id,order_product.product_code)>
+															<ion-icon style="font-size:20px;float: right;" name="exit"></ion-icon>
+													</span>
+													<span style="font-size:8px;color:green;" *ngIf="order_product.order_status_id == 4">
+														Confirmed
+													</span>
+													<span style="font-size:9px;color:red" *ngIf="order_product.order_status_id == 3">
+														Cancelled
+													</span>
+												</ion-col>
+										</ion-row>
+									</ion-item>
+									<ion-item-options side="start">
+										<ion-button color="danger" (click)=cancelOrder(order_product.order_id)>	
+											<ion-icon name="trash"></ion-icon>
+										</ion-button>
+									</ion-item-options>
+									<ion-item-options side="end">
+										<ion-button color="danger" (click)=cancelOrder(order_product.order_id)>
+											<ion-icon name="trash"></ion-icon>
+										</ion-button>
+									</ion-item-options>
+								</ion-item-sliding>
+							</ion-list>
+						</ion-card>
+					</span>	
+				</span>																							
 			</ion-slide>
 			<ion-slide>
 				<ion-row>
@@ -99,7 +102,7 @@
 					</ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col size="4">
+					<ion-col size="5">
 						Quantity :
 					</ion-col>
 					<ion-col>
@@ -163,36 +166,30 @@
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
+					<ion-col>{{ product_name }}</ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col size="4">
-						Date :
-					</ion-col>
+					<span padding>Date:</span>
 					<ion-col>
 						<ion-datetime display-format="DD MMM YYYY" [min]="today" placeholder="Select date" [(ngModel)]="final_delivery_date">
 						</ion-datetime>
 					</ion-col>
-					<ion-col></ion-col>
 				</ion-row>
 				<ion-row>
+					Actual Quantity :
 					<ion-col>
-						<ion-item>
-							<ion-label>Actual Quantity :</ion-label>
 							<ion-input type="number" [(ngModel)]="actual_quantity"></ion-input>
-						</ion-item>
 					</ion-col>
 				</ion-row>
 				<ion-row>
+					Vessel Count :
 					<ion-col>
-						<ion-item>
-							<ion-label>Vessel Count :</ion-label>
-							<ion-input type="number" [(ngModel)]="vessel_count"></ion-input>
-						</ion-item>
+						<ion-input type="number" [(ngModel)]="vessel_count"></ion-input>	
 					</ion-col>	
 				</ion-row>
 				<ion-row>
 					<ion-col></ion-col>
-					<ion-col text-center>
+					<ion-col style="text-align: center;">
 						<ion-button size="small" (click)=orderToSale(4)>Accept</ion-button>
 					</ion-col>
 					<ion-col></ion-col>

@@ -46,18 +46,25 @@ export class NewcustomerPage implements OnInit {
 			street_name: ['', Validators.required],
 			postal_code: ['', Validators.required],
 		});
-	}
-	
+	}	
+	// new customer product questions
 	singleQuestion() {
 		this.product_answer = [];
 		if (this.selected_product != null) {
 			this.new_customer_pref[this.selected_product].forEach((element) => {
-				this.product_answer.push({
-					question_id: element.question_id,
-					answer_data: '',
-					product_id: element.product_id,
-					question_name: element.question
-				})
+				let temp_dict = {}
+		      temp_dict['question_id'] = element.question_id
+          temp_dict['answer_data'] = element.customer_answer
+          temp_dict['product_id'] = element.product_id
+          temp_dict['question_name'] = element.question
+          if (!element.hasOwnProperty('customer_answer')) {
+            if (element.question_type == 'boolean-checkbox') {
+              temp_dict['answer_data'] = false
+            } else {
+              temp_dict['answer_data'] = ''
+            }
+          }
+          this.product_answer.push(temp_dict)
 			});
 		}
 	}
@@ -110,33 +117,39 @@ export class NewcustomerPage implements OnInit {
 	}
 	}
 	slideBackword(index:number){
-		this.slides.slideTo(index, 300)
+		this.slides.slideTo(index)
 	}
 	slideForward() {
 		if (this.customer_id == '0' ){
-			this.slides.slideTo(1, 300)
+			this.slides.slideTo(1)
 		}
 		if(this.customer_id != 0){
-			this.slides.slideTo(2, 300)
+			this.slides.slideTo(2)
 		}
 
 	}
 	productSpecSlide(product){
-		this.slides.slideTo(3, 300)
-		this.product_name_data = []; 
+		this.slides.slideTo(3)
+		this.product_name_data = [];
+		console.log(product)
 		this.specs=product['specs']
 		product['specs'].forEach((element) => {
-			this.product_name_data.push({
-				customer_id:this.customer_id,
-				product_id: product['product_id'],
-				question_id: element.question_id,
-				answer_data: element.answer,
-				question_name: element.question
-			})
+			let temp_prod_spec_dict ={}
+			temp_prod_spec_dict['customer_id']=this.customer_id
+			temp_prod_spec_dict['product_id']=product['product_id']
+			temp_prod_spec_dict['question_id']=element.question_id
+			temp_prod_spec_dict['question_name']=element.question
+			temp_prod_spec_dict['answer_data']=element.answer
+			console.log(element.answer)
+			if (element.answer == null || element.answer == "" ){
+				if (element.question_type == 'boolean-checkbox') {
+              temp_prod_spec_dict['answer_data'] = false
+          }
+			}
+			this.product_name_data.push(temp_prod_spec_dict)
 		});
 		console.log(this.product_name_data)
 		}
-
 	getCustomerDetails(customer_id){
 		let customer_dict ={
 			'customer_id':customer_id

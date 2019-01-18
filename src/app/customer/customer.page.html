@@ -19,13 +19,13 @@
 	    </ion-refresher-content>
 	</ion-refresher>
 	<ion-row>
-		<ion-col text-center>
+		<ion-col style="text-align: center;">
 			<ion-searchbar #search_term placeholder="name/area/door.no"></ion-searchbar>
 		</ion-col>
 	</ion-row>
 	<ion-card *ngFor ="let customer of customer_datas | customerFilter:search_term.value">
 		<ion-row style="height: 42px;">
-			<ion-col size="9" text-center padding style="font-weight: bold;" (click)="profilePage(customer)">
+			<ion-col size="9"  padding style="font-weight: bold;text-align: center;" (click)="profilePage(customer)">
 				 <span style="text-transform: capitalize;"> {{ customer.name }} </span> - {{ customer.code }}
 			</ion-col>
 			<ion-col size="3">
@@ -35,7 +35,7 @@
 			</ion-col>
 		</ion-row>
 		<ion-row style="height: 31px">
-			<ion-col size="9" text-center>
+			<ion-col size="9" style="text-align: center;">
 				{{ customer.community }}- 
 				{{ customer.door_number }}
 			</ion-col>
@@ -46,10 +46,10 @@
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col size="6" text-center [style.color]="balcheckout(customer.balance_amount)"> 	
+			<ion-col size="6" style="text-align: center;" [style.color]="balcheckout(customer.balance_amount)"> 	
 				<span style="font-weight: bold;">Balance : </span>{{ customer.balance_amount }}
 			</ion-col>
-			<ion-col size="6" text-center [style.color]="checkVesselCount(customer.vessel_count)">
+			<ion-col size="6" style="text-align: center;" [style.color]="checkVesselCount(customer.vessel_count)">
 				<span style="font-weight: bold;" >Vessel: </span>{{ customer.vessel_count }}
 			</ion-col>
 		</ion-row>

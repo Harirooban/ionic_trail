@@ -33,9 +33,14 @@ export class OrderPage implements OnInit {
   vessel_count:any;
   order_id:any;
   final_delivery_date:any;
+  product_name: any;
   constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,
               private modalController: ModalController,private navParams: NavParams) {
-  this.today = new Date().toJSON().split('T')[0]
+    this.orderPageDatas();
+  
+  }
+  orderPageDatas(){
+    this.today = new Date().toJSON().split('T')[0]
   this.customer = this.navParams.get('customer_value');
   // // an dict to post to django server
   let customer_dict=
@@ -50,11 +55,11 @@ export class OrderPage implements OnInit {
     })
 
   }
-
   closeModal() {
     this.modalController.dismiss();
   }
-  acceptOrder(order_product_order_id){
+  acceptOrder(order_product_order_id,order_product_product_code){
+    this.product_name = order_product_product_code
     this.order_id=order_product_order_id
     this.slides.slideTo(2)
   }
@@ -139,7 +144,7 @@ export class OrderPage implements OnInit {
 
   doRefresh(event) {
     console.log('Begin async operation');
-    this.customer = this.navParams.get('customer_value');
+    this.orderPageDatas();
     event.target.complete();  
   }
   ngOnInit() {

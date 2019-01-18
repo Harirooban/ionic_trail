@@ -20,14 +20,17 @@ export class CustomerPage implements OnInit {
 //  feching data from  customer table to csutomer_datas 
   constructor(private router: Router ,private httpService : HttpService ,private nav: NavController,
     private modalController: ModalController, private dataService:DataServiceService) {
+    this.customerPageDatas();
+    }
+  customerPageDatas(){
     this.httpService.customers().subscribe((cust_data)=> {
       this.customer_datas = cust_data;    
       console.log(this.customer_datas)
-    })}
-
+    })
+  }
     // product preferene modal
-async openModal(customer){
-  const modal = await this.modalController.create({
+  async openModal(customer){
+    const modal = await this.modalController.create({
 
     component : ProdprefPage,
     componentProps : {
@@ -48,11 +51,17 @@ async openModal(customer){
       customer_value :customer
     },
     cssClass :'inset-modal'
+    
+  });
+  // refresh on modal close
+  modal.onDidDismiss().then((data)=>{
+    console.log(data)
+    this.customerPageDatas();
   });
   modal.present();
   }
 
-    // delivery modal
+   // delivery modal
   async openDeliveryModal(customer){
   const modal = await this.modalController.create({
 
@@ -62,14 +71,15 @@ async openModal(customer){
     },
     cssClass :'inset-modal'
   });
+  // refresh on modal close
+  modal.onDidDismiss().then(()=>{
+    this.customerPageDatas();
+  });
   modal.present();
   }
 
   //  maping to payment page with customer Id
   profilePage(customer) {
-    // let navigationExtras : NavigationExtras = {
-    //   queryParams:customer
-    // }
     this.router.navigate(['/profile']);
     this.dataService.getcustomerdetails(customer);
   }
@@ -91,11 +101,8 @@ async openModal(customer){
   
   doRefresh(event) {
     console.log('Begin async operation');
-    this.httpService.customers().subscribe((cust_data)=> {
-      this.customer_datas = cust_data;
-      event.target.complete();    
-      console.log(this.customer_datas)
-    })
+    this.customerPageDatas();
+    event.target.complete();    
   }
 
   ngOnInit() {

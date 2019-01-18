@@ -25,31 +25,31 @@
 	<ion-list *ngFor="let data of payment_datas">
 		<ion-card>
 			<ion-row> 
-				<ion-col text-center>
+				<ion-col style="text-align: center;">
 					<span style="text-transform: capitalize;">{{ data.customer_name }}</span> - {{ data.code }}
 				</ion-col>
 			</ion-row>
 			<ion-row>
-				<ion-col size="7"  text-center [style.color]="balcheckout(data.balance_amount)"> 	
+				<ion-col size="7"  style="text-align: center;" [style.color]="balcheckout(data.balance_amount)"> 	
 					<span style="font-weight: bold;">Balance : </span>{{ data.balance_amount }}
 				</ion-col>
-				<ion-col size="5" text-center [style.color]="checkVesselCount(data.vessel_count)">
+				<ion-col size="5" style="text-align: center;" [style.color]="checkVesselCount(data.vessel_count)">
 					<span style="font-weight: bold;" >Vessel : </span>{{ data.vessel_count }}
 				</ion-col>
 			</ion-row>
 			<ion-row>
-				<ion-col text-center>
+				<ion-col style="text-align: center;">
 					<ion-label style="font-weight: bold;">From</ion-label>
 					<ion-datetime display-format="DD MMM YYYY" [(ngModel)]="start_date" ></ion-datetime>
 				</ion-col>
-				<ion-col text-center>
+				<ion-col style="text-align: center;">
 					<ion-label style="font-weight: bold;">To</ion-label>
 					<ion-datetime display-format="DD MMM YYYY" [(ngModel)]="end_date" ></ion-datetime>
 				</ion-col>
 				<ion-button size="small" (click)=dataBasedOnDate()>Go</ion-button>
 			</ion-row>
 			<ion-row>
-				<ion-col text-right>
+				<ion-col style="text-align: right;">
 					<span style="font-weight: bold;">Total Amount :</span>Rs. {{ data.total_amount | number: '.2' }}
 				</ion-col>
 			</ion-row>
@@ -60,12 +60,28 @@
 					<ion-col size="3">Payment Status</ion-col>
 					<ion-col size="3">Amount</ion-col>
 				</ion-row>
-				<ion-row *ngFor="let payment_data of data.payment_history" style="font-size: small;">
-					<ion-col size="3">{{ payment_data.date | date:'dd-MMM' }}</ion-col>
-					<ion-col size="3">{{ payment_data.payment_method }}</ion-col>
-					<ion-col size="3" text-wrap [style.color]="statusCheckout(payment_data.payment_status)">{{ payment_data.payment_status }}</ion-col>
-					<ion-col size="3">{{ payment_data.amount | number: '.2' }}</ion-col>
-				</ion-row>
+				<ion-list inset="false" lines="none">
+					<ion-item-sliding *ngFor="let payment_data of data.payment_history">
+						<ion-item>
+							<ion-row  style="font-size: small;width: 100%">
+								<ion-col size="3">{{ payment_data.date | date:'dd-MMM' }}</ion-col>
+								<ion-col size="3">{{ payment_data.payment_method }}</ion-col>
+								<ion-col size="3" text-wrap [style.color]="statusCheckout(payment_data.payment_status)">
+									{{ payment_data.payment_status }}
+								</ion-col>
+								<ion-col size="3">{{ payment_data.amount | number: '.2' }}</ion-col>
+							</ion-row>
+						</ion-item>
+						<ion-item-options side="end">
+							<ion-button color="success" (click)=paymentAction(payment_data.payment_id,4)>
+								<ion-icon name="checkmark-circle"></ion-icon>
+							</ion-button>
+							<ion-button color="danger" (click)=paymentAction(payment_data.payment_id,5)>	
+								<ion-icon name="trash"></ion-icon>
+							</ion-button>
+						</ion-item-options>
+					</ion-item-sliding>
+				</ion-list>
 			</ion-grid>
 		</ion-card>
 	</ion-list>

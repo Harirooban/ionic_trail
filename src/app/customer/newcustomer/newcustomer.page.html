@@ -103,7 +103,7 @@
 						<ion-col></ion-col>
 					</ion-row>
 					<h4 *ngIf="customer_id == 0">Product Preference List</h4>
-					<ion-list *ngFor = "let preference of single_customer_pref; let i=index" (click)="openList(i)" 
+					<ion-list inset="false" lines="none" *ngFor = "let preference of single_customer_pref; let i=index" (click)="openList(i)" 
 					[ngClass]="{active:isGroupShown(i)}">
 						<ion-list-header >
 							<ion-button fill="clear" text-wrap>
@@ -111,8 +111,8 @@
 								<ion-icon slot="end" [name]="isGroupShown(i) ? 'arrow-down' : 'arrow-forward'"></ion-icon>
 							</ion-button>
 						</ion-list-header>
-						<ion-item *ngIf="isGroupShown(i)">
-							<ion-list >
+						<ion-item *ngIf="isGroupShown(i)" >
+							<ion-list inset="false" lines="none">
 								<ion-row *ngFor="let specs of preference.customer_product_preference">
 									<ion-col style="white-space: normal;">
 									{{ specs.question_name  }} - {{ specs.answer_data }}
@@ -205,10 +205,10 @@
 					<ion-row>
 						<ion-col text-center>Add Preference to extra products</ion-col>
 					</ion-row>
-					<ion-row *ngFor="let product of item.extra_product">
-						<ion-col  (click)="productSpecSlide(product)"> 
+					<ion-row *ngFor="let extra_product of item.extra_product">
+						<ion-col  (click)="productSpecSlide(extra_product)"> 
 							<ion-item class="item-borderless" style="font-size: 13px">
-								{{ product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
+								{{ extra_product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
 							</ion-item>
 						</ion-col>
 					</ion-row>

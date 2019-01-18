@@ -68,7 +68,17 @@ export class PaymentPage implements OnInit {
   this.dataBasedOnDate();
   event.target.complete();    
   }
-
+  paymentAction(payment_data_payment_id,status_id: number){
+    let payment_action_dict={
+      "customer_id":this.customer_id,
+      "payment_id":payment_data_payment_id,
+      "status_id":status_id
+    }
+    this.httpService.paymentAction(payment_action_dict).subscribe(()=> {
+    }, (error) => {
+      console.error(error);
+    });
+  }
   ngOnInit() {
 
   }
