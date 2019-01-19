@@ -78,5 +78,14 @@ export class HttpService {
 	paymentAction(payment_action_dict){
 		return this.httpClient.post(this.globalService.base_url + 'main/update/payment/action/', payment_action_dict)
 	}
+	todayDelivery() {
+		return this.httpClient.get(this.globalService.base_url + 'main/today/deliver/customer/')
+	}
+	initiatedOrder() {
+		return this.httpClient.get(this.globalService.base_url + 'main/initiated/order/customer/')
+	}
+	overallPaymentCustomer() {
+		return this.httpClient.get(this.globalService.base_url + 'main/overall/payment/customer/')
+	}
 }
 

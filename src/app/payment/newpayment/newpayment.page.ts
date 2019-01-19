@@ -18,11 +18,11 @@ export class NewpaymentPage implements OnInit {
   	this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
     this.today = new Date().toJSON().split('T')[0]
     this.paymentForm = this.formBuilder.group({
-      date: ['', Validators.required],
-      amount: ['', Validators.required],
-      payment_method: ['', Validators.required],
+      date: [this.today, Validators.required],
+      amount: [null, Validators.required],
+      payment_method: [null, Validators.required],
       customer_id: [this.customer_id],
-      reference_id:['',Validators.required]
+      reference_id:[null,Validators.required]
     });
   	
   	// dropdown data for payment method
@@ -35,6 +35,20 @@ export class NewpaymentPage implements OnInit {
     
      }
 	addPayment() {
+    if (this.paymentForm.value['amount'] == null){
+       alert('enter amount');
+       return false;
+    }
+    if (this.paymentForm.value['payment_method'] == null){
+      alert('select the payment method');
+      return false;
+    }
+    if (this.paymentForm.value['payment_method'] != 1){
+      if (this.paymentForm.value['reference_id'] == null){
+        alert('enter the reference_id');
+        return false;
+      }
+    }
     //  dictionary to post data
    	console.log(this.paymentForm.value)
     // getting data from form

@@ -41,7 +41,7 @@ export class OrderPage implements OnInit {
   
   }
   orderPageDatas(){
-    this.today = new Date().toJSON().split('T')[0]
+  this.today = new Date().toJSON().split('T')[0]
   this.customer = this.navParams.get('customer_value');
   // // an dict to post to django server
   let customer_dict=
@@ -49,6 +49,7 @@ export class OrderPage implements OnInit {
     "customer_id":this.customer.id,
  
   }
+  console.log(customer_dict)
   // posting the dict to django server to filter based on I
   this.httpService.ordersPost(customer_dict).subscribe((order_data)=> {
       this.order_datas = order_data;
@@ -140,7 +141,13 @@ export class OrderPage implements OnInit {
     this.slides.slideTo(0)
     console.log(order_to_sale_dict)
     this.httpService.orderTosalePost(order_to_sale_dict).subscribe((data)=> {
-    }, (error) => {
+     if (status_id == 4){
+      this.toastDispalay('order has been accepted');
+     }
+     else{
+       this.toastDispalay('order has been declined'); 
+     }
+      }, (error) => {
       console.error(error);
     });
     this.toastDispalay(status_id);
@@ -184,24 +191,15 @@ export class OrderPage implements OnInit {
   //     ]
   //   })
   // }
-   async toastDispalay(status_id) {
-     if( status_id == 4){
-       const toast = await this.toastController.create({
-      message: "order has been approved",
+   async toastDispalay(message) {
+     const toast = await this.toastController.create({
+      message: message,
       duration:3000,
       position:'top'
       });
        toast.present();
-      }
-      else{
-        const toast = await this.toastController.create({
-      message: "order has been declined",
-      duration:3000,
-      position:'top'
-      });
-       toast.present();
-      }
     }
+
   ngOnInit() {
     this.httpService.product().subscribe((pref_data) => {
       this.products = pref_data;

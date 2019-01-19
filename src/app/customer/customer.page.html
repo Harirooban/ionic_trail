@@ -65,9 +65,8 @@
 			</ion-col>
 			<ion-col size="3">
 				<ion-button color="white" fill="clear" (click)="openDeliveryModal(customer)" id="notification-button">
-					<ion-icon  src="assets/svg/history.svg" slot="icon-only">
-						<ion-badge [color]=" customer.sale_count == 0 ? 'success' : 'danger'" id="notifications-badge">{{ customer.sale_count }}</ion-badge>
-					</ion-icon>
+					<ion-icon  src="assets/svg/history.svg" slot="icon-only"></ion-icon>
+					<ion-badge [color]=" customer.sale_count == 0 ? 'success' : 'danger'" id="notifications-badge">{{ customer.sale_count }}</ion-badge>
 				</ion-button>
 		</ion-col>
 			<ion-col size="3">

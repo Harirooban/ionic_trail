@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
 
-	{ path: '', redirectTo: 'welcome', pathMatch: 'full' },
+	{ path: '', redirectTo: 'customer', pathMatch: 'full' },
 	{ path: 'login', loadChildren: './login/login.module#LoginPageModule' },
 	{ path: 'welcome', loadChildren: './welcome/welcome.module#WelcomePageModule' },
 	{ path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'newpayment/:customer_id', loadChildren: './payment/newpayment/newpayment.module#NewpaymentPageModule' },
   { path: 'newcustomer/:customer_id', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  { path: 'quickaccess/:id', loadChildren: './quickaccess/quickaccess.module#QuickaccessPageModule' },
 	];
 
 @NgModule({

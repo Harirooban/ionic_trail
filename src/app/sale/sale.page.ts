@@ -32,13 +32,14 @@ export class SalePage implements OnInit {
   }
   getSaleData(){
     this.customer = this.navParams.get('customer_value');
+
+    console.log(this.customer)
   // // an dict to post to django server
     let customer_dict=
     {
       "customer_id":this.customer.id
     }
-     
-    console.log(this.customer)
+    console.log(customer_dict)
     this.vessel = this.customer.vessel_count;
     this.httpService.salesPost(customer_dict).subscribe((sale_data)=> {
       this.sale_datas = sale_data;

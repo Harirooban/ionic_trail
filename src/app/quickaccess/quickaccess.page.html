@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ heading }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-row>
+		<ion-col style="text-align: center;">
+			<ion-searchbar #search_term placeholder="name/area/door.no"></ion-searchbar>
+		</ion-col>
+	</ion-row>
+	<ion-card *ngFor="let customer of customer_datas" (click)="quickAction(customer)">
+		<ion-row>
+			<ion-col style="text-align: center;">
+				{{ customer.name }}-{{ customer.code }}
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col style="text-align: center;">
+				{{ customer.community }}-{{ customer.door_number }}
+			</ion-col>
+		</ion-row>
+	</ion-card>
+</ion-content>
