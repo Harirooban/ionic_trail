@@ -76,7 +76,7 @@ export class HttpService {
 		return this.httpClient.post(this.globalService.base_url + 'main/update/sales/info/', customer_dict)
 	}
 	paymentAction(payment_action_dict){
-		return this.httpClient.post(this.globalService.base_url + 'main/payment/approve/disapprove/', payment_action_dict)
+		return this.httpClient.post(this.globalService.base_url + 'main/update/payment/action/', payment_action_dict)
 	}
 }
 

@@ -13,10 +13,10 @@ export class NewpaymentPage implements OnInit {
   paymentmethod_datas : any
   customer_id : any
   paymentForm: FormGroup;
-
+  today:any;
   constructor(private httpService : HttpService,private activaterouter : ActivatedRoute ,public formBuilder: FormBuilder , private nav: NavController ) {
   	this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
-
+    this.today = new Date().toJSON().split('T')[0]
     this.paymentForm = this.formBuilder.group({
       date: ['', Validators.required],
       amount: ['', Validators.required],

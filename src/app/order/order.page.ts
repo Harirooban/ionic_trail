@@ -2,7 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router'; 
 import { Slides } from '@ionic/angular';
 import { HttpService } from '../http.service';
-import { ModalController,NavParams } from '@ionic/angular';
+import { ModalController,NavParams,AlertController,ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-order',
@@ -30,12 +30,13 @@ export class OrderPage implements OnInit {
   order_to_sale_datas: any;
   today:any;
   actual_quantity:any;
-  vessel_count:any;
+  vessel_count:any = 0;
   order_id:any;
   final_delivery_date:any;
   product_name: any;
-  constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,
-              private modalController: ModalController,private navParams: NavParams) {
+  temp_refresh: boolean=false;
+  constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,private alertcontroller:AlertController,
+              private modalController: ModalController,private navParams: NavParams,private toastController:ToastController) {
     this.orderPageDatas();
   
   }
@@ -55,18 +56,19 @@ export class OrderPage implements OnInit {
     })
 
   }
-  closeModal() {
-    this.modalController.dismiss();
-  }
+ 
   acceptOrder(order_product_order_id,order_product_product_code){
+
     this.product_name = order_product_product_code
     this.order_id=order_product_order_id
     this.slides.slideTo(2)
   }
+
   cancelOrder(order_product_order_id){
     this.order_id=order_product_order_id,
     this.orderToSale(3);
   }
+
   selectProduct(product) {
     this.product_details = product.name
     this.product_id = product.id
@@ -126,6 +128,7 @@ export class OrderPage implements OnInit {
   }
 
   orderToSale(status_id: number){
+    this.temp_refresh=true
     let order_to_sale_dict = {
       "customer_id":this.customer.id,
       "status_id":status_id,
@@ -140,6 +143,7 @@ export class OrderPage implements OnInit {
     }, (error) => {
       console.error(error);
     });
+    this.toastDispalay(status_id);
   }
 
   doRefresh(event) {
@@ -147,6 +151,57 @@ export class OrderPage implements OnInit {
     this.orderPageDatas();
     event.target.complete();  
   }
+  
+  closeModal() {
+    this.modalController.dismiss({ "temp_refresh":this.temp_refresh});
+  }
+
+  confirmDecline(order_product_order_id) {
+    if (confirm('Are you sure')) {
+      this.cancelOrder(order_product_order_id);
+    }
+  }
+
+  // async confirmDecline(order_product_order_id){
+  //   const alert = await this.alertcontroller.create({
+  //     header:'Are you sure ?' ,
+  //     message:'Decline this <strong>order</strong>',
+  //     buttons: [
+  //       {
+  //         text:'Cancel',
+  //         role: 'cancel',
+  //         cssClass: 'secondary',
+  //         handler: ()=>{
+  //           console.log('cancled');
+  //         }
+  //       },
+  //       {
+  //         text:'Okay',
+  //         handler: ()=>{
+  //           this.cancelOrder(order_product_order_id)
+  //         }
+  //       }
+  //     ]
+  //   })
+  // }
+   async toastDispalay(status_id) {
+     if( status_id == 4){
+       const toast = await this.toastController.create({
+      message: "order has been approved",
+      duration:3000,
+      position:'top'
+      });
+       toast.present();
+      }
+      else{
+        const toast = await this.toastController.create({
+      message: "order has been declined",
+      duration:3000,
+      position:'top'
+      });
+       toast.present();
+      }
+    }
   ngOnInit() {
     this.httpService.product().subscribe((pref_data) => {
       this.products = pref_data;

@@ -16,7 +16,7 @@
 				Date :
 				</ion-col>
 				<ion-col>
-					<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" formControlName="date" required></ion-datetime>
+					<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" formControlName="date" required [min]="today"></ion-datetime>
 				</ion-col>
 			</ion-row>
 			<ion-row >

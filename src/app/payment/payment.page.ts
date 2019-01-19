@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router'; 
 import { HttpService } from '../http.service';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController,ToastController,AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-payment',
@@ -15,8 +15,8 @@ export class PaymentPage implements OnInit {
   start_date:any;
   end_date:any;
 
-  constructor(private router: Router ,private httpService : HttpService, private activaterouter : ActivatedRoute, 
-    private nav: NavController ) { 
+  constructor(private router: Router ,private httpService : HttpService, private activaterouter : ActivatedRoute,
+    private toastController:ToastController, private alertcontroller:AlertController,private nav: NavController ) { 
     this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
     this.end_date = new Date().toJSON().split('T')[0];
     this.startDateWithTime = new Date();
@@ -78,7 +78,56 @@ export class PaymentPage implements OnInit {
     }, (error) => {
       console.error(error);
     });
+     this.toastDispalay(status_id);
   }
+
+   async toastDispalay(status_id) {
+     if( status_id == 4){
+       const toast = await this.toastController.create({
+      message: "payment has been approved",
+      duration:3000,
+      position:'top'
+      });
+       toast.present();
+      }
+      else{
+         const toast = await this.toastController.create({
+      message: "payment has been Disapproved",
+      duration:3000,
+      position:'top'
+      });
+       toast.present();
+      }
+    }
+
+  confirmDecline(payment_data_payment_id,status_id: number) {
+    if (confirm('Are you sure')) {
+      this.paymentAction(payment_data_payment_id,status_id);
+    }
+  }
+  // async confirmDecline(payment_data_payment_id,status_id: number){
+  //   const alert = await this.alertcontroller.create({
+  //     header:'Are you sure ?' ,
+  //     message:'Decline this <strong>payment</strong>',
+  //     buttons: [
+  //       {
+  //         text:'Cancel',
+  //         role: 'cancel',
+  //         cssClass: 'secondary',
+  //         handler: ()=>{
+  //           console.log('cancled');
+  //         }
+  //       },
+  //       {
+  //         text:'Okay',
+  //         cssClass: 'secondary',
+  //         handler: ()=>{
+  //           this.paymentAction(payment_data_payment_id,status_id)
+  //         }
+  //       }
+  //     ]
+  //   })
+  // }
   ngOnInit() {
 
   }

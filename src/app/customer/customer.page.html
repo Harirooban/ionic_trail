@@ -29,19 +29,18 @@
 				 <span style="text-transform: capitalize;"> {{ customer.name }} </span> - {{ customer.code }}
 			</ion-col>
 			<ion-col size="3">
-				<ion-button color="white" fill="clear" style="margin-top: -9px;">
-					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size=22" ></ion-icon>
-				</ion-button>
+				<a color="white" fill="clear" style="margin-top: -9px;" href="tel: {{ customer.phone_number }}" class="button">
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size:22px" ></ion-icon>
+				</a>
 			</ion-col>
 		</ion-row>
 		<ion-row style="height: 31px">
 			<ion-col size="9" style="text-align: center;">
-				{{ customer.community }}- 
-				{{ customer.door_number }}
+				{{ customer.community }}- {{ customer.door_number }}
 			</ion-col>
 			<ion-col size="3">
 				<ion-button color="white" fill="clear" style="height: 26px;margin-top: -8px;">
-					<ion-icon src="assets/svg/gps.svg" slot="icon-only"  style="font-size=22"></ion-icon>
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only"  style="font-size:22px"></ion-icon>
 				</ion-button>
 			</ion-col>
 		</ion-row>
@@ -65,8 +64,10 @@
 				</ion-button>
 			</ion-col>
 			<ion-col size="3">
-				<ion-button color="white" fill="clear" (click)="openDeliveryModal(customer)">
-					<ion-icon src="assets/svg/history.svg" slot="icon-only"></ion-icon>
+				<ion-button color="white" fill="clear" (click)="openDeliveryModal(customer)" id="notification-button">
+					<ion-icon  src="assets/svg/history.svg" slot="icon-only">
+						<ion-badge [color]=" customer.sale_count == 0 ? 'success' : 'danger'" id="notifications-badge">{{ customer.sale_count }}</ion-badge>
+					</ion-icon>
 				</ion-button>
 		</ion-col>
 			<ion-col size="3">
@@ -75,5 +76,5 @@
 				</ion-button>
 	 	</ion-col>
 		</ion-row>
-		</ion-card>
+	</ion-card>
 </ion-content>

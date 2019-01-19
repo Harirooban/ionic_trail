@@ -56,7 +56,9 @@ export class CustomerPage implements OnInit {
   // refresh on modal close
   modal.onDidDismiss().then((data)=>{
     console.log(data)
+    if (data['data']['temp_refresh']){
     this.customerPageDatas();
+    }
   });
   modal.present();
   }
@@ -72,8 +74,10 @@ export class CustomerPage implements OnInit {
     cssClass :'inset-modal'
   });
   // refresh on modal close
-  modal.onDidDismiss().then(()=>{
-    this.customerPageDatas();
+  modal.onDidDismiss().then((data)=>{
+    if (data['data']['temp_refresh']){
+      this.customerPageDatas();
+    }
   });
   modal.present();
   }

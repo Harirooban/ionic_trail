@@ -24,7 +24,7 @@
 			<ion-slide>
 				<span *ngFor="let data of order_datas">
 					<ion-row>
-						<ion-color style="text-align: center;">
+						<ion-col style="text-align: center;">
 							{{ data.name }} - {{ data.code }}			
 						</ion-col>
 					</ion-row>
@@ -75,12 +75,12 @@
 										</ion-row>
 									</ion-item>
 									<ion-item-options side="start">
-										<ion-button color="danger" (click)=cancelOrder(order_product.order_id)>	
+										<ion-button color="danger" (click)=confirmDecline(order_product.order_id)>	
 											<ion-icon name="trash"></ion-icon>
 										</ion-button>
 									</ion-item-options>
 									<ion-item-options side="end">
-										<ion-button color="danger" (click)=cancelOrder(order_product.order_id)>
+										<ion-button color="danger" (click)=confirmDecline(order_product.order_id)>
 											<ion-icon name="trash"></ion-icon>
 										</ion-button>
 									</ion-item-options>
