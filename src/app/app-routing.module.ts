@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'newcustomer/:customer_id', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'quickaccess/:id', loadChildren: './quickaccess/quickaccess.module#QuickaccessPageModule' },
+  { path: 'updatequote', loadChildren: './updatequote/updatequote.module#UpdatequotePageModule' },
 	];
 
 @NgModule({

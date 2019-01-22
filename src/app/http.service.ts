@@ -23,6 +23,9 @@ export class HttpService {
 
 	orders() {
 		return this.httpClient.get(this.globalService.base_url + 'main/order/')
+	} 
+	quote() {
+		return this.httpClient.get(this.globalService.base_url + 'main/quote/')
 	}  
 
 	ordersPost(customer_dict){
@@ -87,5 +90,8 @@ export class HttpService {
 	overallPaymentCustomer() {
 		return this.httpClient.get(this.globalService.base_url + 'main/overall/payment/customer/')
 	}
+	quotePost(quote_dict) {
+		return this.httpClient.post(this.globalService.base_url + 'main/quote/', quote_dict)
+	}  
 }
 

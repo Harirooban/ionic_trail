@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>updatequote</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-row>
+		<h4 style="text-align:center">Product quote update page</h4>
+	</ion-row>
+	<ion-card>
+		<ion-row *ngFor='let product of quote_datas'>
+			<ion-col>
+				{{ product.price }}
+			</ion-col>
+			<ion-col>
+				<ion-item>
+					<ion-input [value]="product.price" [(ngModel)]="updated_amount"></ion-input>
+				</ion-item>
+			</ion-col>
+			<ion-col>
+				<ion-button (click)="updateQuote(product)">Update</ion-button>
+			</ion-col>
+		</ion-row>
+	</ion-card>
+</ion-content>
+	

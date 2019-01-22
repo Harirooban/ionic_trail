@@ -17,12 +17,17 @@
                 </ion-label>
               </ion-item>
             </ion-menu-toggle>
-            <!-- <ion-menu-toggle auto-hide="false">
-              <ion-item class="menu-logout" (click)="onLogout()">
-                <ion-label>Log Out</ion-label>
-              </ion-item>
-            </ion-menu-toggle> -->
           </ion-list>
+         <span style="margin-top:52%" >
+              <span style="text-align: center;margin-top: 5%;font-weight: bold">Price List ({{ today }})</span>
+              <ion-row *ngFor="let quote of quote_datas" style="margin-left: 11px;">
+                <ion-col size="6">
+                  {{ quote.product_code }} 
+                </ion-col>
+                <ion-col size='2'> : </ion-col>
+                <ion-col size='3'>{{ quote.price}}/{{ quote.unit }}</ion-col>
+              </ion-row >
+          </span>
         </ion-content>
       </ion-menu>
     <ion-router-outlet main></ion-router-outlet>

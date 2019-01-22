@@ -40,7 +40,7 @@ export class OrderPage implements OnInit {
     this.orderPageDatas();
   
   }
-  
+
   orderPageDatas(){
   this.today = new Date().toJSON().split('T')[0]
   this.customer = this.navParams.get('customer_value');
@@ -154,7 +154,6 @@ export class OrderPage implements OnInit {
       }, (error) => {
       console.error(error);
     });
-    this.toastDispalay(status_id);
   }
 
   doRefresh(event) {
