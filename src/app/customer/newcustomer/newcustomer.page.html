@@ -9,7 +9,9 @@
 </ion-header>
 <ion-content>
 	<ion-grid>
+		<!-- page for adding new customer and updating existing customer -->
 		<ion-slides #common_slide [options]=slideOpts>
+			<!-- common slide for both new and update -->
 			<ion-slide>
 				<form [formGroup]="customerForm" >
 						<ion-row >
@@ -94,7 +96,6 @@
 								</ion-item>
 							</ion-col>
 						</ion-row>
-					
 					<ion-row>
 						<ion-col ></ion-col>
 						<ion-col>
@@ -123,7 +124,8 @@
 					</ion-list>
 					<ion-button type="submit" (click)="addCustomer()"  expand="block">add / update Customer </ion-button>
 				</form>
-			</ion-slide> 
+			</ion-slide>
+			<!-- new customer add-product pref -->
 			<ion-slide>
 				<ion-row>
 					<ion-col size="1">
@@ -131,6 +133,7 @@
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
+					<ion-col>Product pref. for new customers</ion-col>
 				</ion-row>
 				<ion-row>
 					<ion-col>
@@ -186,12 +189,16 @@
 					<ion-col></ion-col>
 				</ion-row>
 			</ion-slide>
+			<!--updating existing customer product pref -->
 			<ion-slide>
 				<ion-row>
 					<ion-col size="1">
 						<ion-button fill="clear" (click)=slideBackword(0) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
+					</ion-col>
+					<ion-col>
+						Updating product pref. for existing customers
 					</ion-col>
 				</ion-row>
 				<span *ngFor="let item of customer_datas">
@@ -222,6 +229,7 @@
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
+					<ion-col>Specs</ion-col>
 				</ion-row>
 				<span *ngIf="specs != null">
 					<span *ngFor="let item of specs; let product_index=index;">

@@ -55,11 +55,11 @@ export class NewpaymentPage implements OnInit {
     
     // to send data to django server
     this.httpService.newPaymentPost(this.paymentForm.value).subscribe(()=> {
+    this.nav.navigateForward('/payment/' + this.customer_id)
     	
     }, (error) => {
       console.error(error);
     		});
-    this.nav.navigateForward('/payment/' + this.customer_id)
      }
   ngOnInit() {
   }

@@ -1,7 +1,16 @@
 <ion-header>
   <ion-toolbar>
+  	<ion-buttons slot="start">
+  		<ion-menu-button>
+  		</ion-menu-button>
+  	</ion-buttons>
     <ion-title>{{ heading }}</ion-title>
-  </ion-toolbar>
+	<ion-buttons slot="end">
+		<ion-button color="primary" shape="round" (click)="homePage()">
+		 	<ion-icon name="home" slot="icon-only"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -10,16 +19,21 @@
 			<ion-searchbar #search_term placeholder="name/area/door.no"></ion-searchbar>
 		</ion-col>
 	</ion-row>
-	<ion-card *ngFor="let customer of customer_datas" (click)="quickAction(customer)">
-		<ion-row>
-			<ion-col style="text-align: center;">
-				{{ customer.name }}-{{ customer.code }}
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col style="text-align: center;">
-				{{ customer.community }}-{{ customer.door_number }}
-			</ion-col>
-		</ion-row>
-	</ion-card>
+	<span *ngIf="customer_datas['length'] != 0">
+		<ion-card *ngFor="let customer of customer_datas | customerFilter:search_term.value" (click)="quickAction(customer)">
+			<ion-row>
+				<ion-col style="text-align: center;font-size: 25px">
+					{{ customer.name }}-{{ customer.code }}
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col style="text-align: center;">
+					{{ customer.community }}-{{ customer.door_number }}
+				</ion-col>
+			</ion-row>
+		</ion-card>
+	</span>
+	<span *ngIf="customer_datas['length'] == 0">
+		{{ report }}
+	</span>
 </ion-content>

@@ -53,6 +53,7 @@ export class SalePage implements OnInit {
   // }
   vesselUpdate(count:number){
    
+    this.temp_refresh=true
     if (count == 1){
       this.vessel=this.vessel + 1;
       let vessel_dict=

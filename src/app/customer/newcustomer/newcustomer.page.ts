@@ -184,6 +184,7 @@ export class NewcustomerPage implements OnInit {
 		}
 		this.httpService.newCustomerpref().subscribe((pref_data) => {
 			this.new_customer_pref = pref_data;
+			console.log(this.new_customer_pref)
 			this.product_names = Object.keys(this.new_customer_pref)
 		}, (error) => {
 			console.error(error);

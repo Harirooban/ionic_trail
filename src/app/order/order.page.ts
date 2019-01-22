@@ -1,9 +1,9 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,Inject } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router'; 
 import { Slides } from '@ionic/angular';
 import { HttpService } from '../http.service';
 import { ModalController,NavParams,AlertController,ToastController } from '@ionic/angular';
-
+import { DOCUMENT } from '@angular/platform-browser';
 @Component({
   selector: 'app-order',
   templateUrl: './order.page.html',
@@ -30,12 +30,11 @@ export class OrderPage implements OnInit {
   order_to_sale_datas: any;
   today:any;
   actual_quantity:any;
-  vessel_count:any = 0;
   order_id:any;
   final_delivery_date:any;
   product_name: any;
   temp_refresh: boolean=false;
-  constructor(private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,private alertcontroller:AlertController,
+  constructor(@Inject(DOCUMENT) private document:Document, private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,private alertcontroller:AlertController,
               private modalController: ModalController,private navParams: NavParams,private toastController:ToastController) {
     this.orderPageDatas();
   
@@ -57,12 +56,15 @@ export class OrderPage implements OnInit {
     })
 
   }
- 
   acceptOrder(order_product_order_id,order_product_product_code){
 
     this.product_name = order_product_product_code
     this.order_id=order_product_order_id
+    window.scrollTo(0,0)
     this.slides.slideTo(2)
+    this.document.body.scrollTop = 0;
+    this.document.documentElement.scrollTop =0;
+    window.scrollTo(0,0)
   }
 
   cancelOrder(order_product_order_id){
@@ -108,7 +110,6 @@ export class OrderPage implements OnInit {
     this.slides.slideTo(slide_index)
     if (slide_index == 0){
       this.actual_quantity=null;
-      this.vessel_count=null;
     }
     
   }
@@ -135,7 +136,6 @@ export class OrderPage implements OnInit {
       "status_id":status_id,
       "order_id":this.order_id,
       "quantity":this.actual_quantity,
-      "vessel_count":this.vessel_count,
       "delivery_date":this.final_delivery_date
     }
     this.slides.slideTo(0)
@@ -147,6 +147,7 @@ export class OrderPage implements OnInit {
      else{
        this.toastDispalay('order has been declined'); 
      }
+     this.orderPageDatas();
       }, (error) => {
       console.error(error);
     });
@@ -201,6 +202,7 @@ export class OrderPage implements OnInit {
     }
 
   ngOnInit() {
+    window.scrollTo(0,0)
     this.httpService.product().subscribe((pref_data) => {
       this.products = pref_data;
       console.log(this.products)

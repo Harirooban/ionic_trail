@@ -6,7 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { QuickaccessPage } from './quickaccess.page';
-import { CustomerFilterPipe } from '../customer-filter.pipe'
+import { CustomerFilterPipe } from '../customer-filter.pipe';
+
+import { PipesModule } from '../pipes.module';
 
 const routes: Routes = [
   {
@@ -20,7 +22,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PipesModule
   ],
   declarations: [QuickaccessPage]
 })

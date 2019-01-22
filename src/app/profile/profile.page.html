@@ -21,23 +21,22 @@
 			<ion-col  size="9" style="font-weight: bold;text-align: center;" (click)="update()">
 				<ion-icon name="create" style="font-size: 18px"></ion-icon> {{ customer_info['name'] }} - {{ customer_info.code }}
 			</ion-col>
-			<ion-col size="2">
-				<ion-button color="white" fill="clear" style="margin-top: -9px;"  href="tel: {{ customer_info.phone_number }}">
-					<ion-icon src="assets/svg/phone.svg" slot="icon-only" ></ion-icon>
-				</ion-button>
+			<ion-col size="3">
+				<a color="white" fill="clear"  href="tel: {{ customer_info.phone_number }}" class="button">
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 30px" ></ion-icon>
+				</a>
 			</ion-col>
-			<ion-col size='1'></ion-col>
 		</ion-row>
 		<ion-row style="height: 31px">
 			<ion-col size="9" style="text-align:center;">
 				{{ customer_info.door_number }} - {{ customer_info.community }}
 			</ion-col>
-			<ion-col size="2">
-				<ion-button color="white" fill="clear" style="height: 26px;margin-top: -13px;">
-					<ion-icon src="assets/svg/gps.svg" slot="icon-only"></ion-icon>
-				</ion-button>
+			<ion-col size="3">
+				<!-- href="geo:?q={{ customer_info.latitude+','+customer_info.longitude }}" -->
+				<a color="white" fill="clear"class="button" href="geo:?q=11.016844,76.955833">
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 30px" ></ion-icon>
+				</a>
 			</ion-col>
-			<ion-col size='1'></ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-col size="1"></ion-col>
@@ -61,7 +60,9 @@
 			</ion-col>
 			<ion-col size="3" style="text-align: center;">
 				<ion-button color="white" fill="clear" (click)="openDeliveryModal(customer_info)">
-					<ion-icon src="assets/svg/history.svg" slot="icon-only"></ion-icon>
+					<ion-icon src="assets/svg/no_sale.svg" slot="icon-only"></ion-icon>
+					<ion-badge style="margin-top:-21px;margin-left: -7px;font-size: 11px;" [color]=" customer_info.sale_count == 0 ? 'success' : 'danger'" >
+					{{ customer_info.sale_count }}</ion-badge>
 				</ion-button>
 			</ion-col>
 			<ion-col size="3" style="text-align: center;">
@@ -93,7 +94,7 @@
 				</ion-col>
 				<ion-col size="1" style="text-align:left,font-size:14px">
 					<span [style.color]="statusColor(transaction.status_id)">
-						<ion-icon slot="end" [name]="transaction.status_id == 5  ? 'remove' : 'done-all'"></ion-icon>
+						<ion-icon slot="end" [name]="transaction.status_id == 5  ? 'close-circle-outline' : 'done-all'"></ion-icon>
 					</span>
 				</ion-col>
 			</ion-row>

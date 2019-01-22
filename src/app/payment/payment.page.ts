@@ -14,7 +14,7 @@ export class PaymentPage implements OnInit {
   startDateWithTime: any;
   start_date:any;
   end_date:any;
-
+  payment_status_name:any;
   constructor(private router: Router ,private httpService : HttpService, private activaterouter : ActivatedRoute,
     private toastController:ToastController, private alertcontroller:AlertController,private nav: NavController ) { 
     this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
@@ -23,10 +23,9 @@ export class PaymentPage implements OnInit {
     this.startDateWithTime.setDate(this.startDateWithTime.getDate() - 30);
     this.start_date = this.startDateWithTime.toJSON().split('T')[0];
 
-    this.dataBasedOnDate();
   }
 
-  dataBasedOnDate() {
+  ionViewWillEnter() {
     let customer_dict={
       "customer_id":this.customer_id,
       "start_date":this.start_date,
@@ -35,11 +34,13 @@ export class PaymentPage implements OnInit {
 
     this.httpService.paymentPost(customer_dict).subscribe((payment_datas)=> {
       this.payment_datas = payment_datas;
+      this.payment_status_name=this.payment_datas[0]['payment_history'].payment_status;
+      console.log(this.payment_status_name)
+      console.log(this.payment_datas)
     }, (error) => {
       console.error(error);
     });
   }
-
   checkVesselCount(vessel_count: number){
     if (vessel_count == 0 ) return 'green';
 
@@ -59,13 +60,13 @@ export class PaymentPage implements OnInit {
     else if(payment_status == 'Disapproved') return 'red';
   }
 
-   newPayment() {
+  newPayment() {
     this.nav.navigateForward('/newpayment/' + this.customer_id)
   }
 
  doRefresh(event) {
   console.log('Begin async operation');
-  this.dataBasedOnDate();
+  this.ionViewWillEnter();
   event.target.complete();    
   }
   paymentAction(payment_data_payment_id,status_id: number){
@@ -81,53 +82,30 @@ export class PaymentPage implements OnInit {
      this.toastDispalay(status_id);
   }
 
-   async toastDispalay(status_id) {
-     if( status_id == 4){
-       const toast = await this.toastController.create({
-      message: "payment has been approved",
-      duration:3000,
-      position:'top'
-      });
-       toast.present();
-      }
-      else{
-         const toast = await this.toastController.create({
-      message: "payment has been Disapproved",
-      duration:3000,
-      position:'top'
-      });
-       toast.present();
-      }
+ async toastDispalay(status_id) {
+   if( status_id == 4){
+     const toast = await this.toastController.create({
+    message: "payment has been approved",
+    duration:3000,
+    position:'top'
+    });
+     toast.present();
     }
+    else{
+       const toast = await this.toastController.create({
+    message: "payment has been Disapproved",
+    duration:3000,
+    position:'top'
+    });
+     toast.present();
+    }
+  }
 
   confirmDecline(payment_data_payment_id,status_id: number) {
     if (confirm('Are you sure')) {
       this.paymentAction(payment_data_payment_id,status_id);
     }
   }
-  // async confirmDecline(payment_data_payment_id,status_id: number){
-  //   const alert = await this.alertcontroller.create({
-  //     header:'Are you sure ?' ,
-  //     message:'Decline this <strong>payment</strong>',
-  //     buttons: [
-  //       {
-  //         text:'Cancel',
-  //         role: 'cancel',
-  //         cssClass: 'secondary',
-  //         handler: ()=>{
-  //           console.log('cancled');
-  //         }
-  //       },
-  //       {
-  //         text:'Okay',
-  //         cssClass: 'secondary',
-  //         handler: ()=>{
-  //           this.paymentAction(payment_data_payment_id,status_id)
-  //         }
-  //       }
-  //     ]
-  //   })
-  // }
   ngOnInit() {
 
   }
