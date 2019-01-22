@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import {ProdprefPageModule} from './prodpref/prodpref.module';
 import {OrderPageModule} from './order/order.module'
@@ -21,6 +22,7 @@ import {SalePageModule} from './sale/sale.module';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,ProdprefPageModule,OrderPageModule,SalePageModule],
   providers: [
     StatusBar,
+    Geolocation,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

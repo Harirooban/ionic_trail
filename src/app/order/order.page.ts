@@ -4,6 +4,7 @@ import { Slides } from '@ionic/angular';
 import { HttpService } from '../http.service';
 import { ModalController,NavParams,AlertController,ToastController } from '@ionic/angular';
 import { DOCUMENT } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.page.html',
@@ -39,10 +40,12 @@ export class OrderPage implements OnInit {
     this.orderPageDatas();
   
   }
+  
   orderPageDatas(){
   this.today = new Date().toJSON().split('T')[0]
   this.customer = this.navParams.get('customer_value');
   // // an dict to post to django server
+  
   let customer_dict=
   {
     "customer_id":this.customer.id,
@@ -54,8 +57,8 @@ export class OrderPage implements OnInit {
       this.order_datas = order_data;
      console.log(this.order_datas)
     })
-
   }
+
   acceptOrder(order_product_order_id,order_product_product_code){
 
     this.product_name = order_product_product_code

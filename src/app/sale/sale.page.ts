@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
 import { ModalController,NavParams,NavController,AlertController,ToastController } from '@ionic/angular';
 import { Slides } from '@ionic/angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
 
@@ -23,12 +24,21 @@ export class SalePage implements OnInit {
   opacity_value:any;
   reason_list:any;
   temp_refresh:boolean=false;
-  constructor(private router: Router ,private alertcontroller:AlertController,private httpService : HttpService,
+  geo_latitude:any;
+  geo_longitude:any;
+  constructor(private router: Router ,private alertcontroller:AlertController,private httpService : HttpService,private geolocation:Geolocation,
               private toastController:ToastController,private modalController: ModalController,private navParams: NavParams,private nav: NavController) { 
   	
     this.getSaleData();
   
 
+  }
+  getCustomerLocatoion(){
+    this.geolocation.getCurrentPosition().then((resp)=>{
+      this.geo_latitude=resp.coords.latitude;
+      this.geo_longitude=resp.coords.longitude;
+      alert(this.geo_latitude + ',' + this.geo_longitude);
+    })
   }
   getSaleData(){
     this.customer = this.navParams.get('customer_value');
