@@ -23,7 +23,7 @@
 			</ion-col>
 			<ion-col size="3">
 				<a color="white" fill="clear"  href="tel: {{ customer_info.phone_number }}" class="button">
-					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 30px" ></ion-icon>
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 25px;margin-top: 4px" ></ion-icon>
 				</a>
 			</ion-col>
 		</ion-row>
@@ -32,9 +32,8 @@
 				{{ customer_info.door_number }} - {{ customer_info.community }}
 			</ion-col>
 			<ion-col size="3">
-				<!-- href="geo:?q={{ customer_info.latitude+','+customer_info.longitude }}" -->
-				<a color="white" fill="clear"class="button" href="geo:?q=11.016844,76.955833">
-					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 30px" ></ion-icon>
+				<a color="white" fill="clear"class="button" href="geo:?q={{ customer_info.latitude+','+customer_info.longitude }}">
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: -8px" ></ion-icon>
 				</a>
 			</ion-col>
 		</ion-row>

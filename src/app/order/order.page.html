@@ -53,7 +53,7 @@
 					<span *ngFor="let data of order_datas">
 						<ion-card *ngIf="data.product.length != 0">
 							<ion-list inset="false" lines="none">
-								<ion-item-sliding *ngFor="let order_product of data.product" [disabled]="order_product.order_status_id == 5 ? 'false' : 'true'">
+								<ion-item-sliding *ngFor="let order_product of data.product">
 									<ion-item >
 										<ion-row style="width: 100%">
 												<ion-col size="3" style="font-size:small">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>

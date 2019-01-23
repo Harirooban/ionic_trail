@@ -61,7 +61,7 @@
 					<ion-col size="3">Amount</ion-col>
 				</ion-row>
 				<ion-list inset="false" lines="none">
-					<ion-item-sliding *ngFor="let payment_data of data.payment_history"  [disabled]=" payment_data.payment_status_id == 5 ? 'true' : 'false'">
+					<ion-item-sliding *ngFor="let payment_data of data.payment_history">
 						<ion-item>
 							<ion-row  style="font-size: small;width: 100%">
 								<ion-col size="3">{{ payment_data.date | date:'dd-MMM' }}</ion-col>

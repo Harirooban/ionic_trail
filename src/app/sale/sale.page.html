@@ -42,13 +42,14 @@
 						Total : {{ sale_datas.rounded_cost | number:'.2' }}
 					</span>
 				</ion-col>
-				<ion-col size="3">
+				<ion-col size="2">
 					<ion-button (click)="paymentPage()"><ion-icon name="add"></ion-icon>pay</ion-button>
 				</ion-col>
-				
-				<ion-col size="3">
+				<ion-col size='1'>  </ion-col>
+				<ion-col size="2">
 					<ion-button (click)="getCustomerLocatoion()"><ion-icon name="locate"></ion-icon></ion-button>
 				</ion-col>
+				<ion-col size='1'>  </ion-col>
 			</ion-row>
 		</ion-card>
 		<ion-card *ngIf="sale_datas.rounded_cost != null || sale_datas.rounded_cost != 0">

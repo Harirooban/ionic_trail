@@ -26,8 +26,15 @@ export class SalePage implements OnInit {
   temp_refresh:boolean=false;
   geo_latitude:any;
   geo_longitude:any;
-  constructor(private router: Router ,private alertcontroller:AlertController,private httpService : HttpService,private geolocation:Geolocation,
-              private toastController:ToastController,private modalController: ModalController,private navParams: NavParams,private nav: NavController) { 
+  constructor(
+    private router: Router,
+    private alertcontroller:AlertController,
+    private httpService : HttpService,
+    private geolocation:Geolocation,
+    private toastController:ToastController,
+    private modalController: ModalController,
+    private navParams: NavParams,
+    private nav: NavController) { 
   	
     this.getSaleData();
   
@@ -37,9 +44,18 @@ export class SalePage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp)=>{
       this.geo_latitude=resp.coords.latitude;
       this.geo_longitude=resp.coords.longitude;
-      alert(this.geo_latitude + ',' + this.geo_longitude);
+    })
+    let location_dict=
+    {
+      "latitude":this.geo_latitude,
+      "longitude":this.geo_longitude,
+      "customer_id":this.customer.id
+    }
+    console.log(location_dict)
+    this.httpService.geoPost(location_dict).subscribe(()=> {
     })
   }
+
   getSaleData(){
     this.customer = this.navParams.get('customer_value');
 
@@ -56,11 +72,7 @@ export class SalePage implements OnInit {
      console.log(this.sale_datas)
     })
   }
-  // slideForward(slide_index: number) {
-
-  //   this.slides.slideTo(slide_index)
-    
-  // }
+  
   vesselUpdate(count:number){
    
     this.temp_refresh=true

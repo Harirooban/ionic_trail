@@ -97,7 +97,10 @@
 							</ion-col>
 						</ion-row>
 					<ion-row>
-						<ion-col ></ion-col>
+						<ion-col>
+							<ion-button (click)="getCustomerLocatoion()"><ion-icon name="locate"></ion-icon></ion-button>
+						</ion-col>
+						<ion-col>  </ion-col>
 						<ion-col>
 							<ion-button (click)=slideForward()>product spec</ion-button>
 						</ion-col>
@@ -126,14 +129,14 @@
 				</form>
 			</ion-slide>
 			<!-- new customer add-product pref -->
-			<ion-slide>
+			<ion-slide >
 				<ion-row>
-					<ion-col size="1">
+					<ion-col size="1" >
 						<ion-button fill="clear" (click)=slideBackword(0) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
-					<ion-col>Product pref. for new customers</ion-col>
+					<ion-col padding>Product preference</ion-col>
 				</ion-row>
 				<ion-row>
 					<ion-col>
@@ -191,14 +194,14 @@
 			</ion-slide>
 			<!--updating existing customer product pref -->
 			<ion-slide>
-				<ion-row>
+				<ion-row >
 					<ion-col size="1">
 						<ion-button fill="clear" (click)=slideBackword(0) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
 					<ion-col>
-						Updating product pref. for existing customers
+						Updating product preference
 					</ion-col>
 				</ion-row>
 				<span *ngFor="let item of customer_datas">
@@ -224,7 +227,7 @@
 			</ion-slide>
 			
 			<ion-slide>
-				<ion-row>
+				<ion-row >
 					<ion-col size="1">
 						<ion-button fill="clear" (click)=slideBackword(2) >
 							<ion-icon name="arrow-back"></ion-icon>

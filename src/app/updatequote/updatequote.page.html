@@ -6,20 +6,22 @@
 
 <ion-content padding>
 	<ion-row>
-		<h4 style="text-align:center">Product quote update page</h4>
+		<ion-col>
+			<h4 style="text-align:center">Product quote update page</h4>
+		</ion-col>
 	</ion-row>
 	<ion-card>
-		<ion-row *ngFor='let product of quote_datas'>
-			<ion-col>
-				{{ product.price }}
+		<ion-row *ngFor='let product of quote_datas; let quote_index=index;'>
+			<ion-col padding>
+				{{ product.product_code }}
 			</ion-col>
 			<ion-col>
 				<ion-item>
-					<ion-input [value]="product.price" [(ngModel)]="updated_amount"></ion-input>
+					<ion-input [(ngModel)]="updated_amount[quote_index]"></ion-input>
 				</ion-item>
 			</ion-col>
 			<ion-col>
-				<ion-button (click)="updateQuote(product)">Update</ion-button>
+				<ion-button size="small" (click)="updateQuote(product.product_id, updated_amount[quote_index])">Update</ion-button>
 			</ion-col>
 		</ion-row>
 	</ion-card>

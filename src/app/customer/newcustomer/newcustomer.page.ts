@@ -3,19 +3,22 @@ import { Slides } from '@ionic/angular';
 import { HttpService } from '../../http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
 	selector: 'app-newcustomer',
 	templateUrl: './newcustomer.page.html',
 	styleUrls: ['./newcustomer.page.scss'],
 })
+
 export class NewcustomerPage implements OnInit {
 	@ViewChild('common_slide') slides: Slides
 	slideOpts = {
 		effect: 'flip',
 		allowTouchMove: false
 	};
-	new_customer_pref: any;
+
+	new_customer_pref: any;//
 	product_names: any;
 	selected_product: any = null;
 	customerForm: FormGroup;
@@ -30,45 +33,59 @@ export class NewcustomerPage implements OnInit {
 	product_data: any = [];
 	product_details: any;
 	specs:any = null;
-	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, public formBuilder: FormBuilder) {
-		console.log(activaterouter.snapshot.paramMap.get('customer_id'))
+	geo_latitude:any;
+	geo_longitude:any;
+
+	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, private geolocation:Geolocation,public formBuilder: FormBuilder) {
 		this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
+		console.log(activaterouter.snapshot.paramMap.get('customer_id'))
+		// to get the form values in customerForm 
 		this.customerForm = this.formBuilder.group({
 			id:['new_customer_value'],
-			name: ['', Validators.required],
+			name: [null, Validators.required],
 			code: ['', Validators.required],
-			phone_number: ['', Validators.required],
-			whatsapp: ['', Validators.required],
-			email: ['', Validators.required],
+			phone_number: [null, Validators.required],
+			whatsapp: [null, Validators.required],
+			email: [null, Validators.required],
 			landmark: ['', Validators.required],
-			door_number: ['', Validators.required],
-			community: ['', Validators.required],
+			door_number: [null, Validators.required],
+			community: [null, Validators.required],
 			street_name: ['', Validators.required],
-			postal_code: ['', Validators.required],
+			postal_code: [null, Validators.required],
+			latitude:[this.geo_latitude,Validators.required],
+			longitude:[this.geo_longitude,Validators.required],
 		});
-	}	
+	}
+	// get the geolocatio 
+	getCustomerLocatoion(){
+		this.geolocation.getCurrentPosition().then((resp)=>{
+	  this.geo_latitude=resp.coords.latitude;
+	  this.geo_longitude=resp.coords.longitude;
+	  alert(this.geo_latitude + ',' + this.geo_longitude);
+	})}
 	// new customer product questions
 	singleQuestion() {
 		this.product_answer = [];
 		if (this.selected_product != null) {
 			this.new_customer_pref[this.selected_product].forEach((element) => {
 				let temp_dict = {}
-		      temp_dict['question_id'] = element.question_id
-          temp_dict['answer_data'] = element.customer_answer
-          temp_dict['product_id'] = element.product_id
-          temp_dict['question_name'] = element.question
-          if (!element.hasOwnProperty('customer_answer')) {
-            if (element.question_type == 'boolean-checkbox') {
-              temp_dict['answer_data'] = false
-            } else {
-              temp_dict['answer_data'] = ''
-            }
-          }
-          this.product_answer.push(temp_dict)
+			  temp_dict['question_id'] = element.question_id
+		  temp_dict['answer_data'] = element.customer_answer
+		  temp_dict['product_id'] = element.product_id
+		  temp_dict['question_name'] = element.question
+		  if (!element.hasOwnProperty('customer_answer')) {
+			if (element.question_type == 'boolean-checkbox') {
+			  temp_dict['answer_data'] = false
+			} else {
+			  temp_dict['answer_data'] = ''
+			}
+		  }
+		  this.product_answer.push(temp_dict)
 			});
 		}
 	}
 
+	//accodian for  displaying the selected specs
 	openList(group) {
 		if (this.isGroupShown(group)) {
 			this.shownGroup = null;
@@ -81,6 +98,7 @@ export class NewcustomerPage implements OnInit {
 		return this.shownGroup == group;
 	};
 
+ // to store the spec for new customers 
 	storeAnswerData(slide_index: number) {
 		if (this.customer_id == 0){
 			this.single_customer_pref.push({
@@ -97,9 +115,38 @@ export class NewcustomerPage implements OnInit {
 			this.slides.slideTo(4)
 		}
 	}
-
+	// to  add/update customers
 	addCustomer() {
+		// to add new customers
 		if (this.customer_id == 0){
+			if (this.customerForm['name'] == null) {
+				alert('enter name');
+				return false;
+			}
+			if (this.customerForm.value['phone_number'] == null) {
+				alert('enter phone number');
+				return false;
+			}
+			if (this.customerForm.value['whatsapp'] == null) {
+				alert('enter whether whatasapp exists or not');
+				return false;
+			}
+			if (this.customerForm.value['email'] == null) {
+				alert('enter email');
+				return false;
+			}
+			if (this.customerForm.value['door_number'] == null) {
+				alert('enter door_number');
+				return false;
+			}
+			if (this.customerForm.value['community'] == null) {
+				alert('enter community');
+				return false;
+			}
+			if (this.customerForm.value['postal_code'] == null) {
+				alert('enter postal code');
+				return false;
+			}
 			this.customer_data_with_pref['customer_details'] = this.customerForm.value
 			this.customer_data_with_pref['product_specs'] = this.single_customer_pref
 			console.log(this.customer_data_with_pref)
@@ -108,26 +155,35 @@ export class NewcustomerPage implements OnInit {
 				console.error(error);
 			});	
 		} 
+		// to update existing customers
 		else{
-			this.httpService.newCustomerPost(this.customerForm.value).subscribe(()=> {
-    	
-    }, (error) => {
-      console.error(error);
-    		});
+			let customer_update_dict={
+				'customer_details':this.customerForm.value
+			}
+			this.httpService.newCustomerPost(customer_update_dict).subscribe(()=> {
+			console.log(customer_update_dict)
+	}, (error) => {
+	  console.error(error);
+			});
 	}
 	}
+
+	// for sliding  index back
 	slideBackword(index:number){
 		this.slides.slideTo(index)
 	}
+	
+	// for sliding  index forward
 	slideForward() {
 		if (this.customer_id == '0' ){
-			this.slides.slideTo(1)
+			this.slides.slideTo(1,300)
 		}
 		if(this.customer_id != 0){
-			this.slides.slideTo(2)
+			this.slides.slideTo(2,300)
 		}
-
 	}
+
+	// 
 	productSpecSlide(product){
 		this.slides.slideTo(3)
 		this.product_name_data = [];
@@ -143,13 +199,15 @@ export class NewcustomerPage implements OnInit {
 			console.log(element.answer)
 			if (element.answer == null || element.answer == "" ){
 				if (element.question_type == 'boolean-checkbox') {
-              temp_prod_spec_dict['answer_data'] = false
-          }
+			  temp_prod_spec_dict['answer_data'] = false
+		  }
 			}
 			this.product_name_data.push(temp_prod_spec_dict)
 		});
 		console.log(this.product_name_data)
 		}
+
+	// 
 	getCustomerDetails(customer_id){
 		let customer_dict ={
 			'customer_id':customer_id
@@ -167,15 +225,17 @@ export class NewcustomerPage implements OnInit {
 			this.customerForm.controls['postal_code'].setValue(data[0]['postal_code']);
 			this.customerForm.controls['street_name'].setValue(data[0]['street']);
 			this.customerForm.controls['whatsapp'].setValue(data[0]['is_whatsapp']);
+			this.customerForm.controls['latitude'].setValue(data[0]['latitude']);
+			this.customerForm.controls['longitude'].setValue(data[0]['longitude']);
 			console.log(this.customer_datas);
 		});
 	}
 	UpdateSpec(){
 		this.slides.slideTo(2)
-      this.httpService.updateSpec(this.product_name_data).subscribe((data)=> {
-    }, (error) => {
-      console.error(error);
-    });
+	  this.httpService.updateSpec(this.product_name_data).subscribe((data)=> {
+	}, (error) => {
+	  console.error(error);
+	});
   }
 	ngOnInit() {
 		if (this.customer_id != 0){
