@@ -12,14 +12,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import {ProdprefPageModule} from './prodpref/prodpref.module';
-import {OrderPageModule} from './order/order.module'
+import { OrderPageModule } from './order/order.module';
 import {SalePageModule} from './sale/sale.module';
+import { IonicStorageModule } from '@ionic/storage'
 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,ProdprefPageModule,OrderPageModule,SalePageModule],
+  imports: [
+  BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), AppRoutingModule, HttpClientModule, ProdprefPageModule, OrderPageModule, SalePageModule],
   providers: [
     StatusBar,
     Geolocation,

@@ -11,7 +11,6 @@ import { DOCUMENT } from '@angular/platform-browser';
   styleUrls: ['./order.page.scss'],
 })
 
-
 export class OrderPage implements OnInit {
   @ViewChild('common_slide') slides: Slides
   slideOpts = {
@@ -26,11 +25,11 @@ export class OrderPage implements OnInit {
   product_answer: any = [];
   product_id: any = null;
   order_with_pref = {};
-  quantity:any;
+  quantity:any = null;
   delivery_date:any;
   order_to_sale_datas: any;
   today:any;
-  actual_quantity:any;
+  actual_quantity:any = null;
   order_id:any;
   final_delivery_date:any;
   product_name: any;
@@ -71,8 +70,12 @@ export class OrderPage implements OnInit {
   }
 
   cancelOrder(order_product_order_id){
-    this.order_id=order_product_order_id,
-    this.orderToSale(3);
+    console.log("worked the decline")
+    if (confirm('Are you sure')) {
+    this.order_id = order_product_order_id,
+      this.orderToSale(3);
+    }
+    
   }
 
   selectProduct(product) {
@@ -130,6 +133,7 @@ export class OrderPage implements OnInit {
     });  
     this.slides.slideTo(0)
     console.log(this.order_with_pref)
+    this.orderPageDatas();
   }
 
   orderToSale(status_id: number){
@@ -164,12 +168,6 @@ export class OrderPage implements OnInit {
   
   closeModal() {
     this.modalController.dismiss({ "temp_refresh":this.temp_refresh});
-  }
-
-  confirmDecline(order_product_order_id) {
-    if (confirm('Are you sure')) {
-      this.cancelOrder(order_product_order_id);
-    }
   }
 
   // async confirmDecline(order_product_order_id){

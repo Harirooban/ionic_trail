@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ToastController } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router'; 
+
 @Component({
   selector: 'app-updatequote',
   templateUrl: './updatequote.page.html',
@@ -12,6 +14,7 @@ export class UpdatequotePage implements OnInit {
   constructor(
     private httpService : HttpService,
     private toastController:ToastController,
+    private router: Router,
    ) { 
     // get quote datas 
 	this.httpService.quote().subscribe((quote_data)=> {
@@ -46,6 +49,9 @@ export class UpdatequotePage implements OnInit {
     toast.present();
   }
 
+  homePage() {
+    this.router.navigate(['customer']);
+  }
   ngOnInit() {
   }
 

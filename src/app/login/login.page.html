@@ -1,59 +1,63 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Thoppukozhi: Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-	<ion-item *ngFor = "let customer of customer_datas">
-		<ion-list>
-			<!-- <ion-label>
-				<h2>name : {{ customer.name }}</h2>	
-			</ion-label>
+  <div style="height: 75px; width: 50%;margin: 0% 0% 0% 23%;">
+    <img src="assets/images/logo.png">
+  </div>
 
-			<ion-label>
-				<h2>phone_number : {{ customer.phone_number }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>email : {{ customer.email }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>door_number : {{ customer.door_number }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>community : {{ customer.community }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>landmark : {{ customer.landmark }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>street : {{ customer.street }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>postal_code : {{ customer.postal_code }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>latitude : {{ customer.latitude }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>longitude : {{ customer.longitude }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>balance_amount : {{ customer.balance_amount }}</h2>	
-			</ion-label>
-
-			<ion-label>
-				<h2>vessel_count : {{ customer.vessel_count }}</h2>	
-			</ion-label> -->
-			</ion-list>
-	</ion-item>
+  <div style="margin-top: 40%">
+    <form [formGroup]="login_form">
+      <ion-card class="custom-input">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon name="phone-portrait" style="color: #CC0033"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <input type="text" formControlName="user_name" placeholder="Enter the 10 digit phone number">
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card class="custom-input">
+        <ion-row>
+          <ion-col size="2">
+            <ion-icon name="key" style="color: #CC0033"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <input type="password" formControlName="password" placeholder="Password">
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card [ngClass]="login_form.valid? 'custom-button': 'custom-invalid-button'">
+        <ion-row (click)="onLoginClicled()">
+          <ion-col>
+            Login
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <!-- <ion-card [ngClass]="login_form.valid? 'custom-button': 'custom-invalid-button'">
+        <ion-row (click)="logIn()">
+          <ion-col>
+            Login
+          </ion-col>
+        </ion-row>
+      </ion-card> -->
+    </form>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <a class="button" href="tel:+91 9003832999" style="text-decoration: none; white-space: nowrap; color: black;">
+          <ion-icon name="call">
+          </ion-icon>
+          <span>
+            Login Issues?
+          </span>
+        </a>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </div>
 </ion-content>

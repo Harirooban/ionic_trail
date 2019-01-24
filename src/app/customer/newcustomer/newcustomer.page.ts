@@ -42,18 +42,16 @@ export class NewcustomerPage implements OnInit {
 		// to get the form values in customerForm 
 		this.customerForm = this.formBuilder.group({
 			id:['new_customer_value'],
-			name: [null, Validators.required],
-			code: ['', Validators.required],
-			phone_number: [null, Validators.required],
-			whatsapp: [null, Validators.required],
-			email: [null, Validators.required],
-			landmark: ['', Validators.required],
-			door_number: [null, Validators.required],
-			community: [null, Validators.required],
-			street_name: ['', Validators.required],
-			postal_code: [null, Validators.required],
-			latitude:[this.geo_latitude,Validators.required],
-			longitude:[this.geo_longitude,Validators.required],
+			name: [null],
+			code: [''],
+			phone_number: [null],
+			whatsapp: [null],
+			email: [null],
+			door_number: [null],
+			community: [null],
+			postal_code: [null],
+			latitude:[this.geo_latitude],
+			longitude:[this.geo_longitude],
 		});
 	}
 	// get the geolocatio 
@@ -115,11 +113,12 @@ export class NewcustomerPage implements OnInit {
 			this.slides.slideTo(4)
 		}
 	}
+
 	// to  add/update customers
 	addCustomer() {
 		// to add new customers
 		if (this.customer_id == 0){
-			if (this.customerForm['name'] == null) {
+			if (this.customerForm.value['name'] == null) {
 				alert('enter name');
 				return false;
 			}
@@ -220,10 +219,8 @@ export class NewcustomerPage implements OnInit {
 			this.customerForm.controls['phone_number'].setValue(data[0]['phone_number']);
 			this.customerForm.controls['community'].setValue(data[0]['community']);
 			this.customerForm.controls['email'].setValue(data[0]['email']);
-			this.customerForm.controls['landmark'].setValue(data[0]['landmark']);
 			this.customerForm.controls['door_number'].setValue(data[0]['door_number']);
 			this.customerForm.controls['postal_code'].setValue(data[0]['postal_code']);
-			this.customerForm.controls['street_name'].setValue(data[0]['street']);
 			this.customerForm.controls['whatsapp'].setValue(data[0]['is_whatsapp']);
 			this.customerForm.controls['latitude'].setValue(data[0]['latitude']);
 			this.customerForm.controls['longitude'].setValue(data[0]['longitude']);

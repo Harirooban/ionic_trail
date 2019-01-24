@@ -55,11 +55,13 @@ export class PaymentPage implements OnInit {
   statusCheckout(payment_status: string){
     if (payment_status == 'Initiated') return 'blue';
     
-    else if(payment_status == 'Completed') return 'green';
+    else if(payment_status == 'Approved') return 'green';
 
     else if(payment_status == 'Disapproved') return 'red';
   }
-
+  homePage() {
+    this.router.navigate(['customer']);
+  }
   newPayment() {
     this.nav.navigateForward('/newpayment/' + this.customer_id)
   }

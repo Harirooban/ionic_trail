@@ -18,8 +18,10 @@
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
-         <span style="margin-top:52%" >
-              <ion-row style="text-align: center;margin-top: 5%;font-weight: bold">Price List ({{ today }})</ion-row>
+         <div style="margin-top:76%" >
+              <ion-row >
+                <ion-col style="text-align: center;margin-top: 5%;font-weight: bold">Price List ({{ today }})
+                </ion-col></ion-row>
               <ion-row *ngFor="let quote of quote_datas" style="margin-left: 11px;">
                 <ion-col size="7">
                   {{ quote.product_code }} 
@@ -27,7 +29,7 @@
                 <ion-col size='1'> : </ion-col>
                 <ion-col size='4'>{{ quote.price | number: '.2' }}/{{ quote.unit }}</ion-col>
               </ion-row >
-          </span>
+          </div>
         </ion-content>
       </ion-menu>
     <ion-router-outlet main></ion-router-outlet>

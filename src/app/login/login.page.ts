@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router'; 
+import { Router  } from '@angular/router'; 
+import { ModalController, NavController, ToastController, AlertController } from '@ionic/angular';
 import { HttpService } from '../http.service';
+import { AuthenticationService } from '../authentication.service'
 
 @Component({
   selector: 'app-login',
@@ -9,52 +11,21 @@ import { HttpService } from '../http.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  customer_datas : any ;
+  public login_form: FormGroup;
 
-	loginForm: FormGroup;
-
-	error_messages = {
-		'email' : [
-			{ type : 'required', message:'Email is required.'},
-			{ type : 'minLength', message:'minimum 6 characters is must'},
-			{ type : 'maxLength', message:'maximum 50 characters is allowed'},
-			{ type : 'pattern', message:'please enter the valid Email ID'}
-		],
-		
-	}
-
-  constructor(public formBuilder: FormBuilder, private router: Router,private httpService : HttpService ) 
-          { 
-  	        this.loginForm = this.formBuilder.group
-                ({
-  		              password: new FormControl('',Validators.required	),
-  		              email: new FormControl('', Validators.compose(
-                      [
-                				Validators.required,
-                				Validators.minLength(6),
-                				Validators.maxLength(50),
-                				Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-  			              ]
-                  ) )
-  	            });
-      this.httpService.customers().subscribe((data)=> {
-      this.customer_datas = data;
-      console.log(data)
-        });
-          }
- 
-  second()
-  {
-    this.router.navigate(['welcome']);
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private httpService: HttpService,
+    private authendicationService: AuthenticationService) {
+    this.login_form = this.formBuilder.group({
+      user_name: ['', Validators.compose([Validators.required])],
+      password: [null, Validators.required],
+    });
   }
+
   ngOnInit() {
   }
 
-login() {
-	console.log('email : ', this.loginForm.value.email);
-	console.log('password :', this.loginForm.value.password);
+  onLoginClicled() {
+   this.authendicationService.login(this.login_form.value);
+    // this.navCtrl.navigateRoot('/app/tabs/(home:home)');
+   }
 }
-
-
-}
-

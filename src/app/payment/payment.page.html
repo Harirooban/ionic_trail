@@ -5,6 +5,11 @@
 		<ion-back-button></ion-back-button>
 	</ion-buttons>
 	<ion-title>Payment</ion-title>
+	<ion-buttons slot="end">
+		<ion-button color="primary" shape="round" (click)="homePage()">
+		 	<ion-icon name="home" slot="icon-only"></ion-icon>
+		</ion-button>
+	</ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
@@ -57,31 +62,25 @@
 				<ion-row style="font-weight: bold;">
 					<ion-col size="3" style="text-align: center;">Date</ion-col>
 					<ion-col size="3">Payment Method</ion-col>
-					<ion-col size="3">Payment Status</ion-col>
 					<ion-col size="3">Amount</ion-col>
+					<ion-col size="3">Payment Status</ion-col>
 				</ion-row>
-				<ion-list inset="false" lines="none">
-					<ion-item-sliding *ngFor="let payment_data of data.payment_history">
-						<ion-item>
-							<ion-row  style="font-size: small;width: 100%">
-								<ion-col size="3">{{ payment_data.date | date:'dd-MMM' }}</ion-col>
-								<ion-col size="3">{{ payment_data.payment_method }}</ion-col>
-								<ion-col size="3" text-wrap [style.color]="statusCheckout(payment_data.payment_status)">
-									{{ payment_data.payment_status }}
-								</ion-col>
-								<ion-col size="3">{{ payment_data.amount | number: '.2' }}</ion-col>
-							</ion-row>
-						</ion-item>
-						<ion-item-options side="end">
-							<ion-button color="success" (click)=paymentAction(payment_data.payment_id,4)>
-								<ion-icon name="checkmark-circle"></ion-icon>
-							</ion-button>
-							<ion-button color="danger" (click)=confirmDecline(payment_data.payment_id,5)>	
-								<ion-icon name="trash"></ion-icon>
-							</ion-button>
-						</ion-item-options>
-					</ion-item-sliding>
-				</ion-list>
+				<ion-row  style="font-size: small;width: 100%" *ngFor="let payment_data of data.payment_history">
+					<ion-col size="3">{{ payment_data.date | date:'dd-MMM' }}</ion-col>
+					<ion-col size="3">{{ payment_data.payment_method }}</ion-col>
+					<ion-col size="3">{{ payment_data.amount | number: '.2' }}</ion-col>
+					<ion-col size="3" text-wrap>
+						<span *ngIf="payment_data.payment_status_id == 1">
+							<ion-icon name="checkmark-circle" (click)=paymentAction(payment_data.payment_id,4) color="success" style="font-size: 20px;">
+								
+							</ion-icon>
+							<ion-icon name="trash" (click)=confirmDecline(payment_data.payment_id,5) style="color:red;font-size: 20px;float:right;"></ion-icon>
+						</span>
+						<span [style.color]="statusCheckout(payment_data.payment_status)" *ngIf="payment_data.payment_status_id != 1">
+							{{ payment_data.payment_status | slice:0:9 }}
+						</span>
+					</ion-col>
+				</ion-row>
 			</ion-grid>
 		</ion-card>
 	</ion-list>
