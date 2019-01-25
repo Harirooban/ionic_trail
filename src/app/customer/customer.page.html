@@ -4,7 +4,7 @@
   		<ion-menu-button>
   		</ion-menu-button>
   	</ion-buttons>
-    <ion-title>Customer</ion-title>
+    <ion-title>Customers</ion-title>
 		<ion-buttons slot="end">
 			<ion-button color="primary" shape="round" (click)="newCustomer()">
 				add
@@ -24,35 +24,41 @@
 	</ion-refresher>
 	<ion-row>
 		<ion-col style="text-align: center;">
-			<ion-searchbar #search_term placeholder="name/area/door.no"></ion-searchbar>
+			<ion-searchbar #search_term placeholder="Name/area/door# "></ion-searchbar>
 		</ion-col>
 	</ion-row>
 	<ion-card *ngFor ="let customer of customer_datas | customerFilter:search_term.value">
-		<ion-row style="height: 42px;">
-			<ion-col size="9"  padding style="font-weight: bold;text-align: center;" (click)="profilePage(customer)">
+		<ion-row style="height:42px;">
+			<ion-col size="3">
+				<a color="white" fill="clear"  href="tel: {{ customer.phone_number }}" class="button">
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px;margin-left: 26px" ></ion-icon>
+				</a>
+			</ion-col>
+			<ion-col size="6"  padding style="text-align: left;font-size: 12px;font-weight: bold;" (click)="profilePage(customer)">
 				 <span style="text-transform: capitalize;"> {{ customer.name }} </span> - {{ customer.code }}
 			</ion-col>
 			<ion-col size="3">
-				<a color="white" fill="clear"  href="tel: {{ customer.phone_number }}" class="button">
-					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 25px;margin-top: 2px" ></ion-icon>
+				<a color="white" fill="clear"class="button" href="geo:?q={{ customer.latitude+','+customer.longitude }}" *ngIf="customer.latitude != null && customer.longitude !=null">
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px" ></ion-icon>
+				</a>
+				<a color="white" fill="clear"class="button" *ngIf="customer.latitude == null && customer.longitude == null">
+					<ion-icon src="assets/svg/no_gps.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px" ></ion-icon>
 				</a>
 			</ion-col>
 		</ion-row>
 		<ion-row style="height: 31px">
-			<ion-col size="9" style="text-align: center;">
+			<ion-col size="6" style="text-align: left;">
 				{{ customer.community }}- {{ customer.door_number }}
 			</ion-col>
-			<ion-col size="3">
-				<a color="white" fill="clear"class="button" href="geo:?q={{ customer.latitude+','+customer.longitude }}">
-					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: -8px" ></ion-icon>
-				</a>
+			<ion-col size="6">
+				pending orders : 6
 			</ion-col>
 		</ion-row>
 		<ion-row>
-			<ion-col size="6" style="text-align: center;" [style.color]="balcheckout(customer.balance_amount)"> 	
+			<ion-col size="6" [style.color]="balcheckout(customer.balance_amount)"> 	
 				<span style="font-weight: bold;">Balance : </span>{{ customer.balance_amount }}
 			</ion-col>
-			<ion-col size="6" style="text-align: center;" [style.color]="checkVesselCount(customer.vessel_count)">
+			<ion-col size="6" [style.color]="checkVesselCount(customer.vessel_count)">
 				<span style="font-weight: bold;" >Vessel: </span>{{ customer.vessel_count }}
 			</ion-col>
 		</ion-row>

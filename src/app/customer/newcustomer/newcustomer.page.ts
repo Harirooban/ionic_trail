@@ -33,8 +33,6 @@ export class NewcustomerPage implements OnInit {
 	product_data: any = [];
 	product_details: any;
 	specs:any = null;
-	geo_latitude:any =null;
-	geo_longitude:any=null;
 
 	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, private geolocation:Geolocation,public formBuilder: FormBuilder) {
 		this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
@@ -55,10 +53,14 @@ export class NewcustomerPage implements OnInit {
 	}
 	// get the geolocatio 
 	getCustomerLocatoion(){
-		this.geolocation.getCurrentPosition().then((resp)=>{
-		this.customerForm.controls['latitude'].setValue(resp.coords.latitude);
-		this.customerForm.controls['longitude'].setValue(resp.coords.longitude);
-	})}
+		this.geolocation.getCurrentPosition().then((resp) => {
+			this.customerForm.controls['latitude'].setValue(resp.coords.latitude);
+			this.customerForm.controls['longitude'].setValue(resp.coords.longitude);
+		});
+		let watch = this.geolocation.watchPosition();
+		watch.subscribe((data)=>{
+		});
+	}
 	// new customer product questions
 	singleQuestion() {
 		this.product_answer = [];
@@ -138,10 +140,6 @@ export class NewcustomerPage implements OnInit {
 			}
 			if (this.customerForm.value['postal_code'] == null) {
 				alert('enter postal code');
-				return false;
-			}
-			if (this.customerForm.value['latitute'] == null) {
-				alert('Select Location for customer');
 				return false;
 			}
 			this.customer_data_with_pref['customer_details'] = this.customerForm.value

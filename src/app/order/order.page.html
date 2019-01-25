@@ -1,12 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Order</ion-title>
-    	<ion-buttons slot="primary">
-			<ion-button (click)="closeModal()">
-				<ion-icon color="danger" slot="icon-only" name="close-circle-outline"></ion-icon>
-			</ion-button>
-		</ion-buttons>
-  </ion-toolbar>
+    <ion-title *ngFor="let data of order_datas" style="font-size: 15px">Order  ( {{ data.name }} - {{ data.code }} )
+	</ion-title>
+	<ion-buttons slot="primary">
+		<ion-button (click)="closeModal()">
+			<ion-icon color="danger" slot="icon-only" name="close-circle-outline"></ion-icon>
+		</ion-button>
+	</ion-buttons>
+</ion-toolbar>
 </ion-header>
 <ion-content>
 	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -20,28 +21,19 @@
 	<ion-grid>
 		<ion-slides #common_slide [options]=slideOpts>
 			<ion-slide>
-				<span *ngFor="let data of order_datas">
-					<ion-row>
-						<ion-col style="text-align: center;">
-							{{ data.name }} - {{ data.code }}			
+				<ion-row>
+					<ion-col  style="font-weight: bold;text-align: center;">
+						All Products
+					</ion-col>
+				</ion-row>
+				<ion-row *ngFor="let product of products">
+						<ion-col  (click)="selectProduct(product)" size="12" style="text-align: left"> 
+							{{ product.code }} &nbsp; <ion-icon name="arrow-forward"  style="float: right"></ion-icon>
 						</ion-col>
-					</ion-row>
-				</span>
-				<ion-card>
-					<ion-row>
-						<ion-col  style="font-weight: bold;text-align: center;">
-							All Products
-						</ion-col>
-					</ion-row>
-					<ion-row *ngFor="let product of products">
-							<ion-col  (click)="selectProduct(product)" size="12" style="text-align: left"> 
-								{{ product.code }} &nbsp; <ion-icon name="arrow-forward"  style="float: right"></ion-icon>
-							</ion-col>
-					</ion-row>
-				</ion-card>
+				</ion-row>
 				<span *ngIf="order_datas != null">
 					<ion-card>
-						<ion-row style="font-weight: bold;font-size: 10px;text-align: start">
+						<ion-row style="font-weight: bold;font-size: 10px;text-align: center;color: blue">
 							<ion-col size="3">Date</ion-col>
 							<ion-col size="3">Product</ion-col>
 							<ion-col size="3">Qnty</ion-col>
@@ -52,7 +44,9 @@
 						<ion-card *ngIf="data.product.length != 0">
 							<!-- (click)=confirmDecline(order_product.order_id) -->
 							<ion-row style="width: 100%" *ngFor="let order_product of data.product">
-									<ion-col size="3" style="font-size:small">{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
+									<ion-col size="3" style="font-size:12px">
+										<ion-icon name="create" (click)="updateOrderForm(order_product,3)"></ion-icon>
+										{{ order_product.delivery_date | date:'dd-MMM' }}</ion-col>
 									<ion-col size="3" style="font-size:12px ;">{{ order_product.product_code }}</ion-col>
 									<ion-col size="3" style="font-size:small; ">{{ order_product.quantity }}
 										<span style="font-size: 8px">{{ order_product.unit | slice:0:3 }}</span>
@@ -159,7 +153,7 @@
 				<ion-row>
 					<span padding>Date:</span>
 					<ion-col>
-						<ion-datetime display-format="DD MMM YYYY" [min]="today" placeholder="Select date" [(ngModel)]="today">
+						<ion-datetime display-format="DD MMM YYYY" [min]="today" placeholder="Select date" [(ngModel)]="final_delivery_date">
 						</ion-datetime>
 					</ion-col>
 				</ion-row>
@@ -174,6 +168,75 @@
 					<ion-col></ion-col>
 					<ion-col style="text-align: center;">
 						<ion-button size="small" (click)=orderToSale(4)>Accept</ion-button>
+					</ion-col>
+					<ion-col></ion-col>
+				</ion-row>
+			</ion-slide>
+			<ion-slide>
+				<ion-row>
+					<ion-col size="2" (click)=slideForward(0)>
+						<ion-button fill="clear">
+							<ion-icon name="arrow-back"></ion-icon>
+						</ion-button>
+					</ion-col>
+					<ion-col text-wrap padding>
+						{{ update_order_product_name }}
+					</ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col size="4" padding>
+						Date :
+					</ion-col>
+					<ion-col>
+						<ion-datetime display-format="DD MMM YYYY" [min]="today" placeholder="Select date" [(ngModel)]="update_order_delivary_date">
+						</ion-datetime>
+					</ion-col>
+					<ion-col></ion-col>
+				</ion-row>
+				<span *ngIf="update_order_temp != null">
+					<span *ngFor="let item of update_order_temp[0]['specs']; let product_index=index;">
+						<ion-row>
+							<ion-col>
+								<ion-item *ngIf="item.question_type == 'number'" class="item-borderless">
+									<ion-label style="font-weight: bold;">{{ item.question }}:</ion-label>
+									<ion-input type="number" [(ngModel)]="update_orderSpec_list[product_index]['update_answer_data']">
+									</ion-input>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col>
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless">
+									<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
+									<ion-checkbox slot="end" [(ngModel)]="update_orderSpec_list[product_index]['update_answer_data']"
+									[checked]="false" >
+									</ion-checkbox>
+								</ion-item>
+							</ion-col>
+						</ion-row>
+						<ion-row>	
+							<ion-col>							
+								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless">
+									<ion-radio-group [(ngModel)]="update_orderSpec_list[product_index]['update_answer_data']">
+										<span>
+											<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
+										</span>
+										<span *ngFor="let single_answer of item.default_answer"> 
+											<ion-item class="item-borderless">
+												<ion-label>{{ single_answer }}</ion-label>
+												<ion-radio slot="end" [value]="single_answer"></ion-radio>
+											</ion-item>
+										</span>
+									</ion-radio-group>
+								</ion-item> 
+							</ion-col>
+						</ion-row>
+					</span>
+				</span>
+				<ion-row>
+					<ion-col></ion-col>
+					<ion-col>
+						<ion-button (click)=updateOrder()>Update Order</ion-button>
 					</ion-col>
 					<ion-col></ion-col>
 				</ion-row>

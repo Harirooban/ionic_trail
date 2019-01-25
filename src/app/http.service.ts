@@ -139,5 +139,12 @@ export class HttpService {
  	geoPost(location_dict){
 		return this.httpClient.post(this.globalService.base_url + 'main/update/geolocation/', location_dict)
  	}
+ 	// 
+	get_order_details(update_order_dict) {
+		return this.httpClient.post(this.globalService.base_url + 'main/get/order/details/', update_order_dict)
+	}
+	updateOrder(update_order_dict) {
+		return this.httpClient.post(this.globalService.base_url + 'main/update/order', update_order_dict)
+	}
 }
 

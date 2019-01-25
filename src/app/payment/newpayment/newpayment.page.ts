@@ -39,6 +39,10 @@ export class NewpaymentPage implements OnInit {
        alert('enter amount');
        return false;
     }
+    if (this.paymentForm.value['amount'] == 0) {
+    alert( 'amount must be greater than zero');
+    return false;
+    }
     if (this.paymentForm.value['payment_method'] == null){
       alert('select the payment method');
       return false;

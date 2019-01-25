@@ -25,15 +25,20 @@ export class OrderPage implements OnInit {
   product_answer: any = [];
   product_id: any = null;
   order_with_pref = {};
-  quantity:any ;
-  delivery_date:any;
+  quantity:any = null;
+  delivery_date:any = null;
   order_to_sale_datas: any;
   today:any;
-  actual_quantity:any ;
+  actual_quantity:any =null;
   order_id:any;
-  final_delivery_date:any;
+  final_delivery_date:any = null;
   product_name: any;
   temp_refresh: boolean=false;
+  update_order_temp: any;
+  update_orderSpec_list: any;
+  update_order_product_name: any;
+  update_order_delivary_date: any;
+  update_order_id: any;
   constructor(@Inject(DOCUMENT) private document:Document, private router: Router ,private httpService : HttpService,private activaterouter : ActivatedRoute ,private alertcontroller:AlertController,
               private modalController: ModalController,private navParams: NavParams,private toastController:ToastController) {
     this.orderPageDatas();
@@ -42,6 +47,8 @@ export class OrderPage implements OnInit {
 
   orderPageDatas(){
   this.today = new Date().toJSON().split('T')[0]
+  this.final_delivery_date = new Date().toJSON().split('T')[0]
+
   this.customer = this.navParams.get('customer_value');
   // // an dict to post to django server
   
@@ -120,25 +127,105 @@ export class OrderPage implements OnInit {
     }
     
   }
+  updateOrderForm(order_product, slide_index: number) {
+    console.log(order_product.order_id)
+    this.slides.slideTo(slide_index)
+    this.update_order_id=order_product.order_id
+    let update_order_dict = {
+      "order_id": order_product.order_id,
+    }
+    this.httpService.get_order_details(update_order_dict).subscribe((data) => {
+      this.update_order_temp = data
+      this.update_order_product_name = this.update_order_temp[0]['product_code']
+      this.update_order_delivary_date = this.update_order_temp[0]['delivary_date']
+      console.log(this.update_order_delivary_date)
+      this.update_orderSpec_list =[]
+      this.update_order_temp[0]['specs'].forEach((element) =>{
+        let temp_dict = {}
+        temp_dict['question_id'] = element.question_id
+        temp_dict['update_answer_data'] = element.customer_answer
+        temp_dict['question_name'] = element.question,
+        temp_dict['question_type'] = element.question_type
+        this.update_orderSpec_list.push(temp_dict)
+      })
+      console.log(this.update_orderSpec_list)
+
+
+
+      // this.quantity = null;
+      // this.product_details = order_product.name
+      // this.product_id = order_product.id
+      // this.product_data = data;
+      // console.log(this.product_data);
+      // this.product_answer = [];
+      // if (this.product_details != null) {
+      //   this.product_data[this.product_details].forEach((element) => {
+      //     let temp_dict = {}
+      //     temp_dict['question_id'] = element.question_id
+      //     temp_dict['answer_data'] = element.customer_answer
+      //     temp_dict['question_name'] = element.question
+      //     if (!element.hasOwnProperty('customer_answer')) {
+      //       if (element.question_type == 'boolean-checkbox') {
+      //         temp_dict['answer_data'] = false
+      //       } else {
+      //         temp_dict['answer_data'] = ''
+      //       }
+      //     }
+      //     this.product_answer.push(temp_dict)
+      //   });
+      // }
+      // console.log(this.product_answer)
+    })
+  }
+
+  updateOrder(){
+    let update_order_dict={
+      'order_id':this.update_order_id,
+      'specs': this.update_orderSpec_list
+    }
+    this.httpService.updateOrder(update_order_dict).subscribe((data) => {
+
+    }, (error) => {
+      console.error(error);
+    }); 
+
+  }
 
   storeAnswerData(){
+    if (this.quantity == null) {
+      alert('enter quantity');
+      return false;
+    } 
+    if (this.delivery_date == null) {
+      alert('enter delivery_date');
+      return false;
+    }
+
     this.order_with_pref['customer_id']=this.customer.id
     this.order_with_pref['product_name']=this.product_details
     this.order_with_pref['product_id']=this.product_id
     this.order_with_pref['delivery_date']=this.delivery_date
     this.order_with_pref['quantity']=this.quantity
     this.order_with_pref['specs']=this.product_answer
-    this.orderPageDatas();
     this.httpService.neworder(this.order_with_pref).subscribe((payment_datas) => {
     }, (error) => {
       console.error(error);
-    });  
+    }); 
+    this.orderPageDatas();
     this.slides.slideTo(0)
     console.log(this.order_with_pref)
-    
+    this.orderPageDatas();
   }
 
   orderToSale(status_id: number){
+    if (this.final_delivery_date == null) {
+      alert('enter delivery_date');
+      return false;
+    }
+    if (this.actual_quantity == null) {
+      alert('enter actual quantity');
+      return false;
+    }
     this.temp_refresh=true
     let order_to_sale_dict = {
       "customer_id":this.customer.id,
@@ -171,29 +258,6 @@ export class OrderPage implements OnInit {
   closeModal() {
     this.modalController.dismiss({ "temp_refresh":this.temp_refresh});
   }
-
-  // async confirmDecline(order_product_order_id){
-  //   const alert = await this.alertcontroller.create({
-  //     header:'Are you sure ?' ,
-  //     message:'Decline this <strong>order</strong>',
-  //     buttons: [
-  //       {
-  //         text:'Cancel',
-  //         role: 'cancel',
-  //         cssClass: 'secondary',
-  //         handler: ()=>{
-  //           console.log('cancled');
-  //         }
-  //       },
-  //       {
-  //         text:'Okay',
-  //         handler: ()=>{
-  //           this.cancelOrder(order_product_order_id)
-  //         }
-  //       }
-  //     ]
-  //   })
-  // }
    async toastDispalay(message) {
      const toast = await this.toastController.create({
       message: message,

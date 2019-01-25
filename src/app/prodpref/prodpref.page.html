@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Product Preference</ion-title>
+    <ion-title>Product Preferences</ion-title>
     	<ion-buttons slot="primary">
 			<ion-button (click)="closeModal()">
 				<ion-icon color="danger" slot="icon-only" name="close-circle-outline"></ion-icon>
@@ -13,8 +13,8 @@
 	<span text-center style="text-transform: capitalize;">{{ product_preference.name }} - {{ product_preference.code }}</span>
 	<ion-list *ngFor = "let item of product_preference.product; let i=index" (click)="openList(i)" [ngClass]="{active:isGroupShown(i)}">
 		<ion-list-header >
-			<ion-button fill="clear" text-wrap>
-				{{  item.product_name }} 
+			<ion-button fill="clear" text-wrap style="margin-left: -13%;">
+				{{  item.product_code }} 
 				<ion-icon slot="end" [name]="isGroupShown(i) ? 'arrow-down' : 'arrow-forward'"></ion-icon>
 			</ion-button>
 		</ion-list-header>
@@ -23,10 +23,11 @@
 					<ion-row *ngFor="let preference of item.specs">
 						<ion-col style="white-space: normal;">
 							<span *ngIf="preference.question_id != 5 && preference.question_id != 6 && preference.question_id != 12 && preference.question_id != 13">
-								{{ preference.question }} - {{ preference.answer }}
+								{{ preference.question }} - <span style="color:blue">{{ preference.answer }} 
+								<span *ngIf="preference.question_id == 1 || preference.question_id == 9 || preference.question_id == 7 || preference.question_id == 8 || preference.question_id == 2">{{ preference.unit }}</span></span>
 							</span>	
 							<span *ngIf="preference.question_id == 5 || preference.question_id == 6 || preference.question_id == 12 || preference.question_id == 13">
-								{{ preference.question }} - <span *ngIf="preference.answer == 'true'">yes</span><span *ngIf="preference.answer == 'false'">No</span>
+								{{ preference.question }} - <span *ngIf="preference.answer == 'true' || preference.answer == 'True'" style="color:blue">Yes</span><span *ngIf="preference.answer == 'false' || preference.answer == 'False'" style="color:blue">No</span>
 							</span>
 						</ion-col>
 					</ion-row>
