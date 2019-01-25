@@ -25,11 +25,11 @@ export class OrderPage implements OnInit {
   product_answer: any = [];
   product_id: any = null;
   order_with_pref = {};
-  quantity:any = null;
+  quantity:any ;
   delivery_date:any;
   order_to_sale_datas: any;
   today:any;
-  actual_quantity:any = null;
+  actual_quantity:any ;
   order_id:any;
   final_delivery_date:any;
   product_name: any;
@@ -59,7 +59,7 @@ export class OrderPage implements OnInit {
   }
 
   acceptOrder(order_product_order_id,order_product_product_code){
-
+    this.actual_quantity = null;
     this.product_name = order_product_product_code
     this.order_id=order_product_order_id
     window.scrollTo(0,0)
@@ -79,6 +79,7 @@ export class OrderPage implements OnInit {
   }
 
   selectProduct(product) {
+    this.quantity = null;
     this.product_details = product.name
     this.product_id = product.id
       let product_dict=
@@ -127,13 +128,14 @@ export class OrderPage implements OnInit {
     this.order_with_pref['delivery_date']=this.delivery_date
     this.order_with_pref['quantity']=this.quantity
     this.order_with_pref['specs']=this.product_answer
+    this.orderPageDatas();
     this.httpService.neworder(this.order_with_pref).subscribe((payment_datas) => {
     }, (error) => {
       console.error(error);
     });  
     this.slides.slideTo(0)
     console.log(this.order_with_pref)
-    this.orderPageDatas();
+    
   }
 
   orderToSale(status_id: number){

@@ -4,7 +4,7 @@ import { HttpService } from '../http.service';
 import { ModalController, NavController,ToastController,AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-payment',
+  selector: 'app-payment',  
   templateUrl: './payment.page.html',
   styleUrls: ['./payment.page.scss'],
 })

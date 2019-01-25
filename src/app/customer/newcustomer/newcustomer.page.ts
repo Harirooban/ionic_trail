@@ -33,8 +33,8 @@ export class NewcustomerPage implements OnInit {
 	product_data: any = [];
 	product_details: any;
 	specs:any = null;
-	geo_latitude:any;
-	geo_longitude:any;
+	geo_latitude:any =null;
+	geo_longitude:any=null;
 
 	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, private geolocation:Geolocation,public formBuilder: FormBuilder) {
 		this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
@@ -46,20 +46,18 @@ export class NewcustomerPage implements OnInit {
 			code: [''],
 			phone_number: [null],
 			whatsapp: [null],
-			email: [null],
 			door_number: [null],
 			community: [null],
 			postal_code: [null],
-			latitude:[this.geo_latitude],
-			longitude:[this.geo_longitude],
+			latitude:[null],
+			longitude:[null],
 		});
 	}
 	// get the geolocatio 
 	getCustomerLocatoion(){
 		this.geolocation.getCurrentPosition().then((resp)=>{
-	  this.geo_latitude=resp.coords.latitude;
-	  this.geo_longitude=resp.coords.longitude;
-	  alert(this.geo_latitude + ',' + this.geo_longitude);
+		this.customerForm.controls['latitude'].setValue(resp.coords.latitude);
+		this.customerForm.controls['longitude'].setValue(resp.coords.longitude);
 	})}
 	// new customer product questions
 	singleQuestion() {
@@ -130,10 +128,6 @@ export class NewcustomerPage implements OnInit {
 				alert('enter whether whatasapp exists or not');
 				return false;
 			}
-			if (this.customerForm.value['email'] == null) {
-				alert('enter email');
-				return false;
-			}
 			if (this.customerForm.value['door_number'] == null) {
 				alert('enter door_number');
 				return false;
@@ -144,6 +138,10 @@ export class NewcustomerPage implements OnInit {
 			}
 			if (this.customerForm.value['postal_code'] == null) {
 				alert('enter postal code');
+				return false;
+			}
+			if (this.customerForm.value['latitute'] == null) {
+				alert('Select Location for customer');
 				return false;
 			}
 			this.customer_data_with_pref['customer_details'] = this.customerForm.value
