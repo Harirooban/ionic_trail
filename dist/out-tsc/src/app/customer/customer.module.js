@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CustomerPage } from './customer.page';
+import { PipesModule } from '../pipes.module';
 var routes = [
     {
         path: '',
@@ -25,7 +26,8 @@ var CustomerPageModule = /** @class */ (function () {
                 CommonModule,
                 FormsModule,
                 IonicModule,
-                RouterModule.forChild(routes)
+                RouterModule.forChild(routes),
+                PipesModule
             ],
             declarations: [CustomerPage]
         })

@@ -6,7 +6,8 @@ import { ProdprefPage } from '../prodpref/prodpref.page';
 import { OrderPage } from '../order/order.page';
 import { SalePage } from '../sale/sale.page';
 import { DataServiceService } from '../data-service.service';
-
+import { HttpHeaders } from '@angular/common/http';
+const TOKEN_KEY = 'auth-token';
  
 @Component ( {
   selector: 'app-customer',

@@ -32,7 +32,7 @@
 				{{ customer_info.door_number }} - {{ customer_info.community }}
 			</ion-col>
 			<ion-col size="3">
-				<a color="white" fill="clear"class="button" href="geo:?q={{ customer_info.latitude+','+customer_info.longitude }}" *ngIf="customer_info.latitude != null && customer_info.longitude !=null">
+				<a color="white" fill="clear"class="button" href="http://maps.google.com/?q={{ customer_info.latitude+','+customer_info.longitude }}" *ngIf="customer_info.latitude != null && customer_info.longitude !=null">
 					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: -8px" ></ion-icon>
 				</a>
 				<a color="white" fill="clear"class="button" *ngIf="customer_info.latitude == null && customer_info.longitude == null">

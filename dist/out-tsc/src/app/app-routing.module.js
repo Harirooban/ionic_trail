@@ -7,18 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 var routes = [
-    { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
     { path: 'welcome', loadChildren: './welcome/welcome.module#WelcomePageModule' },
     { path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
-    { path: 'order/:customer_id', loadChildren: './order/order.module#OrderPageModule' },
+    { path: 'order', loadChildren: './order/order.module#OrderPageModule' },
     { path: 'customer', loadChildren: './customer/customer.module#CustomerPageModule' },
     { path: 'sale', loadChildren: './sale/sale.module#SalePageModule' },
     { path: 'payment/:customer_id', loadChildren: './payment/payment.module#PaymentPageModule' },
     { path: 'product', loadChildren: './product/product.module#ProductPageModule' },
     { path: 'prodpref', loadChildren: './prodpref/prodpref.module#ProdprefPageModule' },
     { path: 'newpayment/:customer_id', loadChildren: './payment/newpayment/newpayment.module#NewpaymentPageModule' },
-    { path: 'newcustomer', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
+    { path: 'newcustomer/:customer_id', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
+    { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+    { path: 'quickaccess/:id', loadChildren: './quickaccess/quickaccess.module#QuickaccessPageModule' },
+    { path: 'updatequote', loadChildren: './updatequote/updatequote.module#UpdatequotePageModule' },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {

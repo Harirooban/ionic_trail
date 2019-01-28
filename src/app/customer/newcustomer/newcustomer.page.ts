@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Slides } from '@ionic/angular';
+import { Slides,ToastController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,13 @@ export class NewcustomerPage implements OnInit {
 	product_details: any;
 	specs:any = null;
 
-	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, private geolocation:Geolocation,public formBuilder: FormBuilder) {
+	constructor(
+		private httpService: HttpService,
+	 	private activaterouter: ActivatedRoute,
+		private router: Router,
+	  private geolocation:Geolocation,
+	  public formBuilder: FormBuilder,
+		private toastController: ToastController) {
 		this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
 		console.log(activaterouter.snapshot.paramMap.get('customer_id'))
 		// to get the form values in customerForm 
@@ -145,7 +151,9 @@ export class NewcustomerPage implements OnInit {
 			this.customer_data_with_pref['customer_details'] = this.customerForm.value
 			this.customer_data_with_pref['product_specs'] = this.single_customer_pref
 			console.log(this.customer_data_with_pref)
-			this.httpService.newCustomerPost(this.customer_data_with_pref).subscribe((payment_datas) => {
+			this.httpService.newCustomerPost(this.customer_data_with_pref).subscribe(() => {
+			this.router.navigate(['customer']);
+			this.toastDispalay(this.customerForm.value['name'] + "is added");
 			}, (error) => {
 				console.error(error);
 			});	
@@ -157,8 +165,10 @@ export class NewcustomerPage implements OnInit {
 			}
 			this.httpService.newCustomerPost(customer_update_dict).subscribe(()=> {
 			console.log(customer_update_dict)
-	}, (error) => {
-	  console.error(error);
+			this.toastDispalay(this.customerForm.value['name'] + "is updated");
+			this.router.navigate(['customer']);
+			}, (error) => {
+	  		console.error(error);
 			});
 	}
 	}
@@ -201,6 +211,14 @@ export class NewcustomerPage implements OnInit {
 		});
 		console.log(this.product_name_data)
 		}
+	async toastDispalay(message) {
+		const toast = await this.toastController.create({
+			message: message,
+			duration: 3000,
+			position: 'top'
+		});
+		toast.present();
+	}
 
 	// 
 	getCustomerDetails(customer_id){
@@ -209,18 +227,18 @@ export class NewcustomerPage implements OnInit {
 		}
 		this.httpService.customerPost(customer_dict).subscribe((data)=>{
 			this.customer_datas=data;
+			console.log(this.customer_datas);
 			this.customerForm.controls['id'].setValue(data[0]['id']);
 			this.customerForm.controls['name'].setValue(data[0]['name']);
 			this.customerForm.controls['code'].setValue(data[0]['code']);
 			this.customerForm.controls['phone_number'].setValue(data[0]['phone_number']);
 			this.customerForm.controls['community'].setValue(data[0]['community']);
-			this.customerForm.controls['email'].setValue(data[0]['email']);
 			this.customerForm.controls['door_number'].setValue(data[0]['door_number']);
 			this.customerForm.controls['postal_code'].setValue(data[0]['postal_code']);
 			this.customerForm.controls['whatsapp'].setValue(data[0]['is_whatsapp']);
 			this.customerForm.controls['latitude'].setValue(data[0]['latitude']);
 			this.customerForm.controls['longitude'].setValue(data[0]['longitude']);
-			console.log(this.customer_datas);
+			
 		});
 	}
 	UpdateSpec(){

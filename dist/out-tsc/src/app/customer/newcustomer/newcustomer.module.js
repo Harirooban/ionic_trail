@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NewcustomerPage } from './newcustomer.page';
@@ -25,6 +25,7 @@ var NewcustomerPageModule = /** @class */ (function () {
                 CommonModule,
                 FormsModule,
                 IonicModule,
+                ReactiveFormsModule,
                 RouterModule.forChild(routes)
             ],
             declarations: [NewcustomerPage]
