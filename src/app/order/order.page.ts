@@ -136,6 +136,7 @@ export class OrderPage implements OnInit {
     }
     this.httpService.get_order_details(update_order_dict).subscribe((data) => {
       this.update_order_temp = data
+      console.log(this.update_order_temp)
       this.update_order_product_name = this.update_order_temp[0]['product_code']
       this.update_order_delivary_date = this.update_order_temp[0]['delivary_date']
       console.log(this.update_order_delivary_date)
@@ -144,37 +145,12 @@ export class OrderPage implements OnInit {
         let temp_dict = {}
         temp_dict['question_id'] = element.question_id
         temp_dict['update_answer_data'] = element.customer_answer
-        temp_dict['question_name'] = element.question,
+        temp_dict['question_name'] = element.question
         temp_dict['question_type'] = element.question_type
+        temp_dict['order_specs_id'] = element.order_spec_id
         this.update_orderSpec_list.push(temp_dict)
       })
       console.log(this.update_orderSpec_list)
-
-
-
-      // this.quantity = null;
-      // this.product_details = order_product.name
-      // this.product_id = order_product.id
-      // this.product_data = data;
-      // console.log(this.product_data);
-      // this.product_answer = [];
-      // if (this.product_details != null) {
-      //   this.product_data[this.product_details].forEach((element) => {
-      //     let temp_dict = {}
-      //     temp_dict['question_id'] = element.question_id
-      //     temp_dict['answer_data'] = element.customer_answer
-      //     temp_dict['question_name'] = element.question
-      //     if (!element.hasOwnProperty('customer_answer')) {
-      //       if (element.question_type == 'boolean-checkbox') {
-      //         temp_dict['answer_data'] = false
-      //       } else {
-      //         temp_dict['answer_data'] = ''
-      //       }
-      //     }
-      //     this.product_answer.push(temp_dict)
-      //   });
-      // }
-      // console.log(this.product_answer)
     })
   }
 
@@ -184,7 +160,9 @@ export class OrderPage implements OnInit {
       'specs': this.update_orderSpec_list
     }
     this.httpService.updateOrder(update_order_dict).subscribe((data) => {
-
+      this.toastDispalay('order has been updated');
+      this.orderPageDatas();
+      this.slides.slideTo(0)
     }, (error) => {
       console.error(error);
     }); 
@@ -192,6 +170,7 @@ export class OrderPage implements OnInit {
   }
 
   storeAnswerData(){
+    this.temp_refresh = true
     if (this.quantity == null) {
       alert('enter quantity');
       return false;

@@ -144,7 +144,7 @@ export class HttpService {
 		return this.httpClient.post(this.globalService.base_url + 'main/get/order/details/', update_order_dict)
 	}
 	updateOrder(update_order_dict) {
-		return this.httpClient.post(this.globalService.base_url + 'main/update/order', update_order_dict)
+		return this.httpClient.post(this.globalService.base_url + 'main/update/order/', update_order_dict)
 	}
 }
 

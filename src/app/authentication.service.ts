@@ -24,6 +24,10 @@ export class AuthenticationService {
 			this.authendicationState.next(true);
 			// this.events.publish('login_event', res_data['token']);
 			return this.storage.set(TOKEN_KEY, res_data['token']);
+		}, (error) => {
+			console.error(error);
+			let detail_error=error.error['message'];
+				alert(detail_error);
 		});
 	}
 

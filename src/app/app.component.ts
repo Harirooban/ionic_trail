@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-
+import { Router, ActivatedRoute } from '@angular/router'; 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpService } from './http.service';
+
+import { AuthenticationService } from './authentication.service'
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -42,7 +44,9 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private httpService : HttpService 
+    private httpService : HttpService,
+    private authenticationservice:AuthenticationService,
+    private router: Router
   ) {
 
     this.today = new Date().toJSON().split('T')[0]
@@ -53,11 +57,21 @@ export class AppComponent {
     })
     this.initializeApp();
   }
-
+  logout() {
+    this.authenticationservice.logout();
+  }
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.authenticationservice.authendicationState.subscribe(state=>{
+        if(state) {
+          this.router.navigate(['customer']);
+        }
+        else {
+          this.router.navigate(['login']);
+        }
+      })
     });
   }
 }
