@@ -94,13 +94,12 @@
 					<ion-col></ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col size="5" padding>
+					<ion-col padding>
 						Quantity:
 					</ion-col>
 					<ion-col>
 						<ion-input type="number" [(ngModel)]="quantity"></ion-input>
 					</ion-col>
-					<ion-col></ion-col>
 				</ion-row>
 				<span *ngIf="product_details != null">
 					<span *ngFor="let item of product_data[product_details]; let product_index=index;">
