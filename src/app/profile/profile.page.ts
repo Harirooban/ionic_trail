@@ -109,10 +109,10 @@ export class ProfilePage implements OnInit {
     else if ( transaction_status_id ==3 ){
       return 'blue';
     }
-    else if (transaction_status_id == 4 || transaction_status_id == 2){
+    else if (transaction_status_id == 2){
       return 'green';
     }
-    else if(transaction_status_id == 5){
+    else if(transaction_status_id == 4){
       return 'red';
     }
   }

@@ -197,13 +197,15 @@ export class OrderPage implements OnInit {
   }
 
   orderToSale(status_id: number){
-    if (this.final_delivery_date == null) {
-      alert('enter delivery_date');
-      return false;
-    }
-    if (this.actual_quantity == null) {
-      alert('enter actual quantity');
-      return false;
+    if (status_id == 4){
+      if (this.final_delivery_date == null) {
+        alert('enter delivery_date');
+        return false;
+      }
+      if (this.actual_quantity == null) {
+        alert('enter actual quantity');
+        return false;
+      }
     }
     this.temp_refresh=true
     let order_to_sale_dict = {

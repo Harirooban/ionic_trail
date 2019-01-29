@@ -70,7 +70,11 @@ export class SalePage implements OnInit {
     this.httpService.salesPost(customer_dict).subscribe((sale_data)=> {
       this.sale_datas = sale_data;
      console.log(this.sale_datas)
-    })
+    });
+
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe((data) => {
+    });
   }
   
   vesselUpdate(count:number){
