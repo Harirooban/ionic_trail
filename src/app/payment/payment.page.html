@@ -76,7 +76,7 @@
 							</ion-icon>
 							<ion-icon name="trash" (click)=confirmDecline(payment_data.payment_id,4) style="color:red;font-size: 20px;float:right;"></ion-icon>
 						</span>
-						<span [style.color]="statusCheckout(payment_data.payment_status)" *ngIf="payment_data.payment_status_id != 1">
+						<span [style.color]="statusCheckout(payment_data.payment_status_id)" *ngIf="payment_data.payment_status_id != 1">
 							{{ payment_data.payment_status | slice:0:9 }}
 						</span>
 					</ion-col>

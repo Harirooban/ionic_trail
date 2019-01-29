@@ -52,13 +52,12 @@ export class PaymentPage implements OnInit {
     else return 'red';
   }
 
-  statusCheckout(payment_status: string){
-    console.log(payment_status)
-    if (payment_status == 'Initiated') return 'blue';
+  statusCheckout(payment_status_id: number){
+    if (payment_status_id == 1) return 'blue';
     
-    else if(payment_status == 'completed') return 'green';
+    else if (payment_status_id == 2) return 'green';
 
-    else if(payment_status == 'Disapproved') return 'red';
+    else if (payment_status_id == 4) return 'red';
   }
   homePage() {
     this.router.navigate(['customer']);
