@@ -17,9 +17,44 @@
 	    </ion-refresher-content>
 	</ion-refresher>
 	<ion-card >
+		<ion-row style="height:42px;">
+			<ion-col size="3">
+				<a color="white" fill="clear" href="tel: {{ customer_info.phone_number }}" class="button">
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px;margin-left: 26px"></ion-icon>
+				</a>
+			</ion-col>
+			<ion-col size="6" padding style="text-align: left;font-size: 12px;font-weight: bold;" (click)="update()">
+				<ion-icon name="create" style="font-size: 18px"></ion-icon> <span style="text-transform: capitalize;"> {{ customer_info.name }} </span> - {{ customer_info.code }}
+			</ion-col>
+			<ion-col size="3">
+				<a color="white" fill="clear" class="button" href="http://maps.google.com/?q={{ customer_info.latitude+','+customer_info.longitude }}"
+				 *ngIf="customer_info.latitude != null && customer_info.longitude !=null">
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px"></ion-icon>
+				</a>
+				<a color="white" fill="clear" class="button" *ngIf="customer_info.latitude == null && customer_info.longitude == null">
+					<ion-icon src="assets/svg/no_gps.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px"></ion-icon>
+				</a>
+			</ion-col>
+		</ion-row>
+		<ion-row style="height: 31px">
+			<ion-col size="6" style="text-align: left;">
+				{{ customer_info.community }}- {{ customer_info.door_number }}
+			</ion-col>
+			<ion-col size="6">
+				Orders:{{ customer_info.pending_order_count }}/{{ customer_info.all_order_count}}
+			</ion-col>
+		</ion-row>
 		<ion-row>
-			<ion-col  size="9" style="font-weight: bold;text-align: center;" (click)="update()">
-				<ion-icon name="create" style="font-size: 18px"></ion-icon> {{ customer_info['name'] }} - {{ customer_info.code }}
+			<ion-col size="6" [style.color]="balcheckout(customer_info.balance_amount)">
+				<span style="font-weight: bold;">Balance : </span>{{ customer_info.balance_amount }}
+			</ion-col>
+			<ion-col size="6" [style.color]="checkVesselCount(customer_info.vessel_count)">
+				<span style="font-weight: bold;">Vessel: </span>{{ customer_info.vessel_count }}
+			</ion-col>
+		</ion-row>
+		<!-- <ion-row>
+			<ion-col  size="9" style="font-weight: bold;text-align: center;">
+				{{ customer_info['name'] }} - {{ customer_info.code }}
 			</ion-col>
 			<ion-col size="3">
 				<a color="white" fill="clear"  href="tel: {{ customer_info.phone_number }}" class="button">
@@ -48,7 +83,7 @@
 			<ion-col size="5" [style.color]="checkVesselCount(customer_info.vessel_count)">
 				<span style="font-weight: bold;" >Vessel: </span>{{ customer_info['vessel_count'] }}
 			</ion-col>
-		</ion-row>
+		</ion-row> -->
 		<ion-row>
 			<ion-col size="3" style="text-align: center;">
 				<ion-button color="white" fill="clear" (click)="openModal(customer_info)">
@@ -94,7 +129,7 @@
 						{{ transaction.amount | number: '.2' }}
 					</span>
 				</ion-col>
-				<ion-col size="1" style="text-align:left,font-size:14px;">
+				<ion-col size="1" style="text-align:left;font-size:14px;">
 					<span [style.color]="statusColor(transaction.status_id)">
 						<ion-icon slot="end" [name]="transaction.status_id == 5  ? 'close-circle-outline' : 'done-all'"></ion-icon>
 					</span>

@@ -53,9 +53,10 @@ export class PaymentPage implements OnInit {
   }
 
   statusCheckout(payment_status: string){
+    console.log(payment_status)
     if (payment_status == 'Initiated') return 'blue';
     
-    else if(payment_status == 'Approved') return 'green';
+    else if(payment_status == 'completed') return 'green';
 
     else if(payment_status == 'Disapproved') return 'red';
   }
@@ -77,15 +78,18 @@ export class PaymentPage implements OnInit {
       "payment_id":payment_data_payment_id,
       "status_id":status_id
     }
+    console.log(payment_action_dict)
+    this.toastDispalay(status_id);
+    this.ionViewWillEnter();
     this.httpService.paymentAction(payment_action_dict).subscribe(()=> {
     }, (error) => {
       console.error(error);
     });
-     this.toastDispalay(status_id);
+     
   }
 
  async toastDispalay(status_id) {
-   if( status_id == 4){
+   if( status_id == 2){
      const toast = await this.toastController.create({
     message: "payment has been approved",
     duration:3000,
