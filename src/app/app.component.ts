@@ -4,7 +4,8 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { HttpService } from './http.service';
-
+import { Storage } from '@ionic/storage';
+import { MenuController } from '@ionic/angular';
 import { AuthenticationService } from './authentication.service'
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { AuthenticationService } from './authentication.service'
 export class AppComponent {
   quote_datas:any;
   today:any;
+  swipeOption:boolean;
   public appPages = [
     {
       title:'Home',
@@ -46,18 +48,22 @@ export class AppComponent {
     private statusBar: StatusBar,
     private httpService : HttpService,
     private authenticationservice:AuthenticationService,
-    private router: Router
+    private router: Router,
+    private storage: Storage,
+    private menuController: MenuController
   ) {
-
+    if (this.storage == undefined) {
+      this.menuController.open('end');
+    }
     this.today = new Date().toJSON().split('T')[0]
     this.httpService.quote().subscribe((quote_data)=> {
-
       this.quote_datas = quote_data;    
       console.log(this.quote_datas)
     })
     this.initializeApp();
   }
   logout() {
+    this.swipeOption = true;
     this.authenticationservice.logout();
   }
   initializeApp() {
@@ -66,9 +72,11 @@ export class AppComponent {
       this.splashScreen.hide();
       this.authenticationservice.authendicationState.subscribe(state=>{
         if(state) {
+          this.swipeOption = false;
           this.router.navigate(['customer']);
         }
         else {
+          this.swipeOption=true;
           this.router.navigate(['login']);
         }
       })

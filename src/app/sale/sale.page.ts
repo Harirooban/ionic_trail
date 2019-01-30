@@ -209,7 +209,7 @@ export class SalePage implements OnInit {
     const toast = await this.toastController.create({
       message: "order has been delivered",
       duration:3000,
-      position:'top'
+      position:'middle'
     });
     toast.present();
   }
@@ -217,7 +217,7 @@ export class SalePage implements OnInit {
     const toast = await this.toastController.create({
       message: "order has been declined",
       duration:3000,
-      position:'top'
+      position:'middle'
     });
     toast.present();
   }

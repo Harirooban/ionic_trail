@@ -142,7 +142,7 @@
 					<span *ngFor="let item of new_customer_pref[selected_product]; let product_index=index;">
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'number'">
+								<ion-item *ngIf="item.question_type == 'number'" lines="none">
 									<ion-label position="floating">{{ item.question }}</ion-label>
 									<ion-input type="number" [(ngModel)]="product_answer[product_index]['answer_data']" ></ion-input>
 								</ion-item>
@@ -150,7 +150,7 @@
 						</ion-row>
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'boolean-checkbox'">
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" lines="none">
 									<ion-label>{{ item.question }}</ion-label>
 									<ion-checkbox slot="end" [(ngModel)]="product_answer[product_index]['answer_data']" [checked]="false" >
 									</ion-checkbox>
@@ -158,15 +158,15 @@
 							</ion-col>
 						</ion-row>
 						<ion-row>
-								<ion-item *ngIf="item.question_type == 'radio'">
+								<ion-item *ngIf="item.question_type == 'radio'" lines="none">
 									<ion-radio-group [(ngModel)]="product_answer[product_index]['answer_data']">
 										<ion-col size="4">
 											<ion-label>{{ item.question }}</ion-label>
 										</ion-col>
 										<ion-col *ngFor="let single_answer of item.answer" size="4"> 
-											<ion-item>
+											<ion-item lines="none">
 												<ion-label>{{ single_answer }}</ion-label>
-												<ion-radio slot="end"    [value]="single_answer"></ion-radio>
+												<ion-radio slot="end" [value]="single_answer"></ion-radio>
 											</ion-item>
 										</ion-col>
 									</ion-radio-group>
@@ -207,7 +207,7 @@
 					</ion-row>
 					<ion-row *ngFor="let extra_product of item.extra_product">
 						<ion-col  (click)="productSpecSlide(extra_product)"> 
-							<ion-item class="item-borderless" style="font-size: 13px">
+							<ion-item class="item-borderless" style="font-size: 13px" lines="none">
 								{{ extra_product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
 							</ion-item>
 						</ion-col>
@@ -229,7 +229,7 @@
 					<span *ngFor="let item of specs; let product_index=index;">
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'number'" class="item-borderless">
+								<ion-item *ngIf="item.question_type == 'number'" class="item-borderless" lines="none">
 									<ion-label position="floating">{{ item.question }}</ion-label>
 									<ion-input [(ngModel)]="product_name_data[product_index]['answer_data']">
 									</ion-input>
@@ -238,7 +238,7 @@
 						</ion-row>
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless">
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless" lines="none">
 									<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
 									<ion-checkbox slot="end" [(ngModel)]="product_name_data[product_index]['answer_data']"
 									[checked]="false" >
@@ -248,13 +248,13 @@
 						</ion-row>
 						<ion-row>	
 							<ion-col>							
-								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless">
+								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless" lines="none">
 									<ion-radio-group [(ngModel)]="product_name_data[product_index]['answer_data']">
 										<span>
 											<ion-label style="font-weight: bold;">{{ item.question }} </ion-label>
 										</span>
 										<span *ngFor="let single_answer of item.default_answer"> 
-											<ion-item class="item-borderless">
+											<ion-item class="item-borderless " lines="none">
 												<ion-label>{{ single_answer }} </ion-label>
 												<ion-radio slot="end" [value]="single_answer"></ion-radio>
 											</ion-item>

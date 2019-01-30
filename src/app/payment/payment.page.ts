@@ -18,7 +18,7 @@ export class PaymentPage implements OnInit {
   constructor(private router: Router ,private httpService : HttpService, private activaterouter : ActivatedRoute,
     private toastController:ToastController, private alertcontroller:AlertController,private nav: NavController ) { 
     this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
-    this.end_date = new Date().toJSON().split('T')[0];
+    this.end_date = new Date().toISOString().split('T')[0];
     this.startDateWithTime = new Date();
     this.startDateWithTime.setDate(this.startDateWithTime.getDate() - 30);
     this.start_date = this.startDateWithTime.toJSON().split('T')[0];
@@ -92,7 +92,7 @@ export class PaymentPage implements OnInit {
      const toast = await this.toastController.create({
     message: "payment has been approved",
     duration:3000,
-    position:'top'
+       position:'middle'
     });
      toast.present();
     }
@@ -100,7 +100,7 @@ export class PaymentPage implements OnInit {
        const toast = await this.toastController.create({
     message: "payment has been Disapproved",
     duration:3000,
-    position:'top'
+         position:'middle'
     });
      toast.present();
     }

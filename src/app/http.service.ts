@@ -7,31 +7,39 @@ import { Events } from '@ionic/angular';
   providedIn: 'root'
 })
 export class HttpService {
-	TOKEN:any;
 	headers: HttpHeaders;
 	constructor(private httpClient: HttpClient, private globalService: GlobalServiceService,private storage:Storage,private events:Events ) { 
-		this.getUserAccess();
+		this.headers = new HttpHeaders();
+		this.storage.get('auth-token').then((token) => {
+			console.log("recieved token")
+			console.log(token)
+			if (token != null) {
+				console.log('came')
+				this.headers = new HttpHeaders({ 'Authorization': 'Token ' + token });
+				console.log(this.headers)
+				console.log('end')
+			}
+		})
+		console.log('start')
+		console.log(this.headers)
+		console.log('done')
 		this.events.subscribe(('login_event'),(login_data)=>{
 			this.headers.append('Authorization', 'Token ' + login_data)
 		})
   }
 
-  getUserAccess(){
-
-	  this.headers = new HttpHeaders();
-	  this.storage.get('auth-token').then((token) => {
-			if (token != null) {
-				this.headers.append('Authorization', 'Token ' + token)	  	
-			}
-	  })
-  }
   	//  all customer datas
   	// customer page
 	customers() {
+		console.log('customer_service')
+		console.log(this.headers)
 		return this.httpClient.get(this.globalService.base_url + 'main/customer/', { headers: this.headers });
+
 	}
+
 	//  get customer data based on customer
 	customerPost(customer_dict) {
+		console.log(this.headers)
 		return this.httpClient.post(this.globalService.base_url + 'main/customer/', customer_dict, { headers: this.headers });
 	}
 

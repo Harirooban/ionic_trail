@@ -17,7 +17,8 @@ const TOKEN_KEY = 'auth-token';
 
 export class CustomerPage implements OnInit {
    // to display the customer data
-	 customer_datas : any ;
+   customer_datas : any ;
+  swipeOption:false;
 
   constructor(
     private router: Router,

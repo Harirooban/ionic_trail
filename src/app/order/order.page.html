@@ -26,9 +26,12 @@
 						All Products
 					</ion-col>
 				</ion-row>
-				<ion-row *ngFor="let product of products">
-						<ion-col  (click)="selectProduct(product)" size="12" style="text-align: left"> 
-							{{ product.code }} &nbsp; <ion-icon name="arrow-forward"  style="float: right"></ion-icon>
+				<ion-row *ngFor="let product of products" (click)="selectProduct(product)">
+						<ion-col  (click)="selectProduct(product)" size="12px" style="text-align: left"> 
+							{{ product.code }} &nbsp; 
+						</ion-col>
+						<ion-col>
+							<ion-icon name="arrow-forward" style="float: right;margin-left:95px;"></ion-icon>
 						</ion-col>
 				</ion-row>
 				<span *ngIf="order_datas != null">
@@ -84,7 +87,7 @@
 					</ion-col>
 				</ion-row>
 				<ion-row>
-					<ion-col size="4" padding>
+					<ion-col size="4" padding style="font-size: 17px">
 						Date :
 					</ion-col>
 					<ion-col>
@@ -93,8 +96,8 @@
 					</ion-col>
 					<ion-col></ion-col>
 				</ion-row>
-				<ion-row>
-					<ion-col padding>
+				<ion-row style="margin-left: -23px; margin-top: -17px;">
+					<ion-col padding style="font-size: 17px">
 						Quantity:
 					</ion-col>
 					<ion-col>
@@ -103,10 +106,10 @@
 				</ion-row>
 				<span *ngIf="product_details != null">
 					<span *ngFor="let item of product_data[product_details]; let product_index=index;">
-						<ion-row>
+						<ion-row style="margin-top: -18px;">
 							<ion-col>
 								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless" lines="none">
-									<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
+									<ion-label style="font-size: 17px">{{ item.question }}</ion-label>
 									<ion-checkbox slot="end" [(ngModel)]="product_answer[product_index]['answer_data']"
 									[checked]="false" >
 									</ion-checkbox>
@@ -123,12 +126,15 @@
 										<span *ngFor="let single_answer of item.default_answer"> 
 											<ion-item class="item-borderless" lines="none">
 												<ion-label>{{ single_answer }}</ion-label>
-												<ion-radio slot="end" [value]="single_answer"></ion-radio>
+												<div *ngIf="item.question_id == 11"><ion-radio slot="end" [value]="single_answer" style="margin-left:138px"></ion-radio> </div>
+												<div *ngIf="item.question_id == 10"><ion-radio slot="end" [value]="single_answer" style="margin-left:111px"></ion-radio> </div>
 											</ion-item>
 										</span>
 									</ion-radio-group>
+							
 								</ion-item> 
 							</ion-col>
+							
 						</ion-row>
 					</span>
 				</span>
