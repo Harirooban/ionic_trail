@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
 
-	{ path: '', redirectTo: 'welcome', pathMatch: 'full' },
+	{ path: '', redirectTo: 'login', pathMatch: 'full' },
 	{ path: 'login', loadChildren: './login/login.module#LoginPageModule' },
 	{ path: 'welcome', loadChildren: './welcome/welcome.module#WelcomePageModule' },
 	{ path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
-  { path: 'order/', loadChildren: './order/order.module#OrderPageModule' },
+  { path: 'order', loadChildren: './order/order.module#OrderPageModule' },
   { path: 'customer', loadChildren: './customer/customer.module#CustomerPageModule' },
   { path: 'sale', loadChildren: './sale/sale.module#SalePageModule' },
   { path: 'payment/:customer_id', loadChildren: './payment/payment.module#PaymentPageModule' },
@@ -16,6 +17,13 @@ const routes: Routes = [
   { path: 'newpayment/:customer_id', loadChildren: './payment/newpayment/newpayment.module#NewpaymentPageModule' },
   { path: 'newcustomer/:customer_id', loadChildren: './customer/newcustomer/newcustomer.module#NewcustomerPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  { path: 'quickaccess/:id', loadChildren: './quickaccess/quickaccess.module#QuickaccessPageModule' },
+  { path: 'updatequote', loadChildren: './updatequote/updatequote.module#UpdatequotePageModule' },
+  {
+    path: 'auth',
+    canActivate: [AuthGuardService],
+    loadChildren: './child-routing.module#ChildRoutingModule'
+  }
 	];
 
 @NgModule({

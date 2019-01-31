@@ -1,3 +1,41 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <!-- <ion-router-outlet></ion-router-outlet> -->
+  <ion-split-pane>
+    <ion-menu [disabled]="swipeOption">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Menu</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list inset="false" lines="none">
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+              <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
+                <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                <ion-label>
+                  {{p.title}}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+             <ion-item (click)=logout() lines="none">
+              <ion-icon slot="start" name="power"></ion-icon>
+              <ion-label>logout</ion-label>
+            </ion-item>
+          </ion-list>
+         <div style="margin-top:30%" >
+              <ion-row >
+                <ion-col style="text-align: center;margin-top: 5%;font-weight: bold">Price List ({{ today }})
+                </ion-col></ion-row>
+              <ion-row *ngFor="let quote of quote_datas" style="margin-left: 11px;">
+                <ion-col size="7">
+                  {{ quote.product_code }} 
+                </ion-col>
+                <ion-col size='1'> : </ion-col>
+                <ion-col size='4'>{{ quote.price | number: '.2' }}/{{ quote.unit }}</ion-col>
+              </ion-row >
+          </div>
+        </ion-content>
+      </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>

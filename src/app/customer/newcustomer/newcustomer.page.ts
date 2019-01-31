@@ -1,21 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Slides } from '@ionic/angular';
+import { Slides,ToastController } from '@ionic/angular';
 import { HttpService } from '../../http.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Component({
 	selector: 'app-newcustomer',
 	templateUrl: './newcustomer.page.html',
 	styleUrls: ['./newcustomer.page.scss'],
 })
+
 export class NewcustomerPage implements OnInit {
 	@ViewChild('common_slide') slides: Slides
 	slideOpts = {
 		effect: 'flip',
 		allowTouchMove: false
 	};
-	new_customer_pref: any;
+
+	new_customer_pref: any;//
 	product_names: any;
 	selected_product: any = null;
 	customerForm: FormGroup;
@@ -30,38 +33,63 @@ export class NewcustomerPage implements OnInit {
 	product_data: any = [];
 	product_details: any;
 	specs:any = null;
-	constructor(private httpService: HttpService, private activaterouter: ActivatedRoute, public formBuilder: FormBuilder) {
-		console.log(activaterouter.snapshot.paramMap.get('customer_id'))
+
+	constructor(
+		private httpService: HttpService,
+	 	private activaterouter: ActivatedRoute,
+		private router: Router,
+	  private geolocation:Geolocation,
+	  public formBuilder: FormBuilder,
+		private toastController: ToastController) {
 		this.customer_id = activaterouter.snapshot.paramMap.get('customer_id')
+		console.log(activaterouter.snapshot.paramMap.get('customer_id'))
+		// to get the form values in customerForm 
 		this.customerForm = this.formBuilder.group({
 			id:['new_customer_value'],
-			name: ['', Validators.required],
-			code: ['', Validators.required],
-			phone_number: ['', Validators.required],
-			whatsapp: ['', Validators.required],
-			email: ['', Validators.required],
-			landmark: ['', Validators.required],
-			door_number: ['', Validators.required],
-			community: ['', Validators.required],
-			street_name: ['', Validators.required],
-			postal_code: ['', Validators.required],
+			name: [null],
+			code: [''],
+			phone_number: [null],
+			whatsapp: [null],
+			door_number: [null],
+			community: [null],
+			postal_code: [null],
+			latitude:[null],
+			longitude:[null],
 		});
 	}
-	
+	// get the geolocatio 
+	getCustomerLocatoion(){
+		this.geolocation.getCurrentPosition().then((resp) => {
+			this.customerForm.controls['latitude'].setValue(resp.coords.latitude);
+			this.customerForm.controls['longitude'].setValue(resp.coords.longitude);
+		});
+		let watch = this.geolocation.watchPosition();
+		watch.subscribe((data)=>{
+		});
+	}
+	// new customer product questions
 	singleQuestion() {
 		this.product_answer = [];
 		if (this.selected_product != null) {
 			this.new_customer_pref[this.selected_product].forEach((element) => {
-				this.product_answer.push({
-					question_id: element.question_id,
-					answer_data: '',
-					product_id: element.product_id,
-					question_name: element.question
-				})
+				let temp_dict = {}
+			  temp_dict['question_id'] = element.question_id
+		  temp_dict['answer_data'] = element.customer_answer
+		  temp_dict['product_id'] = element.product_id
+		  temp_dict['question_name'] = element.question
+		  if (!element.hasOwnProperty('customer_answer')) {
+			if (element.question_type == 'boolean-checkbox') {
+			  temp_dict['answer_data'] = false
+			} else {
+			  temp_dict['answer_data'] = ''
+			}
+		  }
+		  this.product_answer.push(temp_dict)
 			});
 		}
 	}
 
+	//accodian for  displaying the selected specs
 	openList(group) {
 		if (this.isGroupShown(group)) {
 			this.shownGroup = null;
@@ -74,6 +102,7 @@ export class NewcustomerPage implements OnInit {
 		return this.shownGroup == group;
 	};
 
+ // to store the spec for new customers 
 	storeAnswerData(slide_index: number) {
 		if (this.customer_id == 0){
 			this.single_customer_pref.push({
@@ -91,78 +120,133 @@ export class NewcustomerPage implements OnInit {
 		}
 	}
 
+	// to  add/update customers
 	addCustomer() {
+		// to add new customers
 		if (this.customer_id == 0){
+			if (this.customerForm.value['name'] == null) {
+				alert('enter name');
+				return false;
+			}
+			if (this.customerForm.value['phone_number'] == null) {
+				alert('enter phone number');
+				return false;
+			}
+			if (this.customerForm.value['whatsapp'] == null) {
+				alert('enter whether whatasapp exists or not');
+				return false;
+			}
+			if (this.customerForm.value['door_number'] == null) {
+				alert('enter door_number');
+				return false;
+			}
+			if (this.customerForm.value['community'] == null) {
+				alert('enter community');
+				return false;
+			}
+			if (this.customerForm.value['postal_code'] == null) {
+				alert('enter postal code');
+				return false;
+			}
 			this.customer_data_with_pref['customer_details'] = this.customerForm.value
 			this.customer_data_with_pref['product_specs'] = this.single_customer_pref
 			console.log(this.customer_data_with_pref)
-			this.httpService.newCustomerPost(this.customer_data_with_pref).subscribe((payment_datas) => {
+			this.httpService.newCustomerPost(this.customer_data_with_pref).subscribe(() => {
+			this.router.navigate(['customer']);
+			this.toastDispalay(this.customerForm.value['name'] + "is added");
 			}, (error) => {
 				console.error(error);
 			});	
 		} 
+		// to update existing customers
 		else{
-			this.httpService.newCustomerPost(this.customerForm.value).subscribe(()=> {
-    	
-    }, (error) => {
-      console.error(error);
-    		});
+			let customer_update_dict={
+				'customer_details':this.customerForm.value
+			}
+			this.httpService.newCustomerPost(customer_update_dict).subscribe(()=> {
+			console.log(customer_update_dict)
+			this.toastDispalay(this.customerForm.value['name'] + "is updated");
+			this.router.navigate(['customer']);
+			}, (error) => {
+	  		console.error(error);
+			});
 	}
 	}
+
+	// for sliding  index back
 	slideBackword(index:number){
-		this.slides.slideTo(index, 300)
+		this.slides.slideTo(index)
 	}
+	
+	// for sliding  index forward
 	slideForward() {
 		if (this.customer_id == '0' ){
-			this.slides.slideTo(1, 300)
+			this.slides.slideTo(1,300)
 		}
 		if(this.customer_id != 0){
-			this.slides.slideTo(2, 300)
+			this.slides.slideTo(2,300)
 		}
-
 	}
+
+	// 
 	productSpecSlide(product){
-		this.slides.slideTo(3, 300)
-		this.product_name_data = []; 
+		this.slides.slideTo(3)
+		this.product_name_data = [];
+		console.log(product)
 		this.specs=product['specs']
 		product['specs'].forEach((element) => {
-			this.product_name_data.push({
-				customer_id:this.customer_id,
-				product_id: product['product_id'],
-				question_id: element.question_id,
-				answer_data: element.answer,
-				question_name: element.question
-			})
+			let temp_prod_spec_dict ={}
+			temp_prod_spec_dict['customer_id']=this.customer_id
+			temp_prod_spec_dict['product_id']=product['product_id']
+			temp_prod_spec_dict['question_id']=element.question_id
+			temp_prod_spec_dict['question_name']=element.question
+			temp_prod_spec_dict['answer_data']=element.answer
+			console.log(element.answer)
+			if (element.answer == null || element.answer == "" ){
+				if (element.question_type == 'boolean-checkbox') {
+			  temp_prod_spec_dict['answer_data'] = false
+		  }
+			}
+			this.product_name_data.push(temp_prod_spec_dict)
 		});
 		console.log(this.product_name_data)
 		}
+	async toastDispalay(message) {
+		const toast = await this.toastController.create({
+			message: message,
+			duration: 3000,
+			position: 'top'
+		});
+		toast.present();
+	}
 
+	// 
 	getCustomerDetails(customer_id){
 		let customer_dict ={
 			'customer_id':customer_id
 		}
 		this.httpService.customerPost(customer_dict).subscribe((data)=>{
 			this.customer_datas=data;
+			console.log(this.customer_datas);
 			this.customerForm.controls['id'].setValue(data[0]['id']);
 			this.customerForm.controls['name'].setValue(data[0]['name']);
 			this.customerForm.controls['code'].setValue(data[0]['code']);
 			this.customerForm.controls['phone_number'].setValue(data[0]['phone_number']);
 			this.customerForm.controls['community'].setValue(data[0]['community']);
-			this.customerForm.controls['email'].setValue(data[0]['email']);
-			this.customerForm.controls['landmark'].setValue(data[0]['landmark']);
 			this.customerForm.controls['door_number'].setValue(data[0]['door_number']);
 			this.customerForm.controls['postal_code'].setValue(data[0]['postal_code']);
-			this.customerForm.controls['street_name'].setValue(data[0]['street']);
 			this.customerForm.controls['whatsapp'].setValue(data[0]['is_whatsapp']);
-			console.log(this.customer_datas);
+			this.customerForm.controls['latitude'].setValue(data[0]['latitude']);
+			this.customerForm.controls['longitude'].setValue(data[0]['longitude']);
+			
 		});
 	}
 	UpdateSpec(){
 		this.slides.slideTo(2)
-      this.httpService.updateSpec(this.product_name_data).subscribe((data)=> {
-    }, (error) => {
-      console.error(error);
-    });
+	  this.httpService.updateSpec(this.product_name_data).subscribe((data)=> {
+	}, (error) => {
+	  console.error(error);
+	});
   }
 	ngOnInit() {
 		if (this.customer_id != 0){
@@ -171,6 +255,7 @@ export class NewcustomerPage implements OnInit {
 		}
 		this.httpService.newCustomerpref().subscribe((pref_data) => {
 			this.new_customer_pref = pref_data;
+			console.log(this.new_customer_pref)
 			this.product_names = Object.keys(this.new_customer_pref)
 		}, (error) => {
 			console.error(error);

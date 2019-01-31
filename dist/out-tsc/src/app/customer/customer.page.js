@@ -47,19 +47,28 @@ import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
 import { ModalController, NavController } from '@ionic/angular';
 import { ProdprefPage } from '../prodpref/prodpref.page';
+import { OrderPage } from '../order/order.page';
+import { SalePage } from '../sale/sale.page';
+import { DataServiceService } from '../data-service.service';
+var TOKEN_KEY = 'auth-token';
 var CustomerPage = /** @class */ (function () {
-    //  feching data from  customer table to csutomer_datas 
-    function CustomerPage(router, httpService, nav, modalController) {
-        var _this = this;
+    function CustomerPage(router, httpService, nav, modalController, dataService) {
         this.router = router;
         this.httpService = httpService;
         this.nav = nav;
         this.modalController = modalController;
-        this.httpService.testfun().subscribe(function (cust_data) {
+        this.dataService = dataService;
+        this.customerPageDatas();
+    }
+    CustomerPage.prototype.customerPageDatas = function () {
+        var _this = this;
+        //  feching data from  customer table to customer_datas 
+        this.httpService.customers().subscribe(function (cust_data) {
             _this.customer_datas = cust_data;
             console.log(_this.customer_datas);
         });
-    }
+    };
+    // product preferene modal
     CustomerPage.prototype.openModal = function (customer) {
         return __awaiter(this, void 0, void 0, function () {
             var modal;
@@ -80,28 +89,91 @@ var CustomerPage = /** @class */ (function () {
             });
         });
     };
-    //  maping to order page with customer Id
-    CustomerPage.prototype.orderPage = function (customer) {
-        this.nav.navigateForward('/order/' + customer.id);
+    // order modal
+    CustomerPage.prototype.openOrderModal = function (customer) {
+        return __awaiter(this, void 0, void 0, function () {
+            var modal;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.modalController.create({
+                            component: OrderPage,
+                            componentProps: {
+                                customer_value: customer
+                            },
+                            cssClass: 'inset-modal'
+                        })];
+                    case 1:
+                        modal = _a.sent();
+                        // refresh on modal close
+                        modal.onDidDismiss().then(function (data) {
+                            console.log(data);
+                            if (data['data']['temp_refresh']) {
+                                _this.customerPageDatas();
+                            }
+                        });
+                        modal.present();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // delivery modal
+    CustomerPage.prototype.openDeliveryModal = function (customer) {
+        return __awaiter(this, void 0, void 0, function () {
+            var modal;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.modalController.create({
+                            component: SalePage,
+                            componentProps: {
+                                customer_value: customer
+                            },
+                            cssClass: 'inset-modal'
+                        })];
+                    case 1:
+                        modal = _a.sent();
+                        // refresh on modal close
+                        modal.onDidDismiss().then(function (data) {
+                            if (data['data']['temp_refresh']) {
+                                _this.customerPageDatas();
+                            }
+                        });
+                        modal.present();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     //  maping to payment page with customer Id
-    CustomerPage.prototype.paymentPage = function (customer) {
-        this.nav.navigateForward('/payment/' + customer.id);
+    CustomerPage.prototype.profilePage = function (customer) {
+        this.router.navigate(['/profile']);
+        this.dataService.getcustomerdetails(customer);
     };
+    // navigate to  adding new customer
     CustomerPage.prototype.newCustomer = function () {
-        this.router.navigate(['newcustomer']);
+        this.nav.navigateForward('/newcustomer/' + 0);
     };
+    //changing color for vessel counts 
     CustomerPage.prototype.checkVesselCount = function (vessel_count) {
         if (vessel_count == 0)
             return 'green';
         else
             return 'red';
     };
+    //changing color for balance amount
     CustomerPage.prototype.balcheckout = function (amount) {
         if (amount >= 0)
             return 'green';
         else
             return 'red';
+    };
+    // refreshner
+    CustomerPage.prototype.doRefresh = function (event) {
+        console.log('Begin async operation');
+        this.customerPageDatas();
+        event.target.complete();
     };
     CustomerPage.prototype.ngOnInit = function () {
     };
@@ -111,7 +183,11 @@ var CustomerPage = /** @class */ (function () {
             templateUrl: './customer.page.html',
             styleUrls: ['./customer.page.scss'],
         }),
-        __metadata("design:paramtypes", [Router, HttpService, NavController, ModalController])
+        __metadata("design:paramtypes", [Router,
+            HttpService,
+            NavController,
+            ModalController,
+            DataServiceService])
     ], CustomerPage);
     return CustomerPage;
 }());

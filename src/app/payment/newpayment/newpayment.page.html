@@ -16,7 +16,7 @@
 				Date :
 				</ion-col>
 				<ion-col>
-					<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" formControlName="date"></ion-datetime>
+					<ion-datetime display-format="DD MMM YYYY" placeholder="Select date" formControlName="date" required [min]="today"></ion-datetime>
 				</ion-col>
 			</ion-row>
 			<ion-row >
@@ -24,7 +24,8 @@
 					<ion-label position="floating">Amount :</ion-label>
 				</ion-col>
 				<ion-col>
-					<ion-input type="number"placeholder="Enter the amount" formControlName="amount"></ion-input>
+					<ion-input type="number"placeholder="Enter the amount" style="outline: 1px solid grey;height: 29px;
+					width: 92%;" formControlName="amount" required></ion-input>
 				</ion-col>
 			</ion-row>
 			<ion-row >
@@ -32,17 +33,22 @@
 					<ion-label>Payment method</ion-label>
 				</ion-col>
 				<ion-col>
-					<ion-select placeholder="Select method" interface="popover" formControlName="payment_method" [(ngModel)]="type">
+					<ion-select placeholder="Select method" interface="popover" formControlName="payment_method" [(ngModel)]="type" required>
 						<ion-select-option  *ngFor="let method of paymentmethod_datas" value="{{ method.id }}" >
 							{{ method.name }}
 						</ion-select-option>
 					</ion-select>
 				</ion-col>
 			</ion-row>
-				<ion-item *ngIf="type != 1">
-					  <ion-label>Reference ID</ion-label>
-					  <ion-input type="text" formControlName="reference_id"></ion-input>
-				</ion-item>
+				<ion-row *ngIf="type != 1">
+					<ion-col padding>
+						<ion-label position="floating">Reference Id :</ion-label>
+					</ion-col>
+					<ion-col>
+						<ion-input type="text" placeholder="Enter the reference_id" style="outline: 1px solid grey; height: 29px;width: 122%; margin-left: -45px;"
+						 formControlName="reference_id" required></ion-input>
+					</ion-col>
+				</ion-row>
 			<ion-row >
 				<ion-col text-center>
 					<ion-button type="submit" (click)="addPayment()">add payment</ion-button>

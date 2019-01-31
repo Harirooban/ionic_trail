@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../http.service';
 import { ModalController,NavParams,NavController,AlertController,ToastController } from '@ionic/angular';
 import { Slides } from '@ionic/angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
 
@@ -22,39 +23,63 @@ export class SalePage implements OnInit {
   vessel:number;
   opacity_value:any;
   reason_list:any;
-  constructor(private router: Router ,private alertcontroller:AlertController,private httpService : HttpService,
-              private toastController:ToastController,private modalController: ModalController,private navParams: NavParams,private nav: NavController) { 
+  temp_refresh:boolean=false;
+  geo_latitude:any;
+  geo_longitude:any;
+  constructor(
+    private router: Router,
+    private alertcontroller:AlertController,
+    private httpService : HttpService,
+    private geolocation:Geolocation,
+    private toastController:ToastController,
+    private modalController: ModalController,
+    private navParams: NavParams,
+    private nav: NavController) { 
   	
     this.getSaleData();
   
 
   }
+  getCustomerLocatoion(){
+    this.geolocation.getCurrentPosition().then((resp)=>{
+      this.geo_latitude=resp.coords.latitude;
+      this.geo_longitude=resp.coords.longitude;
+    })
+    let location_dict=
+    {
+      "latitude":this.geo_latitude,
+      "longitude":this.geo_longitude,
+      "customer_id":this.customer.id
+    }
+    console.log(location_dict)
+    this.httpService.geoPost(location_dict).subscribe(()=> {
+    })
+  }
+
   getSaleData(){
     this.customer = this.navParams.get('customer_value');
+
+    console.log(this.customer)
   // // an dict to post to django server
     let customer_dict=
     {
       "customer_id":this.customer.id
     }
-     
-    console.log(this.customer)
+    console.log(customer_dict)
     this.vessel = this.customer.vessel_count;
     this.httpService.salesPost(customer_dict).subscribe((sale_data)=> {
       this.sale_datas = sale_data;
      console.log(this.sale_datas)
-    })
-    this.httpService.reasonList().subscribe((data)=> {
-    this.reason_list = data;
-    console.log(this.reason_list)
-    })
-  }
-  // slideForward(slide_index: number) {
+    });
 
-  //   this.slides.slideTo(slide_index)
-    
-  // }
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe((data) => {
+    });
+  }
+  
   vesselUpdate(count:number){
    
+    this.temp_refresh=true
     if (count == 1){
       this.vessel=this.vessel + 1;
       let vessel_dict=
@@ -80,7 +105,7 @@ export class SalePage implements OnInit {
   }
 }
   closeModal() {
-    this.modalController.dismiss();
+    this.modalController.dismiss({ "temp_refresh":this.temp_refresh});
   }
 
   paymentPage(){
@@ -100,6 +125,7 @@ export class SalePage implements OnInit {
   }
 
   orderAccept(item){
+    this.temp_refresh=true
     let customer_dict={
       "customer_id":this.customer.id,
       "sale_id":item.sale_id,
@@ -114,6 +140,7 @@ export class SalePage implements OnInit {
     this.acceptToastDispalay();
   }
    orderDecline(value,item){
+    this.temp_refresh=true
     let customer_dict={
       "customer_id":this.customer.id,
       "sale_id":item.sale_id,
@@ -131,7 +158,7 @@ export class SalePage implements OnInit {
     this.getSaleData();
     event.target.complete();    
   }
-  async alertmessage(item){
+  async reasonForRejection(item){
     const alert = await this.alertcontroller.create({
       header :'Reasons',
       inputs:[{
@@ -181,16 +208,16 @@ export class SalePage implements OnInit {
   async acceptToastDispalay() {
     const toast = await this.toastController.create({
       message: "order has been delivered",
-      duration:2000,
-      position:'top'
+      duration:3000,
+      position:'middle'
     });
     toast.present();
   }
   async declineToastDispalay() {
     const toast = await this.toastController.create({
       message: "order has been declined",
-      duration:2000,
-      position:'top'
+      duration:3000,
+      position:'middle'
     });
     toast.present();
   }

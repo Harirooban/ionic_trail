@@ -9,101 +9,95 @@
 </ion-header>
 <ion-content>
 	<ion-grid>
+		<!-- page for adding new customer and updating existing customer -->
 		<ion-slides #common_slide [options]=slideOpts>
+			<!-- common slide for both new and update -->
 			<ion-slide>
 				<form [formGroup]="customerForm" >
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Name</ion-label>
-									<ion-input type="text" formControlName="name" ></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">code</ion-label>
-									<ion-input type="text" formControlName="code" ></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Phone Number </ion-label>
-									<ion-input type="number" formControlName="phone_number" >
-									</ion-input>
-								</ion-item>
-							</ion-col>
-							<ion-col padding>
-								<ion-item>
-									<ion-label>Is whatsapp</ion-label>
-									<ion-checkbox checked="false" formControlName="whatsapp" >
-									</ion-checkbox>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">email</ion-label>
-									<ion-input type="email" formControlName="email" ></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Door number</ion-label>
-									<ion-input type="text" formControlName="door_number" ></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Community</ion-label>
-									<ion-input type="text" formControlName="community" ></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Landmark</ion-label>
-									<ion-input type="text" formControlName="landmark"  ></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Street Name</ion-label>
-									<ion-input type="text" formControlName="street_name"></ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-						<ion-row >
-							<ion-col>
-								<ion-item>
-									<ion-label position="floating">Postal Code</ion-label>
-									<ion-input type="number" formControlName="postal_code" maxlength="6" minlength="6" >
-									
-									</ion-input>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-					
+					<ion-row >
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Name</ion-label>
+								<ion-input type="text" formControlName="name" required></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row >
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">code</ion-label>
+								<ion-input type="text" formControlName="code" required></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row >
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Phone Number </ion-label>
+								<ion-input type="number" formControlName="phone_number" required>
+								</ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col padding>
+							<ion-item>
+								<ion-label>Is whatsapp</ion-label>
+								<ion-checkbox checked="false" formControlName="whatsapp" required>
+								</ion-checkbox>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row >
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Door number</ion-label>
+								<ion-input type="text" formControlName="door_number" required></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>																									
+					<ion-row >
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Community</ion-label>
+								<ion-input type="text" formControlName="community" required></ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+					<ion-row >
+						<ion-col size="5">
+							<ion-item>
+								<ion-label position="floating">Latitude</ion-label>
+								<ion-input type="number" formControlName="latitude"></ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col size="5">
+							<ion-item>
+								<ion-label position="floating">longitude</ion-label>
+								<ion-input type="number" formControlName="longitude"></ion-input>
+							</ion-item>
+						</ion-col>
+						<ion-col size="2" style="margin-top: 17px">
+						<ion-button color="danger" (click)="getCustomerLocatoion()"><ion-icon name="locate"></ion-icon></ion-button>
+					</ion-col>
+					<ion-col></ion-col>
+					</ion-row>
+					<ion-row >
+						<ion-col>
+							<ion-item>
+								<ion-label position="floating">Postal Code</ion-label>
+								<ion-input type="number" formControlName="postal_code" maxlength="6" minlength="6" required>
+								</ion-input>
+							</ion-item>
+						</ion-col>
+					</ion-row>
 					<ion-row>
-						<ion-col ></ion-col>
+						<ion-col>  </ion-col>
 						<ion-col>
 							<ion-button (click)=slideForward()>product spec</ion-button>
 						</ion-col>
 						<ion-col></ion-col>
 					</ion-row>
 					<h4 *ngIf="customer_id == 0">Product Preference List</h4>
-					<ion-list *ngFor = "let preference of single_customer_pref; let i=index" (click)="openList(i)" 
+					<ion-list inset="false" lines="none" *ngFor = "let preference of single_customer_pref; let i=index" (click)="openList(i)" 
 					[ngClass]="{active:isGroupShown(i)}">
 						<ion-list-header >
 							<ion-button fill="clear" text-wrap>
@@ -111,8 +105,8 @@
 								<ion-icon slot="end" [name]="isGroupShown(i) ? 'arrow-down' : 'arrow-forward'"></ion-icon>
 							</ion-button>
 						</ion-list-header>
-						<ion-item *ngIf="isGroupShown(i)">
-							<ion-list >
+						<ion-item *ngIf="isGroupShown(i)" >
+							<ion-list inset="false" lines="none">
 								<ion-row *ngFor="let specs of preference.customer_product_preference">
 									<ion-col style="white-space: normal;">
 									{{ specs.question_name  }} - {{ specs.answer_data }}
@@ -123,14 +117,16 @@
 					</ion-list>
 					<ion-button type="submit" (click)="addCustomer()"  expand="block">add / update Customer </ion-button>
 				</form>
-			</ion-slide> 
-			<ion-slide>
+			</ion-slide>
+			<!-- new customer add-product pref -->
+			<ion-slide >
 				<ion-row>
-					<ion-col size="1">
+					<ion-col size="1" >
 						<ion-button fill="clear" (click)=slideBackword(0) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
+					<ion-col padding>Product preference</ion-col>
 				</ion-row>
 				<ion-row>
 					<ion-col>
@@ -146,7 +142,7 @@
 					<span *ngFor="let item of new_customer_pref[selected_product]; let product_index=index;">
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'number'">
+								<ion-item *ngIf="item.question_type == 'number'" lines="none">
 									<ion-label position="floating">{{ item.question }}</ion-label>
 									<ion-input type="number" [(ngModel)]="product_answer[product_index]['answer_data']" ></ion-input>
 								</ion-item>
@@ -154,7 +150,7 @@
 						</ion-row>
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'boolean-checkbox'">
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" lines="none">
 									<ion-label>{{ item.question }}</ion-label>
 									<ion-checkbox slot="end" [(ngModel)]="product_answer[product_index]['answer_data']" [checked]="false" >
 									</ion-checkbox>
@@ -162,15 +158,15 @@
 							</ion-col>
 						</ion-row>
 						<ion-row>
-								<ion-item *ngIf="item.question_type == 'radio'">
+								<ion-item *ngIf="item.question_type == 'radio'" lines="none">
 									<ion-radio-group [(ngModel)]="product_answer[product_index]['answer_data']">
 										<ion-col size="4">
 											<ion-label>{{ item.question }}</ion-label>
 										</ion-col>
 										<ion-col *ngFor="let single_answer of item.answer" size="4"> 
-											<ion-item>
+											<ion-item lines="none">
 												<ion-label>{{ single_answer }}</ion-label>
-												<ion-radio slot="end"    [value]="single_answer"></ion-radio>
+												<ion-radio slot="end" [value]="single_answer"></ion-radio>
 											</ion-item>
 										</ion-col>
 									</ion-radio-group>
@@ -186,12 +182,16 @@
 					<ion-col></ion-col>
 				</ion-row>
 			</ion-slide>
+			<!--updating existing customer product pref -->
 			<ion-slide>
-				<ion-row>
+				<ion-row >
 					<ion-col size="1">
 						<ion-button fill="clear" (click)=slideBackword(0) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
+					</ion-col>
+					<ion-col>
+						Updating product preference
 					</ion-col>
 				</ion-row>
 				<span *ngFor="let item of customer_datas">
@@ -205,29 +205,31 @@
 					<ion-row>
 						<ion-col text-center>Add Preference to extra products</ion-col>
 					</ion-row>
-					<ion-row *ngFor="let product of item.extra_product">
-						<ion-col  (click)="productSpecSlide(product)"> 
-							<ion-item class="item-borderless" style="font-size: 13px">
-								{{ product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
+					<ion-row *ngFor="let extra_product of item.extra_product">
+						<ion-col  (click)="productSpecSlide(extra_product)"> 
+							<ion-item class="item-borderless" style="font-size: 13px" lines="none">
+								{{ extra_product.product_name }} <ion-icon name="arrow-forward"  ></ion-icon>
 							</ion-item>
 						</ion-col>
 					</ion-row>
 				</span>
 
 			</ion-slide>
+			
 			<ion-slide>
-				<ion-row>
+				<ion-row >
 					<ion-col size="1">
 						<ion-button fill="clear" (click)=slideBackword(2) >
 							<ion-icon name="arrow-back"></ion-icon>
 						</ion-button>
 					</ion-col>
+					<ion-col>Specs</ion-col>
 				</ion-row>
 				<span *ngIf="specs != null">
 					<span *ngFor="let item of specs; let product_index=index;">
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'number'" class="item-borderless">
+								<ion-item *ngIf="item.question_type == 'number'" class="item-borderless" lines="none">
 									<ion-label position="floating">{{ item.question }}</ion-label>
 									<ion-input [(ngModel)]="product_name_data[product_index]['answer_data']">
 									</ion-input>
@@ -236,7 +238,7 @@
 						</ion-row>
 						<ion-row>
 							<ion-col>
-								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless">
+								<ion-item *ngIf="item.question_type == 'boolean-checkbox'" class="item-borderless" lines="none">
 									<ion-label style="font-weight: bold;">{{ item.question }}</ion-label>
 									<ion-checkbox slot="end" [(ngModel)]="product_name_data[product_index]['answer_data']"
 									[checked]="false" >
@@ -246,13 +248,13 @@
 						</ion-row>
 						<ion-row>	
 							<ion-col>							
-								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless">
+								<ion-item *ngIf="item.question_type == 'radio'" class="item-borderless" lines="none">
 									<ion-radio-group [(ngModel)]="product_name_data[product_index]['answer_data']">
 										<span>
 											<ion-label style="font-weight: bold;">{{ item.question }} </ion-label>
 										</span>
 										<span *ngFor="let single_answer of item.default_answer"> 
-											<ion-item class="item-borderless">
+											<ion-item class="item-borderless " lines="none">
 												<ion-label>{{ single_answer }} </ion-label>
 												<ion-radio slot="end" [value]="single_answer"></ion-radio>
 											</ion-item>

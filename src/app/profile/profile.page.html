@@ -1,8 +1,8 @@
 <ion-header>
-	<ion-buttons slot="start">
+	<ion-toolbar>
+		<ion-buttons slot="start">
     	<ion-back-button></ion-back-button>
     </ion-buttons>
-	<ion-toolbar>
 		<ion-title>Profile</ion-title>
 	</ion-toolbar>
 </ion-header>
@@ -17,27 +17,63 @@
 	    </ion-refresher-content>
 	</ion-refresher>
 	<ion-card >
-		<ion-row>
-			<ion-col text-center size="9" style="font-weight: bold;" (click)="update()">
-				<ion-icon name="create" style="font-size: 18px"></ion-icon> {{ customer_info['name'] }} - {{ customer_info.code }}
+		<ion-row style="height:42px;">
+			<ion-col size="3">
+				<a color="white" fill="clear" href="tel: {{ customer_info.phone_number }}" class="button">
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px;margin-left: 26px"></ion-icon>
+				</a>
 			</ion-col>
-			<ion-col size="2">
-				<ion-button color="white" fill="clear" style="margin-top: -9px;">
-					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size=22" ></ion-icon>
-				</ion-button>
+			<ion-col size="6" padding style="text-align: left;font-size: 12px;font-weight: bold;" (click)="update()">
+				<ion-icon name="create" style="font-size: 18px"></ion-icon> <span style="text-transform: capitalize;"> {{ customer_info.name }} </span> - {{ customer_info.code }}
 			</ion-col>
-			<ion-col size='1'></ion-col>
+			<ion-col size="3">
+				<a color="white" fill="clear" class="button" href="http://maps.google.com/?q={{ customer_info.latitude+','+customer_info.longitude }}"
+				 *ngIf="customer_info.latitude != null && customer_info.longitude !=null">
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px"></ion-icon>
+				</a>
+				<a color="white" fill="clear" class="button" *ngIf="customer_info.latitude == null && customer_info.longitude == null">
+					<ion-icon src="assets/svg/no_gps.svg" slot="icon-only" style="font-size: 25px;margin-top: 6px"></ion-icon>
+				</a>
+			</ion-col>
 		</ion-row>
 		<ion-row style="height: 31px">
-			<ion-col size="9" text-center>
+			<ion-col size="6" style="text-align: left;">
+				{{ customer_info.community }}- {{ customer_info.door_number }}
+			</ion-col>
+			<ion-col size="6">
+				Orders:{{ customer_info.pending_order_count }}/{{ customer_info.all_order_count}}
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col size="6" [style.color]="balcheckout(customer_info.balance_amount)">
+				<span style="font-weight: bold;">Balance : </span>{{ customer_info.balance_amount }}
+			</ion-col>
+			<ion-col size="6" [style.color]="checkVesselCount(customer_info.vessel_count)">
+				<span style="font-weight: bold;">Vessel: </span>{{ customer_info.vessel_count }}
+			</ion-col>
+		</ion-row>
+		<!-- <ion-row>
+			<ion-col  size="9" style="font-weight: bold;text-align: center;">
+				{{ customer_info['name'] }} - {{ customer_info.code }}
+			</ion-col>
+			<ion-col size="3">
+				<a color="white" fill="clear"  href="tel: {{ customer_info.phone_number }}" class="button">
+					<ion-icon src="assets/svg/phone.svg" slot="icon-only" style="font-size: 25px;margin-top: 4px" ></ion-icon>
+				</a>
+			</ion-col>
+		</ion-row>
+		<ion-row style="height: 31px">
+			<ion-col size="9" style="text-align:center;">
 				{{ customer_info.door_number }} - {{ customer_info.community }}
 			</ion-col>
-			<ion-col size="2">
-				<ion-button color="white" fill="clear" style="height: 26px;margin-top: -13px;">
-					<ion-icon src="assets/svg/gps.svg" slot="icon-only"  style="font-size=22"></ion-icon>
-				</ion-button>
+			<ion-col size="3">
+				<a color="white" fill="clear"class="button" href="http://maps.google.com/?q={{ customer_info.latitude+','+customer_info.longitude }}" *ngIf="customer_info.latitude != null && customer_info.longitude !=null">
+					<ion-icon src="assets/svg/gps.svg" slot="icon-only" style="font-size: 25px;margin-top: -8px" ></ion-icon>
+				</a>
+				<a color="white" fill="clear"class="button" *ngIf="customer_info.latitude == null && customer_info.longitude == null">
+					<ion-icon src="assets/svg/no_gps.svg" slot="icon-only" style="font-size: 25px;margin-top: -8px" ></ion-icon>
+				</a>
 			</ion-col>
-			<ion-col size='1'></ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-col size="1"></ion-col>
@@ -47,24 +83,26 @@
 			<ion-col size="5" [style.color]="checkVesselCount(customer_info.vessel_count)">
 				<span style="font-weight: bold;" >Vessel: </span>{{ customer_info['vessel_count'] }}
 			</ion-col>
-		</ion-row>
+		</ion-row> -->
 		<ion-row>
-			<ion-col size="3" text-center>
+			<ion-col size="3" style="text-align: center;">
 				<ion-button color="white" fill="clear" (click)="openModal(customer_info)">
 					<ion-icon src="assets/svg/prodPref.svg" slot="icon-only"></ion-icon>
 				</ion-button>
 			</ion-col>
-			<ion-col size="3" text-center>
+			<ion-col size="3" style="text-align: center;">
 				<ion-button color="white" fill="clear"  (click)="openOrderModal(customer_info)">
 					<ion-icon src="assets/svg/order.svg" slot="icon-only"></ion-icon>
 				</ion-button>
 			</ion-col>
-			<ion-col size="3" text-center>
+			<ion-col size="3" style="text-align: center;">
 				<ion-button color="white" fill="clear" (click)="openDeliveryModal(customer_info)">
-					<ion-icon src="assets/svg/history.svg" slot="icon-only"></ion-icon>
+					<ion-icon src="assets/svg/no_sale.svg" slot="icon-only"></ion-icon>
+					<ion-badge style="margin-top:-21px;margin-left: -7px;font-size: 11px;" [color]=" customer_info.sale_count == 0 ? 'success' : 'danger'" >
+					{{ customer_info.sale_count }}</ion-badge>
 				</ion-button>
 			</ion-col>
-			<ion-col size="3" text-center>
+			<ion-col size="3" style="text-align: center;">
 				<ion-button color="white" fill="clear" (click)="paymentPage(customer_info)">
 					<ion-icon src="assets/svg/transaction.svg" slot="icon-only"></ion-icon>
 				</ion-button>
@@ -73,25 +111,33 @@
 		
 	</ion-card>
 	<ion-card >
-		<ion-row style="font-weight: bold;font-size:10px; text-align: center;">
+		<ion-row style="font-weight: bold;font-size:12px;">
 			<ion-col size="3">Date</ion-col>
 			<ion-col size="5" >Description</ion-col>
-			<ion-col size="2">Cr</ion-col>
-			<ion-col size="2">Dr</ion-col>
+			<ion-col size="4"><span style="color:green">Credit</span>/<span style="color:red">Debit</span></ion-col>
+			
 		</ion-row>
 		<span *ngFor="let date of date_values">
-			<ion-row *ngFor="let transaction of sale_datas[date]" style="font-size:10px;">
+			<ion-row *ngFor="let transaction of sale_datas[date]" style="font-size:11px;">
 				<ion-col size="3">{{ transaction.date | date:'dd-MMM'}}</ion-col>
 				<ion-col size="5" text-wrap>{{ transaction.description }}</ion-col>
-				<ion-col size="2">
-					<span  *ngIf="transaction.type == 'payment'">
+				<ion-col size="3" style="text-align: end">
+					<span  *ngIf="transaction.type == 'payment'" style="color:green">
+						{{ transaction.amount | number: '.2' }}
+					</span>
+					<span  *ngIf="transaction.type == 'sale'" style="color:red">
 						{{ transaction.amount | number: '.2' }}
 					</span>
 				</ion-col>
-				<ion-col size="2">
-					<span  *ngIf="transaction.type == 'sale'">{{ transaction.amount | number: '.2' }}</span>
+				<ion-col size="1" style="text-align:left;font-size:14px;">
+					<span [style.color]="statusColor(transaction.status_id)">
+						<ion-icon slot="end" [name]="transaction.status_id == 5  ? 'close-circle-outline' : 'done-all'"></ion-icon>
+					</span>
 				</ion-col>
 			</ion-row>
 		</span>
 	</ion-card>
+	<div style="text-align: center;font-weight: bold;" *ngIf="date_values == null">
+			No history for this customer !
+		</div>
 </ion-content>

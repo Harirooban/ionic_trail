@@ -102,6 +102,20 @@ export class ProfilePage implements OnInit {
   this.ionViewWillEnter();
   event.target.complete();    
   }
+  statusColor(transaction_status_id: number){
+    if (transaction_status_id ==1 ){
+      return 'yellow';
+    }
+    else if ( transaction_status_id ==3 ){
+      return 'blue';
+    }
+    else if (transaction_status_id == 2){
+      return 'green';
+    }
+    else if(transaction_status_id == 4){
+      return 'red';
+    }
+  }
   ngOnInit() {
   }
 
